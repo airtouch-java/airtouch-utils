@@ -16,10 +16,37 @@ public abstract class AbstractHandler {
      * @throws IllegalArgumentException
      */
     protected static void checkHeaderIsRemoved(byte[] airTouchDataBlock) {
-        long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 2);
-        if (firstTwoBytes == MessageConstants.HEADER) {
-            throw new IllegalArgumentException("Found header in message data. Please only send validated message data block, not full message to handlers");
+        if (isHeaderPresent(airTouchDataBlock)) {
+            throw new IllegalArgumentException("Found header in message data. Please only send validated message data block, not full message.");
         }
+    }
+    
+    /**
+     * Determines if the dataBlock still contains the first two HEADER bytes.
+     * Throws {@link IllegalArgumentException} if it does not.
+     * <p>
+     * The byte array passed should contain all the data bytes.
+     *
+     * @param airTouchDataBlock
+     * @throws IllegalArgumentException
+     */
+    protected static void checkHeaderIsPresent(byte[] airTouchDataBlock) {
+        if (! isHeaderPresent(airTouchDataBlock)) {
+            throw new IllegalArgumentException("Header not found in message data. Please full message.");
+        }
+    }
+    
+    /**
+     * Determines if the dataBlock still contains the first two HEADER bytes.
+     * <p>
+     * Return true if the byte array passed contains all the data bytes.
+     *
+     * @return true if the byte array passed contains all the data bytes, otherwise false.
+     * @param airTouchDataBlock
+     */
+    protected static boolean isHeaderPresent(byte[] airTouchDataBlock) {
+        long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 2);
+        return firstTwoBytes == MessageConstants.HEADER;
     }
 
 }

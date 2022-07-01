@@ -4,9 +4,9 @@ import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.GroupStatusConstants.*;
 import airtouch.v4.constant.MessageConstants.MessageType;
 
-public class GroupStatus {
+public class GroupStatusResponse {
 
-    private MessageConstants.MessageType messageType = MessageType.GROUP_CONTROL;
+    private MessageConstants.MessageType messageType = MessageType.GROUP_STATUS;
     private PowerState powerstate;
     private int groupNumber;
     private ControlMethod controlMethod;
@@ -90,5 +90,13 @@ public class GroupStatus {
     public void setSpill(boolean spill) {
         this.spill = spill;
     }
+    @Override
+    public String toString() {
+        return "GroupStatus [messageType=" + messageType + ", powerstate=" + powerstate + ", groupNumber=" + groupNumber
+                + ", controlMethod=" + controlMethod + ", openPercentage=" + openPercentage + ", batteryLow="
+                + batteryLow + ", turboSupported=" + turboSupported + ", targetSetpoint=" + targetSetpoint
+                + ", hasSensor=" + hasSensor + ", currentTemperature=" + currentTemperature + ", spill=" + spill + "]";
+    }
+    
 
 }

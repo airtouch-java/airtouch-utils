@@ -9,11 +9,11 @@ import airtouch.v4.constant.GroupStatusConstants.ControlMethod;
 import airtouch.v4.constant.GroupStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.GroupStatus;
+import airtouch.v4.model.GroupStatusResponse;
 
 public class GroupStatusHandler extends AbstractHandler {
 
-    public Request generateRequest(int messageId, int groupNumber) {
+    public static Request generateRequest(int messageId, Integer groupNumber) {
 
         // Empty data array for group Status request.
         byte[] data = new byte[] {};
@@ -24,7 +24,7 @@ public class GroupStatusHandler extends AbstractHandler {
         Group status message(0x2B)
         ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Data block received from AirTouch (6 bytes). See docs page 8.
+        Data block received from AirTouch (6 bytes). See docs page 5.
 
         | Byte1 | Bit8-7 | Group power state | 00: Off, 01: On, 11: Turbo
         |       | Bit6-1 | Group number      | 0-15
@@ -48,12 +48,12 @@ public class GroupStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of GroupStatus objects. One for each group message found.
      */
-    public ResponseList<GroupStatus> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<GroupStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
-        List<GroupStatus> groupStatuses = new ArrayList<>();
+        List<GroupStatusResponse> groupStatuses = new ArrayList<>();
         for (int i = 0; i < getGroupCount(airTouchDataBlock); i++) {
             int groupOffset = i * 6;
-            GroupStatus groupStatus = new GroupStatus();
+            GroupStatusResponse groupStatus = new GroupStatusResponse();
             groupStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[groupOffset + 0]));
             groupStatus.setGroupNumber(resolveGroupNumber(airTouchDataBlock[groupOffset + 0]));
             groupStatus.setControlMethod(ControlMethod.getFromByte(airTouchDataBlock[groupOffset + 1]));
@@ -68,10 +68,10 @@ public class GroupStatusHandler extends AbstractHandler {
             groupStatus.setSpill(determinerSpill(airTouchDataBlock[groupOffset + 5]));
             groupStatuses.add(groupStatus);
         }
-        return new ResponseList<>(groupStatuses, messageId);
+        return new ResponseList<>(MessageType.GROUP_STATUS, messageId, groupStatuses);
     }
 
-    private boolean determinerSpill(byte byte6) {
+    private static boolean determinerSpill(byte byte6) {
         // bitmask everything except the fourth bit.
         int isSpill = byte6 & 0b00010000;
         // Shift the bits right by 4 so that bit 4 becomes the LSB.
@@ -79,7 +79,7 @@ public class GroupStatusHandler extends AbstractHandler {
         return isSpill == 1;
     }
 
-    private Integer determineCurrentTemperature(byte byte5, byte byte6) {
+    private static Integer determineCurrentTemperature(byte byte5, byte byte6) {
         if (-1 == byte5) {
             return null; // Current Temp is not available.
         }
@@ -92,7 +92,7 @@ public class GroupStatusHandler extends AbstractHandler {
         return (temperature-500)/10;
     }
 
-    private boolean determineHasTemperatureSensor(byte byte4) {
+    private static boolean determineHasTemperatureSensor(byte byte4) {
         // bitmask everything except the first bit.
         int hasTemperatureSensor = byte4 & 0b10000000;
         // Shift the bits right by 7 so that our MSB becomes the LSB.
@@ -100,13 +100,13 @@ public class GroupStatusHandler extends AbstractHandler {
         return hasTemperatureSensor == 1;
     }
 
-    private int determineTargetSetpoint(byte byte3) {
+    private static int determineTargetSetpoint(byte byte3) {
         // bitmask the first two bits, since we used them for the batteryLow and turboSupported
         // Return the rest of the bits.
         return byte3 & 0b00111111;
     }
 
-    private boolean determineTurboSupported(byte byte3) {
+    private static boolean determineTurboSupported(byte byte3) {
         // bitmask everything except the second bit.
         int turboSupported = byte3 & 0b01000000;
         // Shift the bits right by 6 so that our MSB becomes the LSB.
@@ -114,7 +114,7 @@ public class GroupStatusHandler extends AbstractHandler {
         return turboSupported == 1;
     }
 
-    private boolean determineBatteryLow(byte byte3) {
+    private static boolean determineBatteryLow(byte byte3) {
         // bitmask everything except the first bit.
         int batteryLow = byte3 & 0b10000000;
         // Shift the bits right by 7 so that our MSB becomes the LSB.
@@ -122,7 +122,7 @@ public class GroupStatusHandler extends AbstractHandler {
         return batteryLow == 1;
     }
 
-    private int determineOpenPercentage(byte byte2) {
+    private static int determineOpenPercentage(byte byte2) {
         // bitmask the first bit, since we used them for the ControlMethod
         int openPercentage = byte2 & 0b01111111;
         // Return the rest of the bits if they're within our expected range.
@@ -132,7 +132,7 @@ public class GroupStatusHandler extends AbstractHandler {
         throw new IllegalArgumentException(String.format("Open percentage outside allowable range. Must be from 0 to 100. Found openPercentage was '%s'", openPercentage));
     }
 
-    private int resolveGroupNumber(byte byte1) {
+    private static int resolveGroupNumber(byte byte1) {
         // bitmask the first two bits, since we used them for the PowerState
         int groupNumber = byte1 & 0b00111111;
         // Return the rest of the bits if they're within our expected range.
@@ -142,7 +142,7 @@ public class GroupStatusHandler extends AbstractHandler {
         throw new IllegalArgumentException(String.format("Group number outside allowable range. Must be from 0 to 15. Found groupNumber was '%s'", groupNumber));
     }
 
-    private int getGroupCount(byte[] airTouchDataBlock) {
+    private static int getGroupCount(byte[] airTouchDataBlock) {
         // Our data payload is 6 bytes per group.
         // Check that our payload is a multiple of 6 bytes.
         if (airTouchDataBlock.length % 6 == 0) {
