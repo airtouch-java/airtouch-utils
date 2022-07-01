@@ -47,7 +47,7 @@ public class AirtouchConnector implements Runnable{
     }
 
     @SuppressWarnings("rawtypes")
-    public void testConnectionToActualServer() throws IOException {
+    public void connect() throws IOException {
 
             int character;
 
@@ -138,7 +138,7 @@ public class AirtouchConnector implements Runnable{
     @Override
     public void run() {
         try {
-            this.testConnectionToActualServer();
+            this.connect();
         } catch (SocketException e) {
             // we are expecting a socket exception because we have closed it.
         } catch (IOException e) {

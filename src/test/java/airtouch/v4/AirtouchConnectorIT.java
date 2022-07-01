@@ -14,7 +14,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.handler.AcStatusHandler;
+import airtouch.v4.handler.AirConditionerStatusHandler;
 import airtouch.v4.handler.GroupNameHandler;
 import airtouch.v4.handler.GroupStatusHandler;
 
@@ -47,7 +47,7 @@ public class AirtouchConnectorIT {
         
         airtouchConnector.sendRequest(GroupStatusHandler.generateRequest(1, null));
         airtouchConnector.sendRequest(GroupNameHandler.generateRequest(2, null));
-        airtouchConnector.sendRequest(AcStatusHandler.generateRequest(3, null));
+        airtouchConnector.sendRequest(AirConditionerStatusHandler.generateRequest(3, null));
         
         Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAtomic(counter, Matchers.equalTo(3));
         airtouchConnector.disconnect();

@@ -1,8 +1,8 @@
 package airtouch.v4.constant;
 
-public class AcControlConstants {
+public class AirConditionerControlConstants {
     
-    public enum AcPower {
+    public enum Power {
         //                      ||     Bits 8 to 7
         NO_CHANGE            (0b00000000),  // 00
         NEXT_POWER_STATE     (0b01000000),  // 01
@@ -11,7 +11,7 @@ public class AcControlConstants {
         
         private int bits;
         
-        AcPower(int bits) {
+        Power(int bits) {
             this.bits = bits;
         }
         
@@ -62,26 +62,6 @@ public class AcControlConstants {
         }
     }
 
-    
-    public enum GroupSetting {
-        //                    ||| Bits 8 to 6
-        NO_CHANGE          (0b00000000), // 000
-        VALUE_INCREASE     (0b01000000), // 010
-        VALUE_DECREASE     (0b01100000), // 011
-        SET_OPEN_PERCENTAGE(0b10000000), // 100
-        SET_TARGET_SETPOINT(0b10100000); // 101
-        
-        private int bits;
-
-        GroupSetting(int bits) {
-            this.bits = bits;
-        }
-        
-        public int getBits() {
-            return bits;
-        }
-    }
-    
     public enum SetpointControl {
         //                      ||      Bits 8 and 7 of Byte 3
         NO_CHANGE            (0b00000000),  // 00
@@ -100,8 +80,4 @@ public class AcControlConstants {
         }
     }
     
-
-    
-    
-
 }

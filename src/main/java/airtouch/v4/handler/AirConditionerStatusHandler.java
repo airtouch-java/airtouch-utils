@@ -10,10 +10,14 @@ import airtouch.v4.constant.AcStatusConstants.Mode;
 import airtouch.v4.constant.AcStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AcStatusResponse;
+import airtouch.v4.model.AirConditionerStatusResponse;
 import airtouch.v4.utils.ByteUtil;
 
-public class AcStatusHandler extends AbstractHandler {
+/**
+ * Handler for AirConditioner Status responses<p>
+ * Is invoked when a message from the Airtouch4 has been identified as an AirConditioner status message.
+ */
+public class AirConditionerStatusHandler extends AbstractHandler {
 
     public static Request generateRequest(int messageId, Integer acNumber) {
 
@@ -73,12 +77,12 @@ public class AcStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<AcStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
-        List<AcStatusResponse> acStatuses = new ArrayList<>();
+        List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {
             int acOffset = i * 8;
-            AcStatusResponse acStatus = new AcStatusResponse();
+            AirConditionerStatusResponse acStatus = new AirConditionerStatusResponse();
             acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]));
             acStatus.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
             acStatus.setMode(Mode.getFromByte(airTouchDataBlock[acOffset + 1]));

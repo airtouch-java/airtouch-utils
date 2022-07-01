@@ -52,7 +52,7 @@ public class MessageHandler extends AbstractHandler {
             
         // AC control actions, and AC status requests will return an AC_STATUS response.
         case AC_STATUS:
-            return AcStatusHandler.handle(messageId, data);
+            return AirConditionerStatusHandler.handle(messageId, data);
             
         // Extended messages (since console version 1.0.5) have the actual message type as the first
         // byte of the data, so handle those with their own Handler.

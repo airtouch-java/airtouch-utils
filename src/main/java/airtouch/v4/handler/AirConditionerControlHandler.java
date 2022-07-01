@@ -1,16 +1,31 @@
 package airtouch.v4.handler;
 
 import airtouch.v4.Request;
-import airtouch.v4.constant.AcControlConstants.*;
+import airtouch.v4.constant.AirConditionerControlConstants.*;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AcControlRequest;
+import airtouch.v4.model.AirConditionerControlRequest;
 
-public class AcControlHandler {
+/**
+ * Handler for creating AirConditioner control messages<p>
+ *
+ * Example code to generate the control message to control the AC unit.<p>
+ * Use {@link AirConditionerControlHandler.RequestBuilder#build()} to create a {@link AirConditionerControlRequest}
+ * with useful default values.
+ *
+ * <code><pre>
+ * AirConditionerControlRequest acControlRequest = new AirConditionerControlHandler
+ *      .RequestBuilder(AC_NUMBER)
+ *          .build();
+ * Request request = AirConditionerControlHandler.generateRequest(MESSAGE_ID, acControlRequest);
+ * </pre></code>
+ * a
+ */
+public class AirConditionerControlHandler {
     
-    private AcControlHandler() {}
+    private AirConditionerControlHandler() {}
     
-    public static Request generateRequest(int messageId, AcControlRequest acControlRequest) {
+    public static Request generateRequest(int messageId, AirConditionerControlRequest acControlRequest) {
         byte[] data = acControlRequest.getBytes();
         return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_CONTROL, data);
     }
@@ -18,14 +33,14 @@ public class AcControlHandler {
     public static class RequestBuilder {
         
         private Integer acNumber;
-        private AcPower acPower;
+        private Power acPower;
         private Mode acMode;
         private FanSpeed fanSpeed;
         private SetpointControl setpointControl;
         private Integer setPointValue;
         
         /**
-         * {@link RequestBuilder} to create an {@link AcControlRequest}.
+         * {@link RequestBuilder} to create an {@link AirConditionerControlRequest}.
          *
          * @param acNumber - AC number for this control message. Zero based.
          */
@@ -34,7 +49,7 @@ public class AcControlHandler {
         }
         
         /**
-         * Method to set the {@link AcPower}.<br>
+         * Method to set the {@link Power}.<br>
          * Calling this method is optional. If not called, the request will default to AcPower.NO_CHANGE.
          * If called, acPower must be one of:<ul>
          * <li>NO_CHANGE - No change made to power setting.
@@ -43,10 +58,10 @@ public class AcControlHandler {
          * <li>POWER_ON - Turn the AC unit on.
          * </ul>
          *
-         * @param acPower - {@link AcPower} enum value
+         * @param acPower - {@link Power} enum value
          * @return {@link RequestBuilder} to support fluent builder pattern.
          */
-        public RequestBuilder acPower(AcPower acPower) {
+        public RequestBuilder acPower(Power acPower) {
             this.acPower = acPower;
             return this;
         }
@@ -119,12 +134,12 @@ public class AcControlHandler {
             return this;
         }
         
-        public AcControlRequest build() {
-            AcControlRequest request = new AcControlRequest();
+        public AirConditionerControlRequest build() {
+            AirConditionerControlRequest request = new AirConditionerControlRequest();
             request.setAcNumber(this.acNumber);
             
             if (this.acPower == null) {
-                request.setAcPower(AcPower.NO_CHANGE);
+                request.setAcPower(Power.NO_CHANGE);
             } else {
                 request.setAcPower(this.acPower);
             }

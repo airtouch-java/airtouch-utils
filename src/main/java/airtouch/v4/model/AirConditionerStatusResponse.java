@@ -6,7 +6,7 @@ import airtouch.v4.constant.AcStatusConstants.Mode;
 import airtouch.v4.constant.AcStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.MessageType;
 
-public class AcStatusResponse {
+public class AirConditionerStatusResponse {
     
     private MessageConstants.MessageType messageType = MessageType.AC_STATUS;
     private Integer acNumber;

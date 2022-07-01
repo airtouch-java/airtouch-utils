@@ -1,12 +1,12 @@
 package airtouch.v4.model;
 
-import airtouch.v4.constant.AcControlConstants.*;
+import airtouch.v4.constant.AirConditionerControlConstants.*;
 
 
-public class AcControlRequest {
+public class AirConditionerControlRequest {
     
     private int acNumber;
-    private AcPower acPower;
+    private Power acPower;
     private Mode acMode;
     private FanSpeed fanSpeed;
     private SetpointControl setpointControl;
@@ -15,7 +15,7 @@ public class AcControlRequest {
     public void setAcNumber(int acNumber) {
         this.acNumber = acNumber;
     }
-    public void setAcPower(AcPower acPower) {
+    public void setAcPower(Power acPower) {
         this.acPower = acPower;
     }
     public void setAcMode(Mode acMode) {
