@@ -1,48 +1,119 @@
 package airtouch.v4.constant;
 
 import airtouch.v4.utils.ByteUtil;
+import airtouch.v4.utils.HexString;
 
 public class MessageConstants {
 
-	public static final int HEADER = 0x5555;
+    public static final int HEADER = 0x5555;
 
-	public enum Address {
-		STANDARD_SEND(0x80b0),
-		EXTENDED_SEND(0x90b0),
-		STANDARD_RECEIVE(0x8080),
-		EXTENDED_RECEIVE(0x9090);
+    public enum Address {
+        STANDARD_SEND(0x80b0),
+        EXTENDED_SEND(0x90b0),
+        STANDARD_RECEIVE(0xb080),
+        EXTENDED_RECEIVE(0xb090);
 
-		private int bytes;
+        private int bytes;
 
-		Address(int bytes) {
-			this.bytes = bytes;
-		}
+        Address(int bytes) {
+            this.bytes = bytes;
+        }
 
-		public byte[] getBytes() {
-			return ByteUtil.getBytes(this.bytes, 2);
-		}
-	}
+        public int getInt() {
+            return this.bytes;
+        }
 
-	public enum MessageType {
-		GROUP_CONTROL(0x2a),
-		GROUP_STATUS(0x2b),
-		AC_CONTROL(0x2c),
-		AC_STATUS(0x2d);
+        public byte[] getBytes() {
+            return ByteUtil.getBytes(this.bytes, 2);
+        }
 
-		private int bytes;
+        public static Address getFromBytes(int l) {
+            if (STANDARD_SEND.getInt() == l) {
+                return STANDARD_SEND;
+            } else if (EXTENDED_SEND.getInt() == l) {
+                return EXTENDED_SEND;
+            } else if (STANDARD_RECEIVE.getInt() == l) {
+                return STANDARD_RECEIVE;
+            } else if (EXTENDED_RECEIVE.getInt() == l) {
+                return EXTENDED_RECEIVE;
+            } else if (STANDARD_RECEIVE.getLastByte() == (l & 0x00FF)) {
+                return STANDARD_RECEIVE;
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("Unable to resolve Address from supplied bytes. Supplied bytes are: '%s'",
+                                HexString.fromBytes(ByteUtil.getBytes(l, 2))));
+            }
+        }
 
-		MessageType(int bytes) {
-			this.bytes = bytes;
-		}
+        private int getLastByte() {
+            return this.bytes & 0x00FF;
+        }
+    }
 
-		public int getBytes() {
-			return bytes;
-		}
-	}
+    public enum MessageType {
+        GROUP_CONTROL(0x2a),
+        GROUP_STATUS(0x2b),
+        AC_CONTROL(0x2c),
+        AC_STATUS(0x2d),
+        EXTENDED(0x1F),
+        
+        GROUP_NAME(0xFF12);  // Extended Message sub-type
 
-	public enum GroupControlMessageType {
+        private int bytes;
 
-	}
+        MessageType(int bytes) {
+            this.bytes = bytes;
+        }
 
+        public int getBytes() {
+            return bytes;
+        }
 
+        public static MessageType getFromByte(byte byte6) {
+            if (GROUP_CONTROL.getBytes() == byte6) {
+                return GROUP_CONTROL;
+            } else if (GROUP_STATUS.getBytes() == byte6) {
+                return GROUP_STATUS;
+            } else if (AC_CONTROL.getBytes() == byte6) {
+                return AC_CONTROL;
+            } else if (AC_STATUS.getBytes() == byte6) {
+                return AC_STATUS;
+            } else if (EXTENDED.getBytes() == byte6) {
+                return EXTENDED;
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("Unable to resolve MessageType from supplied byte. Supplied byte is: '%s'",
+                                Integer.toHexString(byte6)));
+            }
+        }
+    }
+
+    public enum ExtendedMessageType {
+        GROUP_NAME(0xFF12);
+
+        public int getInt() {
+            return this.bytes;
+        }
+
+        public byte[] getBytes() {
+            return ByteUtil.getBytes(this.bytes, 2);
+        }
+
+        private int bytes;
+
+        ExtendedMessageType(int bytes) {
+            this.bytes = bytes;
+        }
+
+        public static ExtendedMessageType getFromBytes(int l) {
+            if (GROUP_NAME.getInt() == l) {
+                return GROUP_NAME;
+            } else {
+                throw new IllegalArgumentException(String.format(
+                        "Unable to resolve ExtendedMessageType from supplied bytes. Supplied bytes are: '%s'",
+                        HexString.fromBytes(ByteUtil.getBytes(l, 2))));
+            }
+        }
+
+    }
 }

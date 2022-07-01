@@ -1,34 +1,54 @@
 package airtouch.v4;
 
 import java.util.List;
+
+import airtouch.v4.constant.MessageConstants.MessageType;
+
 import java.util.ArrayList;
 
-public class ResponseList<T> extends ArrayList<T> {
+public class ResponseList<T> extends ArrayList<T> implements Response<T> {
 
-	private static final long serialVersionUID = -8195951265313899256L;
+    private static final long serialVersionUID = -8195951265313899256L;
 
-	private int messageId;
+    private MessageType messageType;
+    private int messageId;
 
-	public int getMessageId() {
-		return messageId;
-	}
+    public ResponseList (MessageType messageType, int messageId, List<T> responses ) {
+        this.addAll(responses);
+        this.messageType = messageType;
+        this.messageId = messageId;
+    }
+    
+    @Override
+    public int getMessageId() {
+        return messageId;
+    }
 
-	public ResponseList (List<T> responses , int messageId) {
-		this.addAll(responses);
-		this.messageId = messageId;
-	}
+    @Override
+    public MessageType getMessageType() {
+        return this.messageType;
+    }
+    
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
+    }
+    
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof ResponseList)) return false;
-		ResponseList<T> that = (ResponseList<T>)o;
-		return this.messageId == that.messageId && super.equals(o) ;
-	}
+    @Override
+    public List<T> getData() {
+        return this;
+    }
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ResponseList)) return false;
+        ResponseList<T> that = (ResponseList<T>)o;
+        return this.messageId == that.messageId && super.equals(o) ;
+    }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

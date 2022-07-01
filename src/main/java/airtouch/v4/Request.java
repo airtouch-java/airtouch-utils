@@ -18,8 +18,8 @@ public class Request {
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
         this.buffer.put(ByteUtil.getBytes(messageType.getBytes(), 1));
-        this.buffer.put(data);
         this.buffer.put(ByteUtil.getBytes(data.length, 2));
+        this.buffer.put(data);
         this.buffer.put(calculateCheckSum());
     }
 
