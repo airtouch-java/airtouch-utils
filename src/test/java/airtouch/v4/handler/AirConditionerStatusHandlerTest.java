@@ -37,13 +37,13 @@ public class AirConditionerStatusHandlerTest {
         assertEquals(Mode.COOL, acStatus01.getMode());
         assertEquals(26, acStatus01.getTargetSetpoint());
         assertEquals(28, acStatus01.getCurrentTemperature().intValue());
-        //assertEquals(0, acStatus01.getErrorCode());
+        assertEquals(0, acStatus01.getErrorCode());
         
         AirConditionerStatusResponse acStatus02 = response.get(1);
         assertEquals(PowerState.OFF, acStatus02.getPowerstate());
         assertEquals(26, acStatus02.getTargetSetpoint());
         assertEquals(28, acStatus02.getCurrentTemperature().intValue());
-        assertEquals(0, acStatus02.getErrorCode());
+        assertEquals(65534, acStatus02.getErrorCode());
         
     }
     

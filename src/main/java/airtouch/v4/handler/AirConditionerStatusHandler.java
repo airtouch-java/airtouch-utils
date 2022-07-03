@@ -95,8 +95,8 @@ public class AirConditionerStatusHandler extends AbstractHandler {
                     airTouchDataBlock[acOffset + 5]));
             
             acStatus.setErrorCode(determineErrorCode(
-                    airTouchDataBlock[acOffset + 4],
-                    airTouchDataBlock[acOffset + 5]));
+                    airTouchDataBlock[acOffset + 6],
+                    airTouchDataBlock[acOffset + 7]));
             acStatuses.add(acStatus);
         }
         return new ResponseList<>(MessageType.AC_STATUS, messageId, acStatuses);
