@@ -12,6 +12,10 @@ import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
 import airtouch.v4.utils.HexString;
 
+/**
+ * Handler for GroupName extended format responses.
+ *
+ */
 public class GroupNameHandler extends AbstractHandler {
 
     public static Request generateRequest(int messageId, Integer groupNumber) {

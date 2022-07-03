@@ -2,16 +2,27 @@ package airtouch.v4.handler;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import airtouch.v4.Response;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.CRC16Modbus;
+import airtouch.v4.utils.HexString;
 
 public class MessageHandler extends AbstractHandler {
     
+    private final Logger log = LoggerFactory.getLogger(MessageHandler.class);
+
+    
     @SuppressWarnings("rawtypes")
     public Response handle(byte[] airTouchMessage) {
+        
+        if (log.isInfoEnabled()) {
+            log.info("Handling Airtouch response message: hexresponse={}", HexString.fromBytes(airTouchMessage));
+        }
         // Check that we are handling a message with the correct header.
         // Throws IllegalArgumentException if not valid.
         checkHeaderIsPresent(airTouchMessage);
@@ -35,6 +46,10 @@ public class MessageHandler extends AbstractHandler {
         
         // Using the dataLength, extract the expected number of bytes of data.
         byte[] data = Arrays.copyOfRange(airTouchMessage, 8, 8 + dataLength);
+        
+        if (log.isInfoEnabled()) {
+            log.info("Airtouch data block message: hexdata={}", HexString.fromBytes(data));
+        }
         
         // After the dataBlock is the CRC. Validate the CRC.
         int crc = ByteUtil.toInt(airTouchMessage, 8 + dataLength, 2);

@@ -9,6 +9,11 @@ public interface Airtouch {
 
     public ResponseList<GroupStatusResponse> getGroupStatus(int messageId);
     public ResponseList<GroupNameResponse> getGroupNames(int messageId);
+    /**
+     *
+     * @param messageId
+     * @return
+     */
     public ResponseList<AirConditionerStatusResponse> getAirConditionerStatus(int messageId);
 
 }

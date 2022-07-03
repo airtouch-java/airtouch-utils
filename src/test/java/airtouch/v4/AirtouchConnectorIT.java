@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.awaitility.Awaitility;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.handler.AirConditionerStatusHandler;
@@ -20,6 +22,8 @@ import airtouch.v4.handler.GroupStatusHandler;
 
 @SuppressWarnings("rawtypes")
 public class AirtouchConnectorIT {
+
+    private final Logger log = LoggerFactory.getLogger(AirtouchConnector.class);
 
     Map<Integer, Response> responses = new HashMap<>();
     
@@ -31,26 +35,25 @@ public class AirtouchConnectorIT {
         String hostName = System.getenv("AIRTOUCH_HOST");
         int portNumber = 9004;
         
-        AirtouchConnector airtouchConnector = new AirtouchConnector(new ResponseCallback() {
+        AirtouchConnector airtouchConnector = new AirtouchConnector(hostName, portNumber, new ResponseCallback() {
             @Override
             public void handleResponse(Response response) {
                 responses.put(response.getMessageId(), response);
-                System.out.println(response);
+                log.info(response.toString());
                 counter.getAndIncrement();
             }
         });
         
-        airtouchConnector.connect(hostName, portNumber);
-        
-        Thread t = new Thread(airtouchConnector);
-        t.start();
+        airtouchConnector.start();
         
         airtouchConnector.sendRequest(GroupStatusHandler.generateRequest(1, null));
         airtouchConnector.sendRequest(GroupNameHandler.generateRequest(2, null));
         airtouchConnector.sendRequest(AirConditionerStatusHandler.generateRequest(3, null));
         
-        Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAtomic(counter, Matchers.equalTo(3));
-        airtouchConnector.disconnect();
+        airtouchConnector.sendRequest(AirConditionerStatusHandler.generateRequest(3, null));
+        
+        Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAtomic(counter, Matchers.equalTo(4));
+        airtouchConnector.shutdown();
         
         assertTrue(responses.containsKey(1));
         assertEquals(MessageType.GROUP_STATUS, responses.get(1).getMessageType());
