@@ -9,23 +9,27 @@ import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupControlRequest;
 
 public class GroupControlHandler {
-    
+
     private GroupControlHandler() {}
-    
+
     public static Request generateRequest(int messageId, GroupControlRequest groupControlRequest) {
         byte[] data = groupControlRequest.getBytes();
         return new Request(Address.STANDARD_SEND, messageId, MessageType.GROUP_CONTROL, data);
     }
 
+    public static RequestBuilder requestBuilder(int messageId) {
+        return new RequestBuilder(messageId);
+    }
+
     public static class RequestBuilder {
-        
+
         private Integer groupNumber;
         private GroupSetting groupSetting;
         private GroupControl groupControl;
         private GroupPower groupPower;
-        
+
         private Integer settingValue;
-        
+
         /**
          * {@link RequestBuilder} to create a {@link GroupControlRequest}.
          *
@@ -34,7 +38,7 @@ public class GroupControlHandler {
         public RequestBuilder(int groupNumber) {
             this.groupNumber = groupNumber;
         }
-        
+
         /**
          * Method to set the {@link GroupSetting}.<br>
          * Calling this method is optional. If not called, the request will default to GroupSetting.NO_CHANGE.
@@ -53,7 +57,7 @@ public class GroupControlHandler {
             this.groupSetting = groupSetting;
             return this;
         }
-        
+
         /**
          * Method to set the {@link GroupControl}.<br>
          * Calling this method is optional. If not called, the request will default to GroupControl.NO_CHANGE.
@@ -70,7 +74,7 @@ public class GroupControlHandler {
             this.groupControl = groupControl;
             return this;
         }
-        
+
         /**
          * Method to set the {@link GroupPower}.<br>
          * Calling this method is optional. If not called, the request will default to GroupPower.NO_CHANGE.
@@ -88,16 +92,16 @@ public class GroupControlHandler {
             this.groupPower = groupPower;
             return this;
         }
-        
+
         public RequestBuilder settingValue(int settingValue) {
             this.settingValue = settingValue;
             return this;
         }
-        
+
         public GroupControlRequest build() {
             GroupControlRequest request = new GroupControlRequest();
             request.setGroupNumber(this.groupNumber);
-            
+
             if (this.groupSetting == null) {
                 request.setGroupSetting(GroupSetting.NO_CHANGE);
             } else if (GroupSetting.SET_OPEN_PERCENTAGE.equals(this.groupSetting)
@@ -112,19 +116,19 @@ public class GroupControlHandler {
                 request.setGroupSetting(this.groupSetting);
                 request.setSettingValue(0);
             }
-            
+
             if (this.groupControl == null) {
                 request.setGroupControl(GroupControl.NO_CHANGE);
             } else {
                 request.setGroupControl(this.groupControl);
             }
-            
+
             if (this.groupPower == null) {
                 request.setGroupPower(GroupPower.NO_CHANGE);
             } else {
                 request.setGroupPower(this.groupPower);
             }
-            
+
             return request;
         }
     }

@@ -14,42 +14,47 @@ import airtouch.v4.model.AirConditionerControlRequest;
  * with useful default values.
  *
  * <code><pre>
- * AirConditionerControlRequest acControlRequest = new AirConditionerControlHandler
- *      .RequestBuilder(AC_NUMBER)
+ * AirConditionerControlRequest acControlRequest = AirConditionerControlHandler
+ *      .requestBuilder()
+ *          .acNumber(AC_NUMBER)
  *          .build();
  * Request request = AirConditionerControlHandler.generateRequest(MESSAGE_ID, acControlRequest);
  * </pre></code>
- * a
  */
 public class AirConditionerControlHandler {
-    
+
     private AirConditionerControlHandler() {}
-    
+
     public static Request generateRequest(int messageId, AirConditionerControlRequest acControlRequest) {
         byte[] data = acControlRequest.getBytes();
         return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_CONTROL, data);
     }
 
+    public static RequestBuilder requestBuilder() {
+        return new RequestBuilder();
+    }
+
     public static class RequestBuilder {
-        
+
         private Integer acNumber;
-        private Power acPower;
+        private AcPower acPower;
         private Mode acMode;
         private FanSpeed fanSpeed;
         private SetpointControl setpointControl;
         private Integer setPointValue;
-        
+
         /**
          * {@link RequestBuilder} to create an {@link AirConditionerControlRequest}.
          *
          * @param acNumber - AC number for this control message. Zero based.
          */
-        public RequestBuilder(int acNumber) {
+        public RequestBuilder acNumber(int acNumber) {
             this.acNumber = acNumber;
+            return this;
         }
-        
+
         /**
-         * Method to set the {@link Power}.<br>
+         * Method to set the {@link AcPower}.<br>
          * Calling this method is optional. If not called, the request will default to AcPower.NO_CHANGE.
          * If called, acPower must be one of:<ul>
          * <li>NO_CHANGE - No change made to power setting.
@@ -58,14 +63,14 @@ public class AirConditionerControlHandler {
          * <li>POWER_ON - Turn the AC unit on.
          * </ul>
          *
-         * @param acPower - {@link Power} enum value
+         * @param acPower - {@link AcPower} enum value
          * @return {@link RequestBuilder} to support fluent builder pattern.
          */
-        public RequestBuilder acPower(Power acPower) {
+        public RequestBuilder acPower(AcPower acPower) {
             this.acPower = acPower;
             return this;
         }
-        
+
         /**
          * Method to set the {@link Mode}.<br>
          * Calling this method is optional. If not called, the request will default to Mode.NO_CHANGE.
@@ -84,7 +89,7 @@ public class AirConditionerControlHandler {
             this.acMode = acMode;
             return this;
         }
-        
+
         /**
          * Method to set the {@link FanSpeed}.<br>
          * Calling this method is optional. If not called, the request will default to FanSpeed.NO_CHANGE.
@@ -104,7 +109,7 @@ public class AirConditionerControlHandler {
             this.fanSpeed = fanSpeed;
             return this;
         }
-        
+
         /**
          * Method to set the {@link SetpointControl}.<br>
          * Calling this method is optional. If not called, the request will default to SetpointControl.NO_CHANGE.
@@ -121,7 +126,7 @@ public class AirConditionerControlHandler {
             this.setpointControl = setpointControl;
             return this;
         }
-        
+
         /**
          * Method to set the setpoint value.
          * Has no effect unless {@link #setpointControl(SetpointControl.SET_TO_VALUE)} is
@@ -133,29 +138,35 @@ public class AirConditionerControlHandler {
             this.setPointValue = setPointValue;
             return this;
         }
-        
+
         public AirConditionerControlRequest build() {
             AirConditionerControlRequest request = new AirConditionerControlRequest();
-            request.setAcNumber(this.acNumber);
-            
+
+            if (this.acNumber == null || this.acNumber < 0 || this.acNumber > 3) {
+                throw new IllegalArgumentException(
+                        String.format("acNumber value must be a number between 0 and 3. Value %s is incorrect", this.acNumber));
+            } else {
+                request.setAcNumber(this.acNumber);
+            }
+
             if (this.acPower == null) {
-                request.setAcPower(Power.NO_CHANGE);
+                request.setAcPower(AcPower.NO_CHANGE);
             } else {
                 request.setAcPower(this.acPower);
             }
-            
+
             if (this.acMode == null) {
                 request.setAcMode(Mode.NO_CHANGE);
             } else {
                 request.setAcMode(this.acMode);
             }
-            
+
             if (this.fanSpeed == null) {
                 request.setFanSpeed(FanSpeed.NO_CHANGE);
             } else {
                 request.setFanSpeed(this.fanSpeed);
             }
-            
+
             if (this.setpointControl == null) {
                 request.setSetpointControl(SetpointControl.NO_CHANGE);
             } else if (SetpointControl.SET_TO_VALUE.equals(this.setpointControl)) {

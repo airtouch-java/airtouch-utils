@@ -11,19 +11,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AirtouchConnector {
-    
+
     private final Logger log = LoggerFactory.getLogger(AirtouchConnector.class);
     private Socket socket;
     private InputStream input;
     private OutputStream output;
-    
+
     private final ResponseCallback responseCallback;
     private final String hostName;
     private final int portNumber;
     private AirtouchConnectorThread thread;
-    
-    
+
     public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback responseCallback) {
+        if (hostName == null || hostName.trim().equals("")) {
+            throw new AirtouchMessagingException("hostName is blank. Please pass in a valid hostName when creating an AirtouchConnector instance.");
+        }
+        if (portNumber < 1) {
+            throw new AirtouchMessagingException("portNumber not defined. Please pass in a valid postNumber. The default port for AirTouch4 is 9004. Perhaps try that portNumber when creating an AirtouchConnector instance.");
+        }
+        if (responseCallback == null) {
+            throw new AirtouchMessagingException("responseCallback is null. Please pass in a ResponseCallback instance when creating an AirtouchConnector instance.");
+        }
         this.hostName = hostName;
         this.portNumber = portNumber;
         this.responseCallback = responseCallback;
@@ -41,8 +49,8 @@ public class AirtouchConnector {
             throw new AirtouchMessagingException("Failed to connect to Airtouch", e);
         }
     }
-    
-    public void sendRequest(Request request) throws IOException {
+
+    public synchronized void sendRequest(Request request) throws IOException {
         if (this.socket == null || this.output == null) {
             throw new AirtouchMessagingException("Failed to send request. Connection not available. Did you call 'start()' first?");
         }

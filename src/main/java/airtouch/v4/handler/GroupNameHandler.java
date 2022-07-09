@@ -30,20 +30,20 @@ public class GroupNameHandler extends AbstractHandler {
             return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         }
     }
-    
+
     /*
         Group Name Extended message(0xFF 0x12)
         ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
         Data block received from AirTouch (variable number of bytes). See docs page 11.
-        
+
         | Byte1    | Fixed 0xFF
         | Byte2    | Fixed 0x12
         | Byte3    | Group number | 0-15
         | Byte4-11 | Group name   | 8 bytes in total. If less than 8 bytes, pad with 0's.
-    
+
      */
-    
+
     public static ResponseList<GroupNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<GroupNameResponse> groupNames = new ArrayList<>();
@@ -52,13 +52,25 @@ public class GroupNameHandler extends AbstractHandler {
             int groupOffset = i * 9;
             GroupNameResponse groupName = new GroupNameResponse();
             groupName.setGroupNumber(airTouchDataBlock[groupOffset + 0]);
-            String name = new String(Arrays.copyOfRange(airTouchDataBlock, groupOffset + 1, groupOffset +9), StandardCharsets.US_ASCII);
+            String name = new String(stripNulls(Arrays.copyOfRange(airTouchDataBlock, groupOffset + 1, groupOffset +9)), StandardCharsets.US_ASCII);
             groupName.setName(name);
             groupNames.add(groupName);
         }
         return new ResponseList<>(MessageType.GROUP_NAME, messageId, groupNames);
     }
-        
+
+    private static byte[] stripNulls(byte[] allBytesIncludingNulls) {
+        int length = allBytesIncludingNulls.length;
+        for (int i = 0; i < allBytesIncludingNulls.length; i++) {
+            byte b = allBytesIncludingNulls[i];
+            if(b == 0x00) {
+                length = i;
+                break;
+            }
+        }
+        return Arrays.copyOfRange(allBytesIncludingNulls, 0, length);
+    }
+
     private static int getGroupCount(byte[] airTouchDataBlock) {
         // Our data payload is 9 bytes per group.
         // Check that our payload is a multiple of 9 bytes.
@@ -66,6 +78,6 @@ public class GroupNameHandler extends AbstractHandler {
             return airTouchDataBlock.length / 9;
         }
         throw new IllegalArgumentException("GroupName messageBlock is not a multiple of 9 bytes.");
-        
+
     }
 }

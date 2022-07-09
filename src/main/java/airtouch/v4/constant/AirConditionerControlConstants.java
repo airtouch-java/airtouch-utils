@@ -2,7 +2,7 @@ package airtouch.v4.constant;
 
 public class AirConditionerControlConstants {
     
-    public enum Power {
+    public enum AcPower {
         //                      ||     Bits 8 to 7
         NO_CHANGE            (0b00000000),  // 00
         NEXT_POWER_STATE     (0b01000000),  // 01
@@ -11,7 +11,7 @@ public class AirConditionerControlConstants {
         
         private int bits;
         
-        Power(int bits) {
+        AcPower(int bits) {
             this.bits = bits;
         }
         

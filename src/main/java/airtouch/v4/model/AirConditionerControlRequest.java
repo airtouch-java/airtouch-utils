@@ -4,18 +4,18 @@ import airtouch.v4.constant.AirConditionerControlConstants.*;
 
 
 public class AirConditionerControlRequest {
-    
+
     private int acNumber;
-    private Power acPower;
+    private AcPower acPower;
     private Mode acMode;
     private FanSpeed fanSpeed;
     private SetpointControl setpointControl;
     private int setpointValue = 0x3f;
-    
+
     public void setAcNumber(int acNumber) {
         this.acNumber = acNumber;
     }
-    public void setAcPower(Power acPower) {
+    public void setAcPower(AcPower acPower) {
         this.acPower = acPower;
     }
     public void setAcMode(Mode acMode) {
