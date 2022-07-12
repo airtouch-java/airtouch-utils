@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import airtouch.v4.Request;
+import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.constant.GroupControlConstants.GroupControl;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.model.GroupControlRequest;
@@ -13,7 +14,7 @@ public class GroupControlHandlerTest {
 
     @Test
     public void testGenerateRequestPowerOffSecondGroup() {
-        GroupControlRequest groupControlRequest = new GroupControlHandler.RequestBuilder(1)
+        GroupControlRequest groupControlRequest = new GroupControlRequestBuilder(1)
                 .power(GroupPower.POWER_OFF)
                 .build();
 
@@ -32,7 +33,7 @@ public class GroupControlHandlerTest {
 
     @Test
     public void testGenerateRequestPercetageControlFirstGroup() {
-        GroupControlRequest groupControlRequest = new GroupControlHandler.RequestBuilder(0)
+        GroupControlRequest groupControlRequest = new GroupControlRequestBuilder(0)
                 .control(GroupControl.PERCENTAGE_CONTROL)
                 .build();
 

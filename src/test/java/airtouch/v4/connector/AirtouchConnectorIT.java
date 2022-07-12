@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.v4.Response;
 import airtouch.v4.ResponseCallback;
+import airtouch.v4.builder.AirConditionerControlRequestBuilder;
+import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.MessageConstants.MessageType;
@@ -58,9 +60,9 @@ public class AirtouchConnectorIT {
 
         airtouchConnector.sendRequest(AirConditionerStatusHandler.generateRequest(4, null));
         airtouchConnector.sendRequest(AirConditionerControlHandler.generateRequest(5,
-                new AirConditionerControlHandler.RequestBuilder().acNumber(0).acPower(AcPower.POWER_ON).build()));
+                new AirConditionerControlRequestBuilder().acNumber(0).acPower(AcPower.POWER_ON).build()));
         airtouchConnector.sendRequest(GroupControlHandler.generateRequest(6,
-                new GroupControlHandler.RequestBuilder(0).power(GroupPower.POWER_ON).build()));
+                new GroupControlRequestBuilder(0).power(GroupPower.POWER_ON).build()));
 
         Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAtomic(counter, Matchers.greaterThanOrEqualTo(6));
         airtouchConnector.shutdown();
