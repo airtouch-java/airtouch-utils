@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import airtouch.v4.Request;
 import airtouch.v4.ResponseList;
-import airtouch.v4.constant.AcStatusConstants.Mode;
-import airtouch.v4.constant.AcStatusConstants.PowerState;
-import airtouch.v4.model.AirConditionerStatusResponse;
 import airtouch.v4.model.GroupNameResponse;
 import airtouch.v4.utils.HexString;
 

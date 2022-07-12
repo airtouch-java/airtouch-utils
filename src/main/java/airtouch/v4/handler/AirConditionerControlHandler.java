@@ -34,6 +34,10 @@ public class AirConditionerControlHandler {
         return new RequestBuilder();
     }
 
+    public static RequestBuilder acNumber(int acNumber) {
+        return new RequestBuilder().acNumber(acNumber);
+    }
+
     public static class RequestBuilder {
 
         private Integer acNumber;

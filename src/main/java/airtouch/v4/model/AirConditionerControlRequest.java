@@ -32,7 +32,7 @@ public class AirConditionerControlRequest {
     }
 
     public byte[] getBytes() {
-        byte byte1 = (byte) (this.acPower.getBits() | (this.acNumber & 0b00000011));
+        byte byte1 = (byte) (this.acPower.getBits() | (this.acNumber & 0b00111111));
         byte byte2 = (byte) (this.acMode.getBits() | this.fanSpeed.getBits());
         byte byte3 = (byte) (this.setpointControl.getBits() | (this.setpointValue & 0xFF));
         return new byte[] {
