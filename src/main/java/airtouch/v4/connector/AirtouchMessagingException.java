@@ -1,4 +1,4 @@
-package airtouch.v4;
+package airtouch.v4.connector;
 
 public class AirtouchMessagingException extends RuntimeException {
     

@@ -1,4 +1,4 @@
-package airtouch.v4;
+package airtouch.v4.connector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.v4.Response;
+import airtouch.v4.ResponseCallback;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.MessageConstants.MessageType;

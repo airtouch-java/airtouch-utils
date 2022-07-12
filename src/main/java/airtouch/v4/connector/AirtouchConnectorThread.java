@@ -1,4 +1,4 @@
-package airtouch.v4;
+package airtouch.v4.connector;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,8 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.v4.Response;
+import airtouch.v4.ResponseCallback;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.handler.MessageHandler;

@@ -1,4 +1,4 @@
-package airtouch.v4;
+package airtouch.v4.connector;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,6 +9,9 @@ import java.net.Socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import airtouch.v4.Request;
+import airtouch.v4.ResponseCallback;
 
 public class AirtouchConnector {
 
