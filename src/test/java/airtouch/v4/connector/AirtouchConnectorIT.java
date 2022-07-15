@@ -22,8 +22,10 @@ import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.MessageConstants.MessageType;
+import airtouch.v4.handler.AirConditionerAbilityHandler;
 import airtouch.v4.handler.AirConditionerControlHandler;
 import airtouch.v4.handler.AirConditionerStatusHandler;
+import airtouch.v4.handler.ConsoleVersionHandler;
 import airtouch.v4.handler.GroupControlHandler;
 import airtouch.v4.handler.GroupNameHandler;
 import airtouch.v4.handler.GroupStatusHandler;
@@ -60,11 +62,14 @@ public class AirtouchConnectorIT {
 
         airtouchConnector.sendRequest(AirConditionerStatusHandler.generateRequest(4, null));
         airtouchConnector.sendRequest(AirConditionerControlHandler.generateRequest(5,
-                new AirConditionerControlRequestBuilder().acNumber(0).acPower(AcPower.POWER_ON).build()));
+                new AirConditionerControlRequestBuilder().acNumber(0).acPower(AcPower.NO_CHANGE).build()));
         airtouchConnector.sendRequest(GroupControlHandler.generateRequest(6,
                 new GroupControlRequestBuilder(0).power(GroupPower.POWER_ON).build()));
 
-        Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAtomic(counter, Matchers.greaterThanOrEqualTo(6));
+        airtouchConnector.sendRequest(ConsoleVersionHandler.generateRequest(8));
+        airtouchConnector.sendRequest(AirConditionerAbilityHandler.generateRequest(7, null));
+
+        Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAtomic(counter, Matchers.greaterThanOrEqualTo(8));
         airtouchConnector.shutdown();
 
         assertTrue(responses.containsKey(1));

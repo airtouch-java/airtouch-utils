@@ -1,5 +1,7 @@
 package airtouch.v4.constant;
 
+import java.util.Arrays;
+
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.HexString;
 
@@ -56,8 +58,10 @@ public class MessageConstants {
         AC_CONTROL(0x2c),
         AC_STATUS(0x2d),
         EXTENDED(0x1F),
-        
-        GROUP_NAME(0xFF12);  // Extended Message sub-type
+
+        AC_ABILITY(0xFF11),       // Extended Message sub-type
+        GROUP_NAME(0xFF12),       // Extended Message sub-type
+        CONSOLE_VERSION(0xFF30);  // Extended Message sub-type
 
         private int bytes;
 
@@ -89,7 +93,10 @@ public class MessageConstants {
     }
 
     public enum ExtendedMessageType {
-        GROUP_NAME(0xFF12);
+        AC_ERROR(0xFF10),
+        AC_ABILITY(0xFF11),
+        GROUP_NAME(0xFF12),
+        CONSOLE_VERSION(0xFF30);
 
         public int getInt() {
             return this.bytes;
@@ -106,13 +113,14 @@ public class MessageConstants {
         }
 
         public static ExtendedMessageType getFromBytes(int l) {
-            if (GROUP_NAME.getInt() == l) {
-                return GROUP_NAME;
-            } else {
-                throw new IllegalArgumentException(String.format(
-                        "Unable to resolve ExtendedMessageType from supplied bytes. Supplied bytes are: '%s'",
-                        HexString.fromBytes(ByteUtil.getBytes(l, 2))));
+            for (ExtendedMessageType type: values()) {
+                if (type.getInt() == l) {
+                    return type;
+                }
             }
+            throw new IllegalArgumentException(String.format(
+                    "Unable to resolve ExtendedMessageType from supplied bytes. Supplied bytes are: '%s'",
+                    HexString.fromBytes(ByteUtil.getBytes(l, 2))));
         }
 
     }

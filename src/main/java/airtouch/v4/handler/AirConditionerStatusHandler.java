@@ -37,7 +37,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
         ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Data block received from AirTouch (8 bytes). See docs page 8.
-        
+
         | Byte1 | Bit8-7 | AC power state | 00: Off, 01: On, 10/11: Not available
         |       | Bit6-1 | AC number      | 0-3
         | Byte2 | Bit8-5 | AC mode        | 0000: auto
@@ -67,7 +67,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
                 | Bit5-1                  | NOT USED
         | Byte7 |        | Error Code     | 0 means no error.
         | Byte8          |                | Other codes mean there is an error about this AC.
-                                    
+
     */
 
     /**
@@ -93,7 +93,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
             acStatus.setCurrentTemperature(determineCurrentTemperature(
                     airTouchDataBlock[acOffset + 4],
                     airTouchDataBlock[acOffset + 5]));
-            
+
             acStatus.setErrorCode(determineErrorCode(
                     airTouchDataBlock[acOffset + 6],
                     airTouchDataBlock[acOffset + 7]));
@@ -109,7 +109,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
         isSpill = isSpill >> 7;
         return isSpill == 1;
     }
-    
+
     private static boolean determineAcTimer(byte byte3) {
         // bitmask everything except the second bit.
         int isAcTimer = byte3 & 0b01000000;
@@ -130,7 +130,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
         // Get value from byte, subtract 500 and then divide by 10.
         return (temperature-500)/10;
     }
-    
+
     private static Integer determineErrorCode(byte byte5, byte byte6) {
         return ByteUtil.toInt(byte5, byte6);
     }
@@ -158,7 +158,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
             return airTouchDataBlock.length / 8;
         }
         throw new IllegalArgumentException("AcStatus messageBlock is not a multiple of 8 bytes");
-        
+
     }
 
 

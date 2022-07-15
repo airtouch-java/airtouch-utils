@@ -24,13 +24,21 @@ public class ExtendedMessageHandler extends AbstractHandler {
         }
 
         switch(extendedMessageType) { //NOSONAR - Will add more to this switch
+        case AC_ERROR:
+            // Strip off the first two bytes, as they will be the 0xFF 0x10 for Console Version.
+            return AirConditionerErrorHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
         case GROUP_NAME:
             // Strip off the first two bytes, as they will be the 0xFF 0x12 for GroupName.
             return GroupNameHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
+        case AC_ABILITY:
+            // Strip off the first two bytes, as they will be the 0xFF 0x11 for AC Ability.
+            return AirConditionerAbilityHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
+        case CONSOLE_VERSION:
+            // Strip off the first two bytes, as they will be the 0xFF 0x30 for Console Version.
+            return ConsoleVersionHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
         default:
             throw new UnsupportedOperationException(String.format("No Extended Handler available for type '%s'", extendedMessageType.toString()));
         }
-
     }
 
 }

@@ -59,18 +59,6 @@ public class GroupNameHandler extends AbstractHandler {
         return new ResponseList<>(MessageType.GROUP_NAME, messageId, groupNames);
     }
 
-    private static byte[] stripNulls(byte[] allBytesIncludingNulls) {
-        int length = allBytesIncludingNulls.length;
-        for (int i = 0; i < allBytesIncludingNulls.length; i++) {
-            byte b = allBytesIncludingNulls[i];
-            if(b == 0x00) {
-                length = i;
-                break;
-            }
-        }
-        return Arrays.copyOfRange(allBytesIncludingNulls, 0, length);
-    }
-
     private static int getGroupCount(byte[] airTouchDataBlock) {
         // Our data payload is 9 bytes per group.
         // Check that our payload is a multiple of 9 bytes.

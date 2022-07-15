@@ -1,5 +1,7 @@
 package airtouch.v4.handler;
 
+import java.util.Arrays;
+
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.utils.ByteUtil;
 
@@ -48,5 +50,17 @@ public abstract class AbstractHandler {
         long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 2);
         return firstTwoBytes == MessageConstants.HEADER;
     }
+
+	protected static byte[] stripNulls(byte[] allBytesIncludingNulls) {
+	    int length = allBytesIncludingNulls.length;
+	    for (int i = 0; i < allBytesIncludingNulls.length; i++) {
+	        byte b = allBytesIncludingNulls[i];
+	        if(b == 0x00) {
+	            length = i;
+	            break;
+	        }
+	    }
+	    return Arrays.copyOfRange(allBytesIncludingNulls, 0, length);
+	}
 
 }
