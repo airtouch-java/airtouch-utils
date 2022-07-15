@@ -1,7 +1,5 @@
 package airtouch.v4.constant;
 
-import java.util.Arrays;
-
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.HexString;
 
