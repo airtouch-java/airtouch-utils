@@ -110,7 +110,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
             // Remember, bytes 1 and 2 were removed, so byte3 is really byte1, but zero based, so it's '0'
             acAbility.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
-            // We are ignoring byte4, aka 1.
+            // We are ignoring byte4, aka 1. We already determined the datalength above.
             // Get bytes 5 though 20, aka, 2-17
             String name = new String(stripNulls(Arrays.copyOfRange(airTouchDataBlock, acOffset + 2, acOffset + 17)), StandardCharsets.US_ASCII);
             acAbility.setAcName(name);
@@ -143,7 +143,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
             acAbilities.add(acAbility);
         }
-        return new ResponseList<>(MessageType.AC_STATUS, messageId, acAbilities);
+        return new ResponseList<>(MessageType.AC_ABILITY, messageId, acAbilities);
     }
 
     private static int getDataLength(byte[] airTouchDataBlock) {

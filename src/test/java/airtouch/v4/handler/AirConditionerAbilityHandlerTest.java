@@ -54,10 +54,10 @@ public class AirConditionerAbilityHandlerTest {
         assertTrue("Expecting to find LOW fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.LOW));
         assertTrue("Expecting to find MEDIUM fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.MEDIUM));
         assertTrue("Expecting to find HIGH fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.HIGH));
-        assertTrue("Expecting to find LOW fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.AUTO));
-        assertFalse("Expecting to find LOW fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.QUIET));
-        assertFalse("Expecting to find LOW fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.POWERFUL));
-        assertFalse("Expecting to find LOW fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.TURBO));
+        assertTrue("Expecting to find AUTO fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.AUTO));
+        assertFalse("Expecting to find QUIET fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.QUIET));
+        assertFalse("Expecting to find POWERFUL fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.POWERFUL));
+        assertFalse("Expecting to find TURBO fanspeed but not found", acAbility01.getSupportedFanSpeeds().contains(FanSpeed.TURBO));
 
         assertEquals(17, acAbility01.getMinSetPoint());
         assertEquals(31, acAbility01.getMaxSetPoint());

@@ -1,8 +1,10 @@
 package airtouch.v4.builder;
 
+import airtouch.v4.Request;
 import airtouch.v4.constant.GroupControlConstants.GroupControl;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.GroupControlConstants.GroupSetting;
+import airtouch.v4.handler.GroupControlHandler;
 import airtouch.v4.model.GroupControlRequest;
 
 public class GroupControlRequestBuilder {
@@ -77,6 +79,14 @@ public class GroupControlRequestBuilder {
         return this;
     }
 
+    /**
+     * Method to set the numeric value when called in conjunction with {@link #setting(GroupSetting)}.
+     * When calling  {@link #setting(GroupSetting)}, this method MUST be called to specify the value
+     * associated with the {@link GroupSetting}.
+     *
+     * @param settingValue - numeric value that matches the {@link GroupSetting} specified by {@link #setting(GroupSetting)}.
+     * @return {@link GroupControlRequestBuilder} to support fluent builder pattern.
+     */
     public GroupControlRequestBuilder settingValue(int settingValue) {
         this.settingValue = settingValue;
         return this;
@@ -114,5 +124,9 @@ public class GroupControlRequestBuilder {
         }
 
         return request;
+    }
+
+    public Request build(int messageId) {
+        return GroupControlHandler.generateRequest(messageId, build());
     }
 }

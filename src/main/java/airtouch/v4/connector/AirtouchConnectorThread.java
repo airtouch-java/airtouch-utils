@@ -43,6 +43,10 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
         this.stopping = true;
     }
     
+    public boolean isRunning() {
+        return !this.stopping;
+    }
+    
     @SuppressWarnings("rawtypes")
     @Override
     public void run() {
@@ -85,13 +89,20 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
                 // If we have reached our total message size, call the handler to parse
                 // the message and then re-initialise the buffer to handle the next
                 // set of bytes received.
-                if(messageHolder.isFinished()) {
-                    Response response = messageHandler.handle(messageHolder.getBytes());
-                    messageHolder = MessageHolder.initialiseEmpty();
-                    if (log.isDebugEnabled()) {
-                        log.debug("Received response: '{}'", response);
+                if (messageHolder.isFinished()) {
+                    try {
+                        Response response = messageHandler.handle(messageHolder.getBytes());
+                        responseCallback.handleResponse(response);
+                        if (log.isDebugEnabled()) {
+                            log.debug("Received response: '{}'", response);
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        log.info("Ignoring unknown message: '{}'", ex.getMessage());
+                        if (log.isDebugEnabled()) {
+                            log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
+                        }
                     }
-                    responseCallback.handleResponse(response);
+                    messageHolder = MessageHolder.initialiseEmpty();
                 }
             }
         } catch (SocketException e) {
@@ -102,11 +113,19 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
     }
     
     private boolean messageStarted(SizedStack<Byte> bytes) {
-        if (bytes.size() < 8) return false;
-        if (ByteUtil.toInt(bytes.get(0), bytes.get(1)) != MessageConstants.HEADER) return false;
-        Address address = Address.getFromBytes(ByteUtil.toInt(bytes.get(2), bytes.get(3)));
-        return ByteUtil.toInt(bytes.get(0), bytes.get(1)) == MessageConstants.HEADER
-                && (address.equals(Address.STANDARD_RECEIVE) || address.equals(Address.EXTENDED_RECEIVE));
+        try {
+            if (bytes.size() < 8) return false;
+            if (ByteUtil.toInt(bytes.get(0), bytes.get(1)) != MessageConstants.HEADER) return false;
+            Address address = Address.getFromBytes(ByteUtil.toInt(bytes.get(2), bytes.get(3)));
+            return ByteUtil.toInt(bytes.get(0), bytes.get(1)) == MessageConstants.HEADER
+                    && (address.equals(Address.STANDARD_RECEIVE) || address.equals(Address.EXTENDED_RECEIVE));
+        } catch (IllegalArgumentException ex) {
+            log.info("Ignoring unknown message: '{}'", ex.getMessage());
+            if (log.isDebugEnabled()) {
+                log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
+            }
+            return false;
+        }
     }
 
 }

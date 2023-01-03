@@ -80,5 +80,9 @@ public class AirtouchConnector {
         }
         log.info("AirtouchConnector shutdown completed");
     }
+    
+    public boolean isRunning() {
+        return this.thread != null && this.thread.isRunning();
+    }
 
 }

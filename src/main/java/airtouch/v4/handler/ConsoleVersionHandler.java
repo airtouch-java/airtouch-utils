@@ -63,7 +63,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
         String versionString = new String(stripNulls(Arrays.copyOfRange(airTouchDataBlock, 2, dataLength + 2)), StandardCharsets.US_ASCII);
         consoleVersionResponse.setVersions(Arrays.asList(versionString.trim().split("\\|")));
 
-        return new ResponseList<>(MessageType.AC_STATUS, messageId, Collections.singletonList(consoleVersionResponse));
+        return new ResponseList<>(MessageType.CONSOLE_VERSION, messageId, Collections.singletonList(consoleVersionResponse));
     }
 
     private static boolean determineUpdateRequired(byte byte3) {

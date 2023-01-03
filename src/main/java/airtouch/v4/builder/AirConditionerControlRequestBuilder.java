@@ -1,9 +1,11 @@
 package airtouch.v4.builder;
 
+import airtouch.v4.Request;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.AirConditionerControlConstants.SetpointControl;
+import airtouch.v4.handler.AirConditionerControlHandler;
 import airtouch.v4.model.AirConditionerControlRequest;
 
 public class AirConditionerControlRequestBuilder {
@@ -153,5 +155,9 @@ public class AirConditionerControlRequestBuilder {
                 request.setSetpointValue(0);
             }
             return request;
+        }
+        
+        public Request build(int messageId) {
+            return AirConditionerControlHandler.generateRequest(messageId, build());
         }
     }
