@@ -59,7 +59,10 @@ public class AirtouchConnector {
         }
         this.output.write(request.getRequestMessage());
         this.output.flush();
-        log.debug("Request sent: '{}'", request.getHexString());
+        log.debug("Request sent of type {} with id {} : '{}'",
+                request.getMessageType(),
+                request.getMessageId(),
+                request.getHexString());
     }
 
     public void shutdown() {

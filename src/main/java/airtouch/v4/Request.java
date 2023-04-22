@@ -12,8 +12,14 @@ import airtouch.v4.utils.HexString;
 public class Request {
 
     private ByteBuffer buffer = ByteBuffer.allocateDirect(18); // TODO: make this more relevant.
+    private Address address;
+    private int messageId;
+    private MessageType messageType;
 
     public Request(Address address, int messageId, MessageType messageType, byte[] data) {
+        this.address = address;
+        this.messageId = messageId;
+        this.messageType = messageType;
         this.buffer.put(ByteUtil.getBytes(MessageConstants.HEADER, 2));
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
@@ -39,6 +45,18 @@ public class Request {
 
     public String getHexString() {
         return HexString.fromBytes(getRequestMessage());
+    }
+    
+    public Address getAddress() {
+        return address;
+    }
+    
+    public int getMessageId() {
+        return messageId;
+    }
+    
+    public MessageType getMessageType() {
+        return messageType;
     }
 
     public static byte b(int i) {
