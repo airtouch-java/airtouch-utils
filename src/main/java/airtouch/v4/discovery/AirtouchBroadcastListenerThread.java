@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v4.ResponseCallback;
+import airtouch.v4.discovery.BroadcastResponseCallback.BroadcastResponse;
 
 public class AirtouchBroadcastListenerThread extends Thread implements Runnable {
 
@@ -47,18 +45,14 @@ public class AirtouchBroadcastListenerThread extends Thread implements Runnable 
             byte[] buf = new byte[512];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             while (!stopping) {
-                System.out.println("Waiting for data");
                 socket.receive(packet);
-                System.out.println("Data received");
-                this.responseCallback
-                        .handleResponse(new String(packet.getData(), packet.getOffset(), packet.getLength()));
+                BroadcastResponse broadcastResponse = BroadcastResponseParser.parse(new String(packet.getData(), packet.getOffset(), packet.getLength()));
+                if (broadcastResponse != null) {
+                this.responseCallback.handleResponse(broadcastResponse);
+                }
             }
-        } catch (SocketException | UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.warn("Failed to start discovery listener. It will not be possible to auto-discover the Airtouch on the network. Reason: {}", e.getMessage(), e);
         }
     }
 }
