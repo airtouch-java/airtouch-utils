@@ -1,7 +1,8 @@
 package airtouch;
 
 public enum AirtouchVersion {
-    AIRTOUCH4 ("AirTouch4", 
+    AIRTOUCH4 (
+            airtouch.v4.constant.ConnectionConstants.AIRTOUCH_VERSION_IDENTIFIER, 
             airtouch.v4.constant.ConnectionConstants.AIRTOUCH_LISTEN_PORT,
             airtouch.v4.constant.ConnectionConstants.DISCOVERY_LISTEN_PORT,
             airtouch.v4.constant.ConnectionConstants.DISCOVERY_BROADCAST_MESSAGE),

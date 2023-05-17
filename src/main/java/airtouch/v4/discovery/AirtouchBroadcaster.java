@@ -3,22 +3,26 @@ package airtouch.v4.discovery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.AirtouchVersion;
+
 public class AirtouchBroadcaster {
     
     private final Logger log = LoggerFactory.getLogger(AirtouchBroadcaster.class);
+    private final AirtouchVersion airtouchVersion;
     private final BroadcastResponseCallback responseCallback;
     
     private AirtouchBroadcasterThread broadcasterThread;
     private AirtouchBroadcastListenerThread listenerThread;
 
-    public AirtouchBroadcaster(final BroadcastResponseCallback responseCallback) {
+    public AirtouchBroadcaster(final AirtouchVersion airtouchVersion, final BroadcastResponseCallback responseCallback) {
+        this.airtouchVersion = airtouchVersion;
         this.responseCallback = responseCallback;
     }
     
     public void start() {
         this.listenerThread = new AirtouchBroadcastListenerThread(responseCallback);
         this.listenerThread.start();
-        this.broadcasterThread = new AirtouchBroadcasterThread();
+        this.broadcasterThread = new AirtouchBroadcasterThread(airtouchVersion);
         this.broadcasterThread.start();
     }
     public void shutdown() {

@@ -8,26 +8,47 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import airtouch.AirtouchVersion;
 
 public class BroadcastSender {
+    private BroadcastSender() {} // Prevent instantiation.
+    private static final Logger log = LoggerFactory.getLogger(BroadcastSender.class);
+
+
     private static DatagramSocket socket = null;
     
-    public static void broadcastAll() throws SocketException {
+    public static void broadcastAll(AirtouchVersion airtouchVersion) throws SocketException {
         List<InetAddress> addresses = listAllBroadcastAddresses();
+        AtomicBoolean success = new AtomicBoolean(false);
+        Map<InetAddress, IOException> exceptions = new HashMap<>();
         addresses.forEach(i -> {
             try {
-                broadcast("HF-A11ASSISTHREAD", i, 49004);
+                broadcast(airtouchVersion.getDiscoveryMessage(), i, airtouchVersion.getDiscoveryPort());
+                success.set(true);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                exceptions.put(i,e);
             }
         });
+        if (!success.get()) {
+            exceptions.forEach((i,e) -> {
+                log.warn("Failed to send discovery message to '{}:{}'. {}", 
+                        i.getHostAddress(), 
+                        airtouchVersion.getDiscoveryPort(),
+                        e.getMessage());
+            });
+        }
     }
 
-    public static void broadcast(
-      String broadcastMessage, InetAddress address, int port) throws IOException {
+    public static void broadcast(String broadcastMessage, InetAddress address, int port) throws IOException {
         socket = new DatagramSocket();
         socket.setBroadcast(true);
 

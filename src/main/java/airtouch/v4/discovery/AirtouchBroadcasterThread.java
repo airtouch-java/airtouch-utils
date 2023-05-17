@@ -5,6 +5,8 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.AirtouchVersion;
+
 public class AirtouchBroadcasterThread extends Thread implements Runnable {
     
     private static final String DEFAULT_THREAD_NAME = AirtouchBroadcasterThread.class.getSimpleName();
@@ -13,13 +15,17 @@ public class AirtouchBroadcasterThread extends Thread implements Runnable {
 
     private boolean stopping;
 
+    private AirtouchVersion airtouchVersion;
 
-    public AirtouchBroadcasterThread() {
+
+    public AirtouchBroadcasterThread(AirtouchVersion airtouchVersion) {
         super(DEFAULT_THREAD_NAME);
+        this.airtouchVersion = airtouchVersion;
     }
     
-    public AirtouchBroadcasterThread(String threadName) {
+    public AirtouchBroadcasterThread(AirtouchVersion airtouchVersion, String threadName) {
         super(threadName);
+        this.airtouchVersion = airtouchVersion;
     }
     
     public void shutdown() {
@@ -35,9 +41,9 @@ public class AirtouchBroadcasterThread extends Thread implements Runnable {
         while (!stopping) {
             try {
                 for (int i = 0; i < 5; i++) {
-                    BroadcastSender.broadcastAll();
+                    BroadcastSender.broadcastAll(airtouchVersion);
                 }
-                sleep(1000 * 30);
+                sleep(1000L * 30);
             } catch (InterruptedException e) {
                 this.interrupt();
             } catch (SocketException e) {

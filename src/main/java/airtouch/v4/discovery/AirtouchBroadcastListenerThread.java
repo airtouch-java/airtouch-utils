@@ -39,9 +39,7 @@ public class AirtouchBroadcastListenerThread extends Thread implements Runnable 
 
     @Override
     public void run() {
-        DatagramSocket socket;
-        try {
-            socket = new DatagramSocket(49004, InetAddress.getByName("0.0.0.0"));
+        try(DatagramSocket socket = new DatagramSocket(49004, InetAddress.getByName("0.0.0.0"))) {
             byte[] buf = new byte[512];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             while (!stopping) {
