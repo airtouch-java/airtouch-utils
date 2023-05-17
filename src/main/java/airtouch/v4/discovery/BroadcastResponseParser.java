@@ -37,7 +37,7 @@ public class BroadcastResponseParser {
                 public AirtouchVersion getAirtouchVersion() {
                     switch (responseArray[2]) {
                         case "AirTouch4":
-                            return AirtouchVersion.AirTouch4;
+                            return AirtouchVersion.AIRTOUCH4;
                     }
                     return null;
                 }
@@ -50,10 +50,10 @@ public class BroadcastResponseParser {
                 @Override
                 public Integer getPortNumber() {
                     switch (responseArray[2]) {
-                    case "AirTouch4":
-                        return 9004;
-                }
-                return null;
+                        case "AirTouch4":
+                            return AirtouchVersion.AIRTOUCH4.getListeningPort();
+                    }
+                    return null;
                 }
             };
         }

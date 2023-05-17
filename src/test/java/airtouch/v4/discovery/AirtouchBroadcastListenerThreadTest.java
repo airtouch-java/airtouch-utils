@@ -37,7 +37,7 @@ public class AirtouchBroadcastListenerThreadTest {
         assertEquals("192.168.7.101", response.getHostAddress());
         assertEquals("E4:F2:A6:CC:AE:44", response.getMacAddress());
         assertEquals(Integer.valueOf(ConnectionConstants.AIRTOUCH_LISTEN_PORT), response.getPortNumber());
-        assertEquals(AirtouchVersion.AirTouch4, response.getAirtouchVersion());
+        assertEquals(AirtouchVersion.AIRTOUCH4, response.getAirtouchVersion());
     }
 
     public static class MockBroadcastResponseCallback implements BroadcastResponseCallback {
