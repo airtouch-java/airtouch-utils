@@ -1,4 +1,4 @@
-package airtouch.v4.discovery;
+package airtouch.discovery;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,14 +13,14 @@ import org.junit.Test;
 
 import airtouch.AirtouchVersion;
 import airtouch.v4.constant.ConnectionConstants;
-import airtouch.v4.discovery.BroadcastResponseCallback.BroadcastResponse;
+import airtouch.discovery.BroadcastResponseCallback.BroadcastResponse;
 
 public class AirtouchBroadcastListenerThreadTest {
 
     @Test
     public void test() throws IOException {
         MockBroadcastResponseCallback callback = new MockBroadcastResponseCallback();
-        AirtouchBroadcastListenerThread listenerThread = new AirtouchBroadcastListenerThread(callback);
+        AirtouchBroadcastListenerThread listenerThread = new AirtouchBroadcastListenerThread(AirtouchVersion.AIRTOUCH4, callback);
         listenerThread.start();
         
         String broadcastMessage = "192.168.7.101,E4:F2:A6:CC:AE:44,AirTouch4,23236426";

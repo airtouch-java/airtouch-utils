@@ -1,4 +1,4 @@
-package airtouch.v4.discovery;
+package airtouch.discovery;
 
 import java.net.SocketException;
 

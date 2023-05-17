@@ -1,11 +1,11 @@
-package airtouch.v4.discovery;
+package airtouch.discovery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.AirtouchVersion;
 import airtouch.v4.constant.ConnectionConstants;
-import airtouch.v4.discovery.BroadcastResponseCallback.BroadcastResponse;
+import airtouch.discovery.BroadcastResponseCallback.BroadcastResponse;
 
 public class BroadcastResponseParser {
     private BroadcastResponseParser() {} // Prevent instantiation.

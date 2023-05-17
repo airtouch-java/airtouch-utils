@@ -1,4 +1,4 @@
-package airtouch.v4.discovery;
+package airtouch.discovery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class AirtouchBroadcaster {
     }
     
     public void start() {
-        this.listenerThread = new AirtouchBroadcastListenerThread(responseCallback);
+        this.listenerThread = new AirtouchBroadcastListenerThread(this.airtouchVersion, this.responseCallback);
         this.listenerThread.start();
         this.broadcasterThread = new AirtouchBroadcasterThread(airtouchVersion);
         this.broadcasterThread.start();

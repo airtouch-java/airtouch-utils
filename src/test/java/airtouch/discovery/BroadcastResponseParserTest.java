@@ -1,4 +1,4 @@
-package airtouch.v4.discovery;
+package airtouch.discovery;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import airtouch.AirtouchVersion;
 import airtouch.v4.constant.ConnectionConstants;
-import airtouch.v4.discovery.BroadcastResponseCallback.BroadcastResponse;
+import airtouch.discovery.BroadcastResponseCallback.BroadcastResponse;
 
 public class BroadcastResponseParserTest {
 

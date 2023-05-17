@@ -1,4 +1,4 @@
-package airtouch.v4.discovery;
+package airtouch.discovery;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -8,7 +8,8 @@ import java.net.InetAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v4.discovery.BroadcastResponseCallback.BroadcastResponse;
+import airtouch.AirtouchVersion;
+import airtouch.discovery.BroadcastResponseCallback.BroadcastResponse;
 
 public class AirtouchBroadcastListenerThread extends Thread implements Runnable {
 
@@ -17,15 +18,19 @@ public class AirtouchBroadcastListenerThread extends Thread implements Runnable 
     private final Logger log = LoggerFactory.getLogger(AirtouchBroadcastListenerThread.class);
 
     private boolean stopping;
+    private final AirtouchVersion airtouchVersion;
     private final BroadcastResponseCallback responseCallback;
 
-    public AirtouchBroadcastListenerThread(final BroadcastResponseCallback responseCallback) {
+
+    public AirtouchBroadcastListenerThread(final AirtouchVersion airtouchVersion, final BroadcastResponseCallback responseCallback) {
         super(DEFAULT_THREAD_NAME);
+        this.airtouchVersion = airtouchVersion;
         this.responseCallback = responseCallback;
     }
 
-    public AirtouchBroadcastListenerThread(final BroadcastResponseCallback responseCallback, String threadName) {
+    public AirtouchBroadcastListenerThread(final AirtouchVersion airtouchVersion, final BroadcastResponseCallback responseCallback, String threadName) {
         super(threadName);
+        this.airtouchVersion = airtouchVersion;
         this.responseCallback = responseCallback;
     }
 
@@ -39,7 +44,7 @@ public class AirtouchBroadcastListenerThread extends Thread implements Runnable 
 
     @Override
     public void run() {
-        try(DatagramSocket socket = new DatagramSocket(49004, InetAddress.getByName("0.0.0.0"))) {
+        try(DatagramSocket socket = new DatagramSocket(this.airtouchVersion.getDiscoveryPort(), InetAddress.getByName("0.0.0.0"))) {
             byte[] buf = new byte[512];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             while (!stopping) {
