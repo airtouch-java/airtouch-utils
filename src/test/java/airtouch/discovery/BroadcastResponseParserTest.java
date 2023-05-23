@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import airtouch.AirtouchVersion;
 import airtouch.v4.constant.ConnectionConstants;
-import airtouch.discovery.BroadcastResponseCallback.BroadcastResponse;
+import airtouch.discovery.AirtouchDiscoveryBroadcastResponseCallback.AirtouchDiscoveryBroadcastResponse;
 
 public class BroadcastResponseParserTest {
 
     @Test
     public void testParse() {
-        BroadcastResponse response = BroadcastResponseParser.parse("192.168.7.101,E4:F2:A6:CC:AE:44,AirTouch4,23236426");
+        AirtouchDiscoveryBroadcastResponse response = AirtouchDiscoveryBroadcastResponseParser.parse("192.168.7.101,E4:F2:A6:CC:AE:44,AirTouch4,23236426");
         assertEquals("23236426", response.getAirtouchId());
         assertEquals("192.168.7.101", response.getHostAddress());
         assertEquals("E4:F2:A6:CC:AE:44", response.getMacAddress());

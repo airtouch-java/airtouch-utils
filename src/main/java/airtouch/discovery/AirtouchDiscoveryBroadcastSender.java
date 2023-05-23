@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.AirtouchVersion;
 
-public class BroadcastSender {
-    private BroadcastSender() {} // Prevent instantiation.
-    private static final Logger log = LoggerFactory.getLogger(BroadcastSender.class);
+public class AirtouchDiscoveryBroadcastSender {
+    private AirtouchDiscoveryBroadcastSender() {} // Prevent instantiation.
+    private static final Logger log = LoggerFactory.getLogger(AirtouchDiscoveryBroadcastSender.class);
 
 
     private static DatagramSocket socket = null;

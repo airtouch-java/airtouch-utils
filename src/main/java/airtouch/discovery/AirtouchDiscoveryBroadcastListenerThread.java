@@ -9,26 +9,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.AirtouchVersion;
-import airtouch.discovery.BroadcastResponseCallback.BroadcastResponse;
+import airtouch.discovery.AirtouchDiscoveryBroadcastResponseCallback.AirtouchDiscoveryBroadcastResponse;
 
-public class AirtouchBroadcastListenerThread extends Thread implements Runnable {
+public class AirtouchDiscoveryBroadcastListenerThread extends Thread implements Runnable {
 
-    private static final String DEFAULT_THREAD_NAME = AirtouchBroadcastListenerThread.class.getSimpleName();
+    private static final String DEFAULT_THREAD_NAME = AirtouchDiscoveryBroadcastListenerThread.class.getSimpleName();
 
-    private final Logger log = LoggerFactory.getLogger(AirtouchBroadcastListenerThread.class);
+    private final Logger log = LoggerFactory.getLogger(AirtouchDiscoveryBroadcastListenerThread.class);
 
     private boolean stopping;
     private final AirtouchVersion airtouchVersion;
-    private final BroadcastResponseCallback responseCallback;
+    private final AirtouchDiscoveryBroadcastResponseCallback responseCallback;
 
 
-    public AirtouchBroadcastListenerThread(final AirtouchVersion airtouchVersion, final BroadcastResponseCallback responseCallback) {
+    public AirtouchDiscoveryBroadcastListenerThread(final AirtouchVersion airtouchVersion, final AirtouchDiscoveryBroadcastResponseCallback responseCallback) {
         super(DEFAULT_THREAD_NAME);
         this.airtouchVersion = airtouchVersion;
         this.responseCallback = responseCallback;
     }
 
-    public AirtouchBroadcastListenerThread(final AirtouchVersion airtouchVersion, final BroadcastResponseCallback responseCallback, String threadName) {
+    public AirtouchDiscoveryBroadcastListenerThread(final AirtouchVersion airtouchVersion, final AirtouchDiscoveryBroadcastResponseCallback responseCallback, String threadName) {
         super(threadName);
         this.airtouchVersion = airtouchVersion;
         this.responseCallback = responseCallback;
@@ -49,9 +49,9 @@ public class AirtouchBroadcastListenerThread extends Thread implements Runnable 
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             while (!stopping) {
                 socket.receive(packet);
-                BroadcastResponse broadcastResponse = BroadcastResponseParser.parse(new String(packet.getData(), packet.getOffset(), packet.getLength()));
+                AirtouchDiscoveryBroadcastResponse broadcastResponse = AirtouchDiscoveryBroadcastResponseParser.parse(new String(packet.getData(), packet.getOffset(), packet.getLength()));
                 if (broadcastResponse != null) {
-                this.responseCallback.handleResponse(broadcastResponse);
+                    this.responseCallback.handleResponse(broadcastResponse);
                 }
             }
         } catch (IOException e) {
