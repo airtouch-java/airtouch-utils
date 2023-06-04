@@ -1,14 +1,14 @@
-package airtouch.v4.handler;
+package airtouch.v5.handler;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import airtouch.v4.Request;
-import airtouch.v4.ResponseList;
-import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v4.constant.AirConditionerControlConstants.Mode;
-import airtouch.v4.model.AirConditionerAbilityResponse;
+import airtouch.v5.Request;
+import airtouch.v5.ResponseList;
+import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.v5.constant.AirConditionerControlConstants.Mode;
+import airtouch.v5.model.AirConditionerAbilityResponse;
 import airtouch.utils.HexString;
 
 public class AirConditionerAbilityHandlerTest {
@@ -16,23 +16,23 @@ public class AirConditionerAbilityHandlerTest {
     @Test
     public void testGeneratingAbilityRequest() {
         Request request = AirConditionerAbilityHandler.generateRequest(1, null);
-        assertEquals("555590b0011f0002ff11834C".toUpperCase(), request.getHexString());
+        assertEquals("555555aa90b0011f0002ff11834c".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingAcAbilityRequestForAcZero() {
         Request request = AirConditionerAbilityHandler.generateRequest(1, 0);
-        assertEquals("555590b0011f0003ff11000983".toUpperCase(), request.getHexString());
+        assertEquals("555555aa90b0011f0003ff11000983".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testHandleAcStatusResponse() {
-        // This data is copied from AirTouch4 protocol doc page 10.
-        // 5555 b090 01 1f 001a ff11 0016554e49540000000000000000000000000004171d111f0700 dfbc
-        //                           ^------------------- data block -------------------^
+        // This data is copied from AirTouch5 protocol doc page 13
+        // 555555AA B090 01 1F 001A FF11 0018554E49540000000000000000000000000004171D101f121f checksum
+        //                               ^------------------- data block -------------------^
         // Just pass in the data block. The rest should have been
         // validated and removed earlier.
-        String dataBlockHexString = "0016554e49540000000000000000000000000004171d111f0700";
+        String dataBlockHexString = "0018554E49540000000000000000000000000004171D101f121f";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
         ResponseList<AirConditionerAbilityResponse> response = AirConditionerAbilityHandler.handle(0, dataBlockBytes);

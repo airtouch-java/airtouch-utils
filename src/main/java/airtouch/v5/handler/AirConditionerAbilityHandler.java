@@ -1,4 +1,4 @@
-package airtouch.v4.handler;
+package airtouch.v5.handler;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -8,18 +8,18 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v4.Request;
-import airtouch.v4.ResponseList;
-import airtouch.v4.constant.AirConditionerControlConstants.Mode;
-import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v4.constant.MessageConstants.Address;
-import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AirConditionerAbilityResponse;
+import airtouch.v5.Request;
+import airtouch.v5.ResponseList;
+import airtouch.v5.constant.AirConditionerControlConstants.Mode;
+import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.model.AirConditionerAbilityResponse;
 import airtouch.utils.HexString;
 
 /**
  * Handler for AirConditioner Ability responses<p>
- * Is invoked when a message from the Airtouch4 has been identified as an AirConditioner ability message.
+ * Is invoked when a message from the Airtouch5 has been identified as an AirConditioner ability message.
  */
 public class AirConditionerAbilityHandler extends AbstractHandler {
 
@@ -44,49 +44,49 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
         Data block received from AirTouch (variable number of bytes). See docs page 12.
 
-        | Byte1    |        | Fixed 0xFF           | Note: will have been removed in ExtendedMessageHandler
-        | Byte2    |        | Fixed 0x11           | Note: will have been removed in ExtendedMessageHandler
-        | Byte3    |        | AC number            | 0-3
-        | Byte4    |        | Data length          | This data shows the count of following bytes belong to
-                                                   | the ability of this AC
-        | Byte5-20 |        | AC Name              | 16 bytes in total. If less than 16 bytes, end with 0.
-        | Byte21   |        | Start group number   | TODO: Need to figure out what this is.
-        | Byte22   |        | Group count
-        | Byte23   | Bit8-6 | Not used
-                   | Bit5   | Cool mode            | 1: supported, 0: not supported
-                   | Bit4   | Fan mode             | 1: supported, 0: not supported
-                   | Bit3   | Dry mode             | 1: supported, 0: not supported
-                   | Bit2   | Heat mode            | 1: supported, 0: not supported
-                   | Bit1   | Auto mode            | 1: supported, 0: not supported
-                                                   |
-        | Byte24   | Bit8   | Not used
-                   | Bit7   | Fan speed - Turbo    | 1: supported, 0: not supported
-                   | Bit6   | Fan speed - Powerful | 1: supported, 0: not supported
-                   | Bit5   | Fan speed - High     | 1: supported, 0: not supported
-                   | Bit4   | Fan speed - Medium   | 1: supported, 0: not supported
-                   | Bit3   | Fan speed - Low      | 1: supported, 0: not supported
-                   | Bit2   | Fan speed - Quiet    | 1: supported, 0: not supported
-                   | Bit1   | Fan speed - Auto     | 1: supported, 0: not supported
-                                                   |
-        | Byte25   |        | Minimum set point
-        | Byte26   |        | Maximum set point
-        | Byte27   | Bit8   | Group display option | Group8. 1: show, 0: hide
-                   | Bit7   | Group display option | Group7. 1: show, 0: hide
-                   | Bit6   | Group display option | Group6. 1: show, 0: hide
-                   | Bit5   | Group display option | Group5. 1: show, 0: hide
-                   | Bit4   | Group display option | Group4. 1: show, 0: hide
-                   | Bit3   | Group display option | Group3. 1: show, 0: hide
-                   | Bit2   | Group display option | Group2. 1: show, 0: hide
-                   | Bit1   | Group display option | Group1. 1: show, 0: hide
-                                                   |
-        | Byte28   | Bit8   | Group display option | Group16. 1: show, 0: hide
-                   | Bit7   | Group display option | Group15. 1: show, 0: hide
-                   | Bit6   | Group display option | Group14. 1: show, 0: hide
-                   | Bit5   | Group display option | Group13. 1: show, 0: hide
-                   | Bit4   | Group display option | Group12. 1: show, 0: hide
-                   | Bit3   | Group display option | Group11. 1: show, 0: hide
-                   | Bit2   | Group display option | Group10. 1: show, 0: hide
-                   | Bit1   | Group display option | Group9.  1: show, 0: hide
+        | Byte1    |        | Fixed 0xFF                  | Note: will have been removed in ExtendedMessageHandler
+        | Byte2    |        | Fixed 0x11                  | Note: will have been removed in ExtendedMessageHandler
+        | Byte3    |        | AC number                   | 0-7
+        | Byte4    |        | Data length                 | This data shows the count of following bytes belong to
+                                                          | the ability of this AC
+        | Byte5-20 |        | AC Name                     | 24 bytes in total. If less than 24 bytes, end with 0.
+        | Byte21   |        | Start group number          | TODO: Need to figure out what this is.
+        | Byte22   |        | Zone count                 
+        | Byte23   | Bit8-6 | Not used                   
+                   | Bit5   | Cool mode                   | 1: supported, 0: not supported
+                   | Bit4   | Fan mode                    | 1: supported, 0: not supported
+                   | Bit3   | Dry mode                    | 1: supported, 0: not supported
+                   | Bit2   | Heat mode                   | 1: supported, 0: not supported
+                   | Bit1   | Auto mode                   | 1: supported, 0: not supported
+                                                          |
+        | Byte24   | Bit8   | Fan speed Intelligent Auto  | 1: supported, 0: not supported
+                   | Bit7   | Fan speed - Turbo           | 1: supported, 0: not supported
+                   | Bit6   | Fan speed - Powerful        | 1: supported, 0: not supported
+                   | Bit5   | Fan speed - High            | 1: supported, 0: not supported
+                   | Bit4   | Fan speed - Medium          | 1: supported, 0: not supported
+                   | Bit3   | Fan speed - Low             | 1: supported, 0: not supported
+                   | Bit2   | Fan speed - Quiet           | 1: supported, 0: not supported
+                   | Bit1   | Fan speed - Auto            | 1: supported, 0: not supported
+                                                          |
+        | Byte25   |        | Minimum set point           
+        | Byte26   |        | Maximum set point           
+        | Byte27   | Bit8   | Group display option        | Group8. 1: show, 0: hide
+                   | Bit7   | Group display option        | Group7. 1: show, 0: hide
+                   | Bit6   | Group display option        | Group6. 1: show, 0: hide
+                   | Bit5   | Group display option        | Group5. 1: show, 0: hide
+                   | Bit4   | Group display option        | Group4. 1: show, 0: hide
+                   | Bit3   | Group display option        | Group3. 1: show, 0: hide
+                   | Bit2   | Group display option        | Group2. 1: show, 0: hide
+                   | Bit1   | Group display option        | Group1. 1: show, 0: hide
+                                                          |
+        | Byte28   | Bit8   | Group display option        | Group16. 1: show, 0: hide
+                   | Bit7   | Group display option        | Group15. 1: show, 0: hide
+                   | Bit6   | Group display option        | Group14. 1: show, 0: hide
+                   | Bit5   | Group display option        | Group13. 1: show, 0: hide
+                   | Bit4   | Group display option        | Group12. 1: show, 0: hide
+                   | Bit3   | Group display option        | Group11. 1: show, 0: hide
+                   | Bit2   | Group display option        | Group10. 1: show, 0: hide
+                   | Bit1   | Group display option        | Group9.  1: show, 0: hide
     */
 
     /**
@@ -128,8 +128,8 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
             addIfModeIsSupported(acAbility, airTouchDataBlock[acOffset + 20], 0b00000001, Mode.AUTO);
 
             // byte24 tells us which Fan Speeds are supported. aka 21
-            // The first bit (8) is not used. The remaining 7 bits represent one Speed each.
-            addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b10000000, FanSpeed.TURBO);
+            // The 8 bits represent one Speed each.
+            addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b10000000, FanSpeed.INTELLIGENT_AUTO);
             addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b01000000, FanSpeed.TURBO);
             addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b00100000, FanSpeed.POWERFUL);
             addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b00010000, FanSpeed.HIGH);

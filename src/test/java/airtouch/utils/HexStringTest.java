@@ -1,4 +1,4 @@
-package airtouch.v4.utils;
+package airtouch.utils;
 
 import org.junit.Assert;
 import org.junit.Test;

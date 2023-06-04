@@ -1,17 +1,17 @@
-package airtouch.v4.handler;
+package airtouch.v5.handler;
 
 import org.junit.Test;
 
-import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.utils.HexString;
 
 public class AbstractHandlerTest {
 
-    @Test(expected=IllegalAirtouchResponseException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testCheckHeaderIsRemovedThrowsExceptionWhenDataBlockStartsWithHeader() {
-
-        // This data is copied from AirTouch4 protocol doc page 8.
-        String responseHexString = "5555b080012b000c40640000ff0041e41a8061806579";
+        
+        // This data is copied from AirTouch5 protocol doc page 8 (labeled as page 6).
+        //
+        String responseHexString = "555555AAB08001C0001821000000000800014080968002E700000164FF0007FF0000491F";
         byte[] responseBytes = HexString.toByteArray(responseHexString);
         AbstractHandler.checkHeaderIsRemoved(responseBytes);
     }

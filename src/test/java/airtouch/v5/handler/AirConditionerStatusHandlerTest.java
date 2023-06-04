@@ -1,14 +1,14 @@
-package airtouch.v4.handler;
+package airtouch.v5.handler;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import airtouch.v4.Request;
-import airtouch.v4.ResponseList;
-import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
-import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
-import airtouch.v4.model.AirConditionerStatusResponse;
+import airtouch.v5.Request;
+import airtouch.v5.ResponseList;
+import airtouch.v5.constant.AcStatusConstants.Mode;
+import airtouch.v5.constant.AcStatusConstants.PowerState;
+import airtouch.v5.model.AirConditionerStatusResponse;
 import airtouch.utils.HexString;
 
 public class AirConditionerStatusHandlerTest {

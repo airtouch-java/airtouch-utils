@@ -1,4 +1,4 @@
-package airtouch.v4.utils;
+package airtouch.utils;
 
 public class ByteUtil {
     /* byte[] <==> scalar */

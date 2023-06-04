@@ -17,8 +17,8 @@ import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.handler.MessageHandler;
 import airtouch.v4.internal.MessageHolder;
-import airtouch.v4.utils.ByteUtil;
-import airtouch.v4.utils.SizedStack;
+import airtouch.utils.ByteUtil;
+import airtouch.utils.SizedStack;
 
 public class AirtouchConnectorThread extends Thread implements Runnable {
 

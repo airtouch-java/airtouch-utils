@@ -8,7 +8,7 @@ import org.junit.Test;
 import airtouch.v4.Request;
 import airtouch.v4.ResponseList;
 import airtouch.v4.model.ConsoleVersionResponse;
-import airtouch.v4.utils.HexString;
+import airtouch.utils.HexString;
 
 public class ConsoleVersionHandlerTest {
 

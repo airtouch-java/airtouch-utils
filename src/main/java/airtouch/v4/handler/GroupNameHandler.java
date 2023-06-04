@@ -10,7 +10,7 @@ import airtouch.v4.ResponseList;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
-import airtouch.v4.utils.HexString;
+import airtouch.utils.HexString;
 
 /**
  * Handler for GroupName extended format responses.

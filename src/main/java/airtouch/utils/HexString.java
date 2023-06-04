@@ -1,4 +1,4 @@
-package airtouch.v4.utils;
+package airtouch.utils;
 
 public final class HexString {
 	private static final char[] digits = "0123456789ABCDEF".toCharArray();

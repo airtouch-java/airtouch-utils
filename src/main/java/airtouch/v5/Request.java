@@ -1,17 +1,17 @@
-package airtouch.v4;
+package airtouch.v5;
 
 import java.nio.ByteBuffer;
 
-import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.constant.MessageConstants.Address;
-import airtouch.v4.constant.MessageConstants.MessageType;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
 
 public class Request {
 
-    private ByteBuffer buffer = ByteBuffer.allocateDirect(18); // TODO: make this more relevant.
+    private ByteBuffer buffer = ByteBuffer.allocateDirect(64); // TODO: make this more relevant.
     private Address address;
     private int messageId;
     private MessageType messageType;
@@ -20,7 +20,7 @@ public class Request {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;
-        this.buffer.put(ByteUtil.getBytes(MessageConstants.HEADER, 2));
+        this.buffer.put(ByteUtil.getBytes(MessageConstants.HEADER, 4));
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
         this.buffer.put(ByteUtil.getBytes(messageType.getBytes(), 1));
@@ -31,7 +31,7 @@ public class Request {
 
     private byte[] calculateCheckSum() {
         CRC16Modbus crc = new CRC16Modbus();
-        crc.update(this.getRequestMessage(), 2, this.buffer.position() -2);
+        crc.update(this.getRequestMessage(), 4, this.buffer.position() -4);
         return crc.getCrcBytes();
     }
 
