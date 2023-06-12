@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import airtouch.exception.UnknownAirtouchResponseException;
 import airtouch.v4.Response;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.exception.UnknownAirtouchResponseException;
 import airtouch.v4.utils.HexString;
 
 public class MessageHandlerTest {

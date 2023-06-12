@@ -5,11 +5,11 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.exception.AirtouchResponseCrcException;
+import airtouch.exception.UnknownAirtouchResponseException;
 import airtouch.v4.Response;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.exception.AirtouchResponseCrcException;
-import airtouch.v4.exception.UnknownAirtouchResponseException;
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.CRC16Modbus;
 import airtouch.v4.utils.HexString;

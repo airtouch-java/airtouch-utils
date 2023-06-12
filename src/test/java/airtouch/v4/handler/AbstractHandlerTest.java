@@ -2,7 +2,7 @@ package airtouch.v4.handler;
 
 import org.junit.Test;
 
-import airtouch.v4.exception.IllegalAirtouchResponseException;
+import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.v4.utils.HexString;
 
 public class AbstractHandlerTest {

@@ -1,4 +1,4 @@
-package airtouch.v4.exception;
+package airtouch.exception;
 
 public class UnknownAirtouchResponseException extends RuntimeException {
 

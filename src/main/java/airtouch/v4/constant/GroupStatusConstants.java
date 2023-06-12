@@ -1,6 +1,6 @@
 package airtouch.v4.constant;
 
-import airtouch.v4.exception.UnknownAirtouchResponseException;
+import airtouch.exception.UnknownAirtouchResponseException;
 
 public class GroupStatusConstants {
 

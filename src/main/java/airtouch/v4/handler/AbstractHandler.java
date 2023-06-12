@@ -2,8 +2,8 @@ package airtouch.v4.handler;
 
 import java.util.Arrays;
 
+import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.exception.IllegalAirtouchResponseException;
 import airtouch.v4.utils.ByteUtil;
 
 public abstract class AbstractHandler {
