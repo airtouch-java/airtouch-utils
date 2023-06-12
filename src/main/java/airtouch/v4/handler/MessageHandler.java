@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import airtouch.v4.Response;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
+import airtouch.v4.exception.AirtouchResponseCrcException;
+import airtouch.v4.exception.UnknownAirtouchResponseException;
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.CRC16Modbus;
 import airtouch.v4.utils.HexString;
@@ -55,7 +57,7 @@ public class MessageHandler extends AbstractHandler {
         int crc = ByteUtil.toInt(airTouchMessage, 8 + dataLength, 2);
         long checksum = calculateChecksum(airTouchMessage, 2, airTouchMessage.length -4);
         if (checksum != crc) {
-            throw new IllegalArgumentException(String.format("CRC does not match calculated value. calculatedValue:'%s', fromPayload:'%s'", checksum, crc));
+            throw new AirtouchResponseCrcException(String.format("CRC does not match calculated value. calculatedValue:'%s', fromPayload:'%s'", checksum, crc));
         }
 
         // Now handle the response message with the correct Handler.
@@ -74,9 +76,9 @@ public class MessageHandler extends AbstractHandler {
         case EXTENDED:
             return ExtendedMessageHandler.handle(messageId, data);
 
-        // If we don't know how to handle the message, throw UnsupportedOperationException.
+        // If we don't know how to handle the message, throw UnexpectedAirtouchResponseException.
         default:
-            throw new UnsupportedOperationException(String.format("No Handler available for type '%s'", messageType.toString()));
+            throw new UnknownAirtouchResponseException(String.format("No Handler available for type '%s'", messageType.toString()));
         }
 
     }

@@ -11,13 +11,16 @@ import airtouch.v4.Response;
 import airtouch.v4.ResponseCallback;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
+import airtouch.v4.exception.AirtouchMessagingException;
+import airtouch.v4.exception.AirtouchResponseCrcException;
+import airtouch.v4.exception.UnknownAirtouchResponseException;
 import airtouch.v4.handler.MessageHandler;
 import airtouch.v4.internal.MessageHolder;
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.SizedStack;
 
 public class AirtouchConnectorThread extends Thread implements Runnable {
-    
+
     private static final String DEFAULT_THREAD_NAME = AirtouchConnectorThread.class.getSimpleName();
 
     private final Logger log = LoggerFactory.getLogger(AirtouchConnectorThread.class);
@@ -32,39 +35,39 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
         this.input = input;
         this.responseCallback = responseCallback;
     }
-    
+
     public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
         super(threadName);
         this.input = input;
         this.responseCallback = responseCallback;
     }
-    
+
     public void shutdown() {
         this.stopping = true;
     }
-    
+
     public boolean isRunning() {
         return !this.stopping;
     }
-    
+
     @SuppressWarnings("rawtypes")
     @Override
     public void run() {
-        
+
         int character;
 
         SizedStack<Byte> bytes = new SizedStack<>(8);
-        
+
         MessageHandler messageHandler = new MessageHandler();
         MessageHolder messageHolder = MessageHolder.initialiseEmpty();
-        
+
         try {
             while (!stopping &&  (character = input.read()) != -1) {
                 // Push the character into the byte stack.
                 // The byte stack just stores the last 8 bytes.
                 // We use it to determine if we have started a new message.
                 bytes.push((byte)character);
-                
+
                 // Using the byte stack, check if the last 8 bytes combined
                 // look like the beginning of a new message. If they do
                 // reset our message data with the 8 bytes.
@@ -85,7 +88,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
                 if (log.isTraceEnabled()) {
                     log.trace("Received byte from Airtouch: '{}'", Integer.toHexString(character));
                 }
-                
+
                 // If we have reached our total message size, call the handler to parse
                 // the message and then re-initialise the buffer to handle the next
                 // set of bytes received.
@@ -96,10 +99,15 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
                         if (log.isDebugEnabled()) {
                             log.debug("Received response: '{}'", response);
                         }
-                    } catch (IllegalArgumentException ex) {
+                    } catch (UnknownAirtouchResponseException ex) {
                         log.info("Ignoring unknown message: '{}'", ex.getMessage());
                         if (log.isDebugEnabled()) {
                             log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
+                        }
+                    } catch (AirtouchResponseCrcException ex) {
+                        log.info("Airtouch message has bad CRC: '{}'", ex.getMessage());
+                        if (log.isDebugEnabled()) {
+                            log.debug("Airtouch message has bad CRC: '{}'", ex.getMessage(), ex);
                         }
                     }
                     messageHolder = MessageHolder.initialiseEmpty();
@@ -111,7 +119,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
             throw new AirtouchMessagingException("IOException during Airtouch response reading.", e);
         }
     }
-    
+
     private boolean messageStarted(SizedStack<Byte> bytes) {
         try {
             if (bytes.size() < 8) return false;

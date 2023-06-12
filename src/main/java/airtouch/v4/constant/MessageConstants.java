@@ -1,5 +1,6 @@
 package airtouch.v4.constant;
 
+import airtouch.v4.exception.UnknownAirtouchResponseException;
 import airtouch.v4.utils.ByteUtil;
 import airtouch.v4.utils.HexString;
 
@@ -39,7 +40,7 @@ public class MessageConstants {
             } else if (STANDARD_RECEIVE.getLastByte() == (l & 0x00FF)) {
                 return STANDARD_RECEIVE;
             } else {
-                throw new IllegalArgumentException(
+                throw new UnknownAirtouchResponseException(
                         String.format("Unable to resolve Address from supplied bytes. Supplied bytes are: '%s'",
                                 HexString.fromBytes(ByteUtil.getBytes(l, 2))));
             }
@@ -83,7 +84,7 @@ public class MessageConstants {
             } else if (EXTENDED.getBytes() == byte6) {
                 return EXTENDED;
             } else {
-                throw new IllegalArgumentException(
+                throw new UnknownAirtouchResponseException(
                         String.format("Unable to resolve MessageType from supplied byte. Supplied byte is: '%s'",
                                 Integer.toHexString(byte6)));
             }
@@ -116,7 +117,7 @@ public class MessageConstants {
                     return type;
                 }
             }
-            throw new IllegalArgumentException(String.format(
+            throw new UnknownAirtouchResponseException(String.format(
                     "Unable to resolve ExtendedMessageType from supplied bytes. Supplied bytes are: '%s'",
                     HexString.fromBytes(ByteUtil.getBytes(l, 2))));
         }
