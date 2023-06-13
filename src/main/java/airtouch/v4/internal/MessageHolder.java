@@ -10,20 +10,20 @@ import java.util.Stack;
  * getting the content of the message.
  */
 public class MessageHolder {
-    
+
     private static final int CHECKSUM_BYTES_LENGTH = 2;
     private static final int MESSAGE_HEADER_BYTES_LENGTH = 8;
-    private static final int DEFAULT_BUFFER_SIZE = 18;
+    private static final int DEFAULT_BUFFER_SIZE = 255;
     private int byteCount = 0;
     private int dataLength = 0;
     private ByteBuffer byteBuffer;
-    
+
     private MessageHolder(int byteCount, int dataLength, int bufferSize) {
         this.byteCount = byteCount;
         this.dataLength = dataLength;
         this.byteBuffer = ByteBuffer.allocate(bufferSize);
     }
-    
+
     public void putByte(byte character) {
         byteBuffer.put(character);
         this.byteCount++;
@@ -85,7 +85,7 @@ public class MessageHolder {
     public void setByteCount(int byteCount) {
         this.byteCount = byteCount;
     }
-    
+
     /**
      * Get the expected data length of the message.
      * The dataLength is determined from bytes 7 and 8 of the message to/from Airtouch4.
@@ -97,7 +97,7 @@ public class MessageHolder {
     public void setDataLength(int dataLength) {
         this.dataLength = dataLength;
     }
-    
+
     /**
      * Get the byte[] that backs the buffer.
      * Note: changes to the buffer will be reflected in this byte array.

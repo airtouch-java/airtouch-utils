@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
+import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
 import airtouch.v4.Response;
 import airtouch.v4.ResponseCallback;
@@ -104,11 +105,19 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
                         if (log.isDebugEnabled()) {
                             log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
                         }
+                    } catch (IllegalAirtouchResponseException ex) {
+                        log.info("Ignoring illegal message: '{}'", ex.getMessage());
+                        if (log.isDebugEnabled()) {
+                            log.debug("Ignoring illegal message: '{}'", ex.getMessage(), ex);
+                        }
                     } catch (AirtouchResponseCrcException ex) {
                         log.info("Airtouch message has bad CRC: '{}'", ex.getMessage());
                         if (log.isDebugEnabled()) {
                             log.debug("Airtouch message has bad CRC: '{}'", ex.getMessage(), ex);
                         }
+                    }
+                    if (log.isTraceEnabled()) {
+                        log.trace("Initalising MessageHolder to empty", Integer.toHexString(character));
                     }
                     messageHolder = MessageHolder.initialiseEmpty();
                 }
