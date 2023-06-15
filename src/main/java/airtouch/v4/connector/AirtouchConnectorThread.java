@@ -124,6 +124,8 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
             }
         } catch (SocketException e) {
             // we are expecting a socket exception because we have closed it.
+        } catch (UnknownAirtouchResponseException | IllegalAirtouchResponseException | AirtouchResponseCrcException e) {
+            throw new AirtouchMessagingException("Exception during Airtouch response reading.", e);
         } catch (IOException e) {
             throw new AirtouchMessagingException("IOException during Airtouch response reading.", e);
         }
@@ -136,7 +138,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
             Address address = Address.getFromBytes(ByteUtil.toInt(bytes.get(2), bytes.get(3)));
             return ByteUtil.toInt(bytes.get(0), bytes.get(1)) == MessageConstants.HEADER
                     && (address.equals(Address.STANDARD_RECEIVE) || address.equals(Address.EXTENDED_RECEIVE));
-        } catch (IllegalArgumentException ex) {
+        } catch (UnknownAirtouchResponseException ex) {
             log.info("Ignoring unknown message: '{}'", ex.getMessage());
             if (log.isDebugEnabled()) {
                 log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
