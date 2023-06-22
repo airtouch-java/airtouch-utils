@@ -5,9 +5,9 @@ import java.util.List;
 
 import airtouch.v4.Request;
 import airtouch.v4.ResponseList;
-import airtouch.v4.constant.AcStatusConstants.FanSpeed;
-import airtouch.v4.constant.AcStatusConstants.Mode;
-import airtouch.v4.constant.AcStatusConstants.PowerState;
+import airtouch.v4.constant.AirConditionerStatusConstants.FanSpeed;
+import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
+import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerStatusResponse;
