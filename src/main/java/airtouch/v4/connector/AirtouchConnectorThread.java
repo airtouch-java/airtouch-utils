@@ -22,6 +22,9 @@ import airtouch.v4.utils.SizedStack;
 
 public class AirtouchConnectorThread extends Thread implements Runnable {
 
+    private static final String AIRTOUCH_MESSAGE_HAS_BAD_CRC = "Airtouch message has bad CRC: '{}'";
+    private static final String IGNORING_ILLEGAL_MESSAGE = "Ignoring illegal message: '{}'";
+    private static final String IGNORING_UNKNOWN_MESSAGE = "Ignoring unknown message: '{}'";
     private static final String DEFAULT_THREAD_NAME = AirtouchConnectorThread.class.getSimpleName();
 
     private final Logger log = LoggerFactory.getLogger(AirtouchConnectorThread.class);
@@ -51,7 +54,6 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
         return !this.stopping;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public void run() {
 
@@ -94,40 +96,45 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
                 // the message and then re-initialise the buffer to handle the next
                 // set of bytes received.
                 if (messageHolder.isFinished()) {
-                    try {
-                        Response response = messageHandler.handle(messageHolder.getBytes());
-                        responseCallback.handleResponse(response);
-                        if (log.isDebugEnabled()) {
-                            log.debug("Received response: '{}'", response);
-                        }
-                    } catch (UnknownAirtouchResponseException ex) {
-                        log.info("Ignoring unknown message: '{}'", ex.getMessage());
-                        if (log.isDebugEnabled()) {
-                            log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
-                        }
-                    } catch (IllegalAirtouchResponseException ex) {
-                        log.info("Ignoring illegal message: '{}'", ex.getMessage());
-                        if (log.isDebugEnabled()) {
-                            log.debug("Ignoring illegal message: '{}'", ex.getMessage(), ex);
-                        }
-                    } catch (AirtouchResponseCrcException ex) {
-                        log.info("Airtouch message has bad CRC: '{}'", ex.getMessage());
-                        if (log.isDebugEnabled()) {
-                            log.debug("Airtouch message has bad CRC: '{}'", ex.getMessage(), ex);
-                        }
-                    }
+                    handleFinishedMessage(messageHandler, messageHolder);
                     if (log.isTraceEnabled()) {
-                        log.trace("Initalising MessageHolder to empty", Integer.toHexString(character));
+                        log.trace("Initalising MessageHolder to empty");
                     }
                     messageHolder = MessageHolder.initialiseEmpty();
                 }
             }
         } catch (SocketException e) {
+            log.debug("Socket exception: {}", e.getMessage(), e);
             // we are expecting a socket exception because we have closed it.
         } catch (UnknownAirtouchResponseException | IllegalAirtouchResponseException | AirtouchResponseCrcException e) {
             throw new AirtouchMessagingException("Exception during Airtouch response reading.", e);
         } catch (IOException e) {
             throw new AirtouchMessagingException("IOException during Airtouch response reading.", e);
+        }
+    }
+
+    private void handleFinishedMessage(MessageHandler messageHandler, MessageHolder messageHolder) {
+        try {
+            Response<?> response = messageHandler.handle(messageHolder.getBytes());
+            if (log.isDebugEnabled()) {
+                log.debug("Received response: '{}'. Sending to ", response);
+            }
+            responseCallback.handleResponse(response);
+        } catch (UnknownAirtouchResponseException ex) {
+            log.info(IGNORING_UNKNOWN_MESSAGE, ex.getMessage());
+            if (log.isDebugEnabled()) {
+                log.debug(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
+            }
+        } catch (IllegalAirtouchResponseException ex) {
+            log.info(IGNORING_ILLEGAL_MESSAGE, ex.getMessage());
+            if (log.isDebugEnabled()) {
+                log.debug(IGNORING_ILLEGAL_MESSAGE, ex.getMessage(), ex);
+            }
+        } catch (AirtouchResponseCrcException ex) {
+            log.info(AIRTOUCH_MESSAGE_HAS_BAD_CRC, ex.getMessage());
+            if (log.isDebugEnabled()) {
+                log.debug(AIRTOUCH_MESSAGE_HAS_BAD_CRC, ex.getMessage(), ex);
+            }
         }
     }
 
@@ -139,9 +146,9 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
             return ByteUtil.toInt(bytes.get(0), bytes.get(1)) == MessageConstants.HEADER
                     && (address.equals(Address.STANDARD_RECEIVE) || address.equals(Address.EXTENDED_RECEIVE));
         } catch (UnknownAirtouchResponseException ex) {
-            log.info("Ignoring unknown message: '{}'", ex.getMessage());
+            log.info(IGNORING_UNKNOWN_MESSAGE, ex.getMessage());
             if (log.isDebugEnabled()) {
-                log.debug("Ignoring unknown message: '{}'", ex.getMessage(), ex);
+                log.debug(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
             }
             return false;
         }
