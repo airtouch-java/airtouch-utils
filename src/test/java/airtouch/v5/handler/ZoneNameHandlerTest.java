@@ -14,7 +14,7 @@ public class ZoneNameHandlerTest {
     @Test
     public void testGeneratingZoneNameRequest() {
         Request request = ZoneNameHandler.generateRequest(1, null);
-        assertEquals("555555aa90b0011f0002ff1342CD".toUpperCase(), request.getHexString());
+        assertEquals("555555aa90b0011f0002ff1342cd".toUpperCase(), request.getHexString());
     }
 
     @Test
@@ -39,18 +39,19 @@ public class ZoneNameHandlerTest {
         assertEquals(1, response.size());
         ZoneNameResponse acStatus01 = response.get(0);
         assertEquals(0, acStatus01.getZoneNumber());
-        assertEquals("Zone1", acStatus01.getName());
+        assertEquals("Living", acStatus01.getName());
 
     }
 
     @Test
     public void testHandleAllZonesNameResponse() {
         // This data is copied from AirTouch4 protocol doc page 15.
-        // 5555 b090 01 1f 000b ff12 004c6976696e670000014b69746368656e0002426564726f6f6d00 3993
-        //                           ^-------------------- data block --------------------^
+        // 555555AA b090 01 1F 001D FF12 00064C6976696E6701074B69746368656E0207426564726F6F6D chksum
+        //                               ^------------------- data block -------------------^
         // Just pass in the data block. The rest should have been
         // validated and removed earlier.
-        String dataBlockHexString = "004c6976696e670000014b69746368656e0002426564726f6f6d00";
+        
+        String dataBlockHexString = "00064C6976696E6701074B69746368656E0207426564726F6F6D";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
         ResponseList<ZoneNameResponse> response = ZoneNameHandler.handle(0, dataBlockBytes);

@@ -9,7 +9,10 @@ import airtouch.v5.Request;
 import airtouch.v5.ResponseList;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.constant.ZoneControlConstants;
 import airtouch.v5.model.ZoneNameResponse;
+import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;
 
 /**
@@ -35,37 +38,33 @@ public class ZoneNameHandler extends AbstractHandler {
         Zone Name Extended message(0xFF 0x13)
         ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Data block received from AirTouch (variable number of bytes). See docs page 11.
+        Data block received from AirTouch (variable number of bytes). See docs page 17.
 
-        | Byte1    | Fixed 0xFF
-        | Byte2    | Fixed 0x12
+        | Byte1    | Fixed 0xFF   <- This will have been removed already 
+        | Byte2    | Fixed 0x13   <- This will have been removed already
         | Byte3    | Zone number | 0-15
-        | Byte4-11 | Zone name   | 8 bytes in total. If less than 8 bytes, pad with 0's.
+        | Byte4    | Name length
+        | Byte5-.. | Zone name
 
      */
 
     public static ResponseList<ZoneNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneNameResponse> zoneNames = new ArrayList<>();
-
-        for (int i = 0; i < getZoneCount(airTouchDataBlock); i++) {
-            int zoneOffset = i * 9;
+        
+        int zoneOffset = 0;
+        while (zoneOffset != airTouchDataBlock.length) {
             ZoneNameResponse zoneName = new ZoneNameResponse();
             zoneName.setZoneNumber(airTouchDataBlock[zoneOffset + 0]);
-            String name = new String(stripNulls(Arrays.copyOfRange(airTouchDataBlock, zoneOffset + 1, zoneOffset +9)), StandardCharsets.US_ASCII);
+            int zoneNameLength = airTouchDataBlock[zoneOffset + 1];
+            // Using the zoneNameLength, extract the expected number of bytes of data.
+            String name = new String(Arrays.copyOfRange(airTouchDataBlock, zoneOffset + 2,  zoneOffset + zoneNameLength + 2));
             zoneName.setName(name);
             zoneNames.add(zoneName);
+            zoneOffset = zoneOffset + 2 + zoneNameLength;
         }
+
         return new ResponseList<>(MessageType.ZONE_NAME, messageId, zoneNames);
     }
 
-    private static int getZoneCount(byte[] airTouchDataBlock) {
-        // Our data payload is 9 bytes per zone.
-        // Check that our payload is a multiple of 9 bytes.
-        if (airTouchDataBlock.length % 9 == 0) {
-            return airTouchDataBlock.length / 9;
-        }
-        throw new IllegalArgumentException("ZoneName messageBlock is not a multiple of 9 bytes.");
-
-    }
 }

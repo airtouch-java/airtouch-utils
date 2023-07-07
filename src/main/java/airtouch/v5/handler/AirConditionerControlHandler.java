@@ -24,30 +24,13 @@ import airtouch.v5.model.AirConditionerControlRequest;
  * Request request = AirConditionerControlHandler.generateRequest(MESSAGE_ID, acControlRequest);
  * </pre></code>
  */
-public class AirConditionerControlHandler {
+public class AirConditionerControlHandler extends AbstractControlHandler {
 
     private AirConditionerControlHandler() {}
 
     public static Request generateRequest(int messageId, AirConditionerControlRequest... acControlRequest) {
-        // Our total size of the data array will be 4 bytes per request, plus 8 bytes for the description prefix.
-        int totalSize = (acControlRequest.length * 4) + 8; 
-        ByteBuffer byteBuffer = ByteBuffer.allocate(totalSize);
         
-        byteBuffer.put((byte) MessageConstants.MessageType.AC_CONTROL.getBytes());
-        byteBuffer.put((byte) 0x0); // Byte after a subMessageType is always '0x00'
-        
-        byteBuffer.put((byte) 0x0); // No "normal data", so these next 2 bytes are zeros. 
-        byteBuffer.put((byte) 0x0);
-        
-        byteBuffer.put((byte) 0x0); // Our actual data is 4 bytes so add 0x0004
-        byteBuffer.put((byte) 0x4);
-        
-        byteBuffer.put((byte) 0x0); 
-        byteBuffer.put((byte) acControlRequest.length); // Number of repeats of the data.
-        
-        for (int i = 0; i < acControlRequest.length; i++) {
-            byteBuffer.put(acControlRequest[i].getBytes());
-        }
+        ByteBuffer byteBuffer = assembleRequest(MessageConstants.ControlOrStatusMessageSubType.AC_CONTROL.getBytes(), acControlRequest);
         return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
     }
 

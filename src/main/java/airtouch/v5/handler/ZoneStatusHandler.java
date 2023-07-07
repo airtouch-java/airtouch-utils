@@ -8,6 +8,7 @@ import airtouch.v5.ResponseList;
 import airtouch.v5.constant.ZoneStatusConstants.ControlMethod;
 import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ZoneStatusResponse;
 
@@ -16,29 +17,30 @@ public class ZoneStatusHandler extends AbstractHandler {
     public static Request generateRequest(int messageId, Integer zoneNumber) {
 
         // Empty data array for zone Status request.
-        byte[] data = new byte[] {};
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.ZONE_STATUS, data);
+        byte[] data = new byte[] { 0x00, 0x08,  0x00,  0x00};
+        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS, data);
     }
 
     /*
         Zone status message(0x2B)
         ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Data block received from AirTouch (6 bytes). See docs page 5.
+        Data block received from AirTouch (8 bytes). See docs page 5.
 
         | Byte1 | Bit8-7 | Zone power state  | 00: Off, 01: On, 11: Turbo
         |       | Bit6-1 | Zone number       | 0-15
         | Byte2 | Bit8   | Control method    | 1: temperature control, 0: percentage control
         |       | Bit7-1 | Open percentage   | Current open percentage setting
-        | Byte3 | Bit8   | Battery low       | 1: battery low, 0: normal
-        |       | Bit7   | Turbo support     | 1: Support turbo, 0: not support turbo
-        |       | Bit6-1 | Target setpoint   | Current target setpoint setting
+        | Byte3 |        | Setpoint          | setpoint=(value+100)/10, 0xFF invalid
         | Byte4 | Bit8   | Sensor            | 1: has sensor, 0: no sensor
         |       | Bit7-1 |                   | NOT USED
-        | Byte5 |        | Temperature       | Byte5=0xff indicates temp not available
-        | Byte6 | Bit8-6 | (Total: 11Bits)   | Current Temperature = (VALUE - 500)/10
-        |       | Bit5   | Spill             | 1: Spill
-        |       | Bit4-1 |                   | NOT USED
+        | Byte5 |        | Temperature       | Temperature=(value- 500)/10, temp>150 invalid
+        | Byte6 |        |                   | 
+        | Byte7 | Bit8-3 |                   | NOT USED
+        |       | Bit2   | Spill             | 1: Spill
+        |       | Bit1   | Battery low       | 1: battery low, 0: normal
+        | Byte8 |        |                   | NOT USED
+
     */
 
     /**
@@ -58,24 +60,24 @@ public class ZoneStatusHandler extends AbstractHandler {
             zoneStatus.setZoneNumber(resolveZoneNumber(airTouchDataBlock[zoneOffset + 0]));
             zoneStatus.setControlMethod(ControlMethod.getFromByte(airTouchDataBlock[zoneOffset + 1]));
             zoneStatus.setOpenPercentage(determineOpenPercentage(airTouchDataBlock[zoneOffset + 1]));
-            zoneStatus.setBatteryLow(determineBatteryLow(airTouchDataBlock[zoneOffset + 2]));
-            zoneStatus.setTurboSupported(determineTurboSupported(airTouchDataBlock[zoneOffset + 2]));
             zoneStatus.setTargetSetpoint(determineTargetSetpoint(airTouchDataBlock[zoneOffset + 2]));
             zoneStatus.setHasTemperatureSensor(determineHasTemperatureSensor(airTouchDataBlock[zoneOffset + 3]));
             zoneStatus.setCurrentTemperature(determineCurrentTemperature(
                     airTouchDataBlock[zoneOffset + 4],
                     airTouchDataBlock[zoneOffset + 5]));
-            zoneStatus.setSpill(determinerSpill(airTouchDataBlock[zoneOffset + 5]));
+            zoneStatus.setSpill(determinerSpill(airTouchDataBlock[zoneOffset + 6]));
+            zoneStatus.setBatteryLow(determineBatteryLow(airTouchDataBlock[zoneOffset + 6]));
+            //zoneStatus.setTurboSupported(determineTurboSupported(airTouchDataBlock[zoneOffset + 6]));
             zoneStatuses.add(zoneStatus);
         }
         return new ResponseList<>(MessageType.ZONE_STATUS, messageId, zoneStatuses);
     }
 
-    private static boolean determinerSpill(byte byte6) {
-        // bitmask everything except the fourth bit.
-        int isSpill = byte6 & 0b00010000;
-        // Shift the bits right by 4 so that bit 4 becomes the LSB.
-        isSpill = isSpill >> 4;
+    private static boolean determinerSpill(byte byte7) {
+        // bitmask everything except the second to last bit.
+        int isSpill = byte7 & 0b00000010;
+        // Shift the bits right by 1 so that bit 2 becomes the LSB.
+        isSpill = isSpill >> 1;
         return isSpill == 1;
     }
 
@@ -84,10 +86,10 @@ public class ZoneStatusHandler extends AbstractHandler {
             return null; // Current Temp is not available.
         }
         // Combine byte5, and the 3 MSBs from byte6
-        int temperatureUpper8bits = byte5 << 3;
-        int temperatureLower3bits = byte6 & 0b11100000;
-        temperatureLower3bits = temperatureLower3bits>>> 5;
-        int temperature = temperatureUpper8bits | temperatureLower3bits;
+        int temperatureUpper8bits = byte5 << 8;
+        int temperatureLower8bits = byte6 << 0;
+        temperatureLower8bits = temperatureLower8bits>>> 5;
+        int temperature = temperatureUpper8bits | temperatureLower8bits;
         // Get value from byte, subtract 500 and then divide by 10.
         return (temperature-500)/10;
     }
@@ -114,11 +116,9 @@ public class ZoneStatusHandler extends AbstractHandler {
         return turboSupported == 1;
     }
 
-    private static boolean determineBatteryLow(byte byte3) {
-        // bitmask everything except the first bit.
-        int batteryLow = byte3 & 0b10000000;
-        // Shift the bits right by 7 so that our MSB becomes the LSB.
-        batteryLow = batteryLow >> 7;
+    private static boolean determineBatteryLow(byte byte7) {
+        // bitmask everything except the bit.
+        int batteryLow = byte7 & 0b00000001;
         return batteryLow == 1;
     }
 
@@ -143,12 +143,12 @@ public class ZoneStatusHandler extends AbstractHandler {
     }
 
     private static int getZoneCount(byte[] airTouchDataBlock) {
-        // Our data payload is 6 bytes per zone.
-        // Check that our payload is a multiple of 6 bytes.
-        if (airTouchDataBlock.length % 6 == 0) {
-            return airTouchDataBlock.length / 6;
+        // Our data payload is 8 bytes per zone.
+        // Check that our payload is a multiple of 8 bytes.
+        if (airTouchDataBlock.length % 8 == 0) {
+            return airTouchDataBlock.length / 8;
         }
-        throw new IllegalArgumentException("ZoneStatus messageBlock is not a multiple of 6 bytes");
+        throw new IllegalArgumentException("ZoneStatus messageBlock is not a multiple of 8 bytes");
         
     }
 

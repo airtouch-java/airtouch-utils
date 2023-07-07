@@ -38,6 +38,28 @@ public abstract class AbstractHandler {
         }
     }
     
+
+    /**
+     * Determines if the dataBlock's first two bytes match the valueToMatch value.
+     * Throws {@link IllegalArgumentException} if they do not.
+     * <p>
+     * The byte array passed should contain all the data bytes including the message type.
+     *
+     * @param valueToMatch - The value expected to find in the first two bytes of airTouchDataBlock
+     * @param airTouchDataBlock - The byte array whose first two bytes should match the valueToMatch
+     * @throws IllegalArgumentException
+     */
+    protected static void checkMessageTypeMatchFirstTwoBytes(int valueToMatch, byte[] airTouchDataBlock) {
+        if (! checkMessageTypeMatchesFirstTwoBytes(valueToMatch, airTouchDataBlock)) {
+            throw new IllegalArgumentException("First two bytes not found in message data. Expected " + Integer. toHexString(valueToMatch));
+        }
+    }
+    private static boolean checkMessageTypeMatchesFirstTwoBytes(int valueToMatch, byte[] airTouchDataBlock) {
+        long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 2);
+        return firstTwoBytes == valueToMatch;
+        
+    }
+    
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
      * <p>
@@ -47,8 +69,8 @@ public abstract class AbstractHandler {
      * @param airTouchDataBlock
      */
     protected static boolean isHeaderPresent(byte[] airTouchDataBlock) {
-        long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 4);
-        return firstTwoBytes == MessageConstants.HEADER;
+        long firstFourBytes = ByteUtil.toLong(airTouchDataBlock, 0, 4);
+        return firstFourBytes == MessageConstants.HEADER;
     }
 
 	protected static byte[] stripNulls(byte[] allBytesIncludingNulls) {

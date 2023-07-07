@@ -38,7 +38,7 @@ public class MessageHandler extends AbstractHandler {
         int messageId = airTouchMessage[6];
 
         // Determine the type of response we have received.
-        MessageType messageType =  MessageType.getFromByte(airTouchMessage[7]);
+        MessageType messageType =  MessageType.getFromByte((airTouchMessage[7] & 0xFF));
 
         // Get the size of the data block. Messages can have different sized dataBlocks,
         // so read this to determine how many bytes we are going to handle.
@@ -60,6 +60,8 @@ public class MessageHandler extends AbstractHandler {
 
         // Now handle the response message with the correct Handler.
         switch (messageType) {
+        
+        case CONTROL_OR_STATUS:
 
         // Group control actions, and Group status requests will return a GROUP_STATUS response.
         case ZONE_STATUS:

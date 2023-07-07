@@ -6,7 +6,7 @@ import airtouch.v5.constant.AirConditionerControlConstants.Mode;
 import airtouch.v5.constant.AirConditionerControlConstants.SetpointControl;
 
 
-public class AirConditionerControlRequest {
+public class AirConditionerControlRequest implements ControlRequest {
 
     private int acNumber;
     private AcPower acPower;

@@ -4,7 +4,7 @@ import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
 import airtouch.v5.constant.ZoneControlConstants.ZonePower;
 import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;
 
-public class ZoneControlRequest {
+public class ZoneControlRequest implements ControlRequest {
 
     private Integer zoneNumber;
     private ZoneSetting zoneSetting;

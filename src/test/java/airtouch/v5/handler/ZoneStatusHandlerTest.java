@@ -13,8 +13,10 @@ public class ZoneStatusHandlerTest {
 
     @Test
     public void testGeneratingZoneStatusRequest() {
+        //555555AA80B001C000082100000000000000
+        
         Request request = ZoneStatusHandler.generateRequest(1, 0);
-        assertEquals("555555AA80B001C000082100000000000000A431".toUpperCase(), request.getHexString());
+        assertEquals("555555aa80b001c000082100000000000000a431".toUpperCase(), request.getHexString());
     }
 
     @Test

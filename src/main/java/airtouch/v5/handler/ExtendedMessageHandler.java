@@ -28,7 +28,7 @@ public class ExtendedMessageHandler extends AbstractHandler {
             // Strip off the first two bytes, as they will be the 0xFF 0x10 for Console Version.
             return AirConditionerErrorHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
         case ZONE_NAME:
-            // Strip off the first two bytes, as they will be the 0xFF 0x12 for ZoneName.
+            // Strip off the first two bytes, as they will be the 0xFF 0x13 for ZoneName.
             return ZoneNameHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
         case AC_ABILITY:
             // Strip off the first two bytes, as they will be the 0xFF 0x11 for AC Ability.

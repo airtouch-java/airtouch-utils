@@ -51,17 +51,17 @@ public class MessageConstants {
     }
 
     public enum MessageType {
-        ZONE_CONTROL(0x20),
-        ZONE_STATUS(0x21),
-        AC_CONTROL(0x22),
-        AC_STATUS(0x23),
         CONTROL_OR_STATUS(0xC0),
         EXTENDED(0x1F),
         
 
         AC_ABILITY(0xFF11),       // Extended Message sub-type
         ZONE_NAME(0xFF13),        // Extended Message sub-type
-        CONSOLE_VERSION(0xFF30);  // Extended Message sub-type
+        CONSOLE_VERSION(0xFF30),  // Extended Message sub-type
+        
+        ZONE_STATUS(0x21),        // Status Message sub-type
+        AC_STATUS(0x23);          // Status Message sub-type
+
 
         private int bytes;
 
@@ -73,7 +73,36 @@ public class MessageConstants {
             return bytes & 0xFF;
         }
 
-        public static MessageType getFromByte(byte byte8) {
+        public static MessageType getFromByte(int byte8) {
+            if (CONTROL_OR_STATUS.getBytes() == byte8) {
+                return CONTROL_OR_STATUS;
+            } else if (EXTENDED.getBytes() == byte8) {
+                return EXTENDED;
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("Unable to resolve MessageType from supplied byte. Supplied byte is: '%s'",
+                                Integer.toHexString(byte8)));
+            }
+        }
+    }
+    
+    public enum ControlOrStatusMessageSubType {
+        ZONE_CONTROL(0x20),
+        ZONE_STATUS(0x21),
+        AC_CONTROL(0x22),
+        AC_STATUS(0x23);
+        
+        private int bytes;
+
+        ControlOrStatusMessageSubType(int bytes) {
+            this.bytes = bytes;
+        }
+
+        public int getBytes() {
+            return bytes & 0xFF;
+        }
+        
+        public static ControlOrStatusMessageSubType getFromBytes(int byte8) {
             if (ZONE_CONTROL.getBytes() == byte8) {
                 return ZONE_CONTROL;
             } else if (ZONE_STATUS.getBytes() == byte8) {
@@ -82,13 +111,9 @@ public class MessageConstants {
                 return AC_CONTROL;
             } else if (AC_STATUS.getBytes() == byte8) {
                 return AC_STATUS;
-            } else if (CONTROL_OR_STATUS.getBytes() == byte8) {
-                return CONTROL_OR_STATUS;
-            } else if (EXTENDED.getBytes() == byte8) {
-                return EXTENDED;
             } else {
                 throw new IllegalArgumentException(
-                        String.format("Unable to resolve MessageType from supplied byte. Supplied byte is: '%s'",
+                        String.format("Unable to resolve ControlOrStatusMessageSubType from supplied byte. Supplied byte is: '%s'",
                                 Integer.toHexString(byte8)));
             }
         }
