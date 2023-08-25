@@ -3,6 +3,7 @@ package airtouch.v5.handler;
 import java.util.Arrays;
 
 import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.model.SubMessageMetaData;
 import airtouch.utils.ByteUtil;
 
 public abstract class AbstractHandler {
@@ -71,6 +72,15 @@ public abstract class AbstractHandler {
     protected static boolean isHeaderPresent(byte[] airTouchDataBlock) {
         long firstFourBytes = ByteUtil.toLong(airTouchDataBlock, 0, 4);
         return firstFourBytes == MessageConstants.HEADER;
+    }
+    
+    protected static boolean verifySubTypeData(SubMessageMetaData subMessageMetaData, byte[] subMessageDataBlock) {
+        if (subMessageDataBlock.length % subMessageMetaData.getRepeatDataCount() == 0) {
+            return true;
+        }
+        throw new IllegalArgumentException(String.format("subMessageDataBlock is not a multiple of %s bytes. Length is: %s", 
+                subMessageMetaData.getEachRepeatDataLength(), subMessageDataBlock.length));
+
     }
 
 	protected static byte[] stripNulls(byte[] allBytesIncludingNulls) {

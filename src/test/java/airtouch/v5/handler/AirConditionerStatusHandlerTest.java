@@ -15,14 +15,15 @@ public class AirConditionerStatusHandlerTest {
 
     @Test
     public void testGeneratingAcStatusRequest() {
-        Request request = AirConditionerStatusHandler.generateRequest(1, null);
-        assertEquals("555580b0012d0000f4cf".toUpperCase(), request.getHexString());
+        Request request = AirConditionerStatusHandler.generateRequest(1);
+        assertEquals("555555AA80B001C0000823000000000000007DB0".toUpperCase(), request.getHexString());
     }
     
     @Test
     public void testHandleAcStatusResponse() {
         // This data is copied from AirTouch4 protocol doc page 8.
         // 5555 b080 01 2d 0010 40421a006180000001001a006180fffe cacb
+        // 555555AA B080 01 C0 001C 23000000000A0002101278C002DA00008000014264C002E400008000 1234
         //                      ^--------- data block ---------^
         // Just pass in the data block. The rest should have been
         // validated and removed earlier.

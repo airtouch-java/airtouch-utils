@@ -3,6 +3,7 @@ package airtouch.v5.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import airtouch.utils.ByteUtil;
 import airtouch.v5.Request;
 import airtouch.v5.ResponseList;
 import airtouch.v5.constant.ZoneStatusConstants.ControlMethod;
@@ -10,15 +11,13 @@ import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.model.SubMessageMetaData;
 import airtouch.v5.model.ZoneStatusResponse;
 
 public class ZoneStatusHandler extends AbstractHandler {
 
     public static Request generateRequest(int messageId, Integer zoneNumber) {
-
-        // Empty data array for zone Status request.
-        byte[] data = new byte[] { 0x00, 0x08,  0x00,  0x00};
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS, data);
+        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS);
     }
 
     /*
@@ -46,15 +45,16 @@ public class ZoneStatusHandler extends AbstractHandler {
     /**
      * Parse the Zone Status data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
+     * @param subMessageMetaData 
      *
      * @param airTouchDataBlock
      * @return a List of ZoneStatus objects. One for each zone message found.
      */
-    public static ResponseList<ZoneStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneStatusResponse> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneStatusResponse> zoneStatuses = new ArrayList<>();
-        for (int i = 0; i < getZoneCount(airTouchDataBlock); i++) {
-            int zoneOffset = i * 6;
+        for (int i = 0; i <= subMessageMetaData.getRepeatDataCount(); i++) {
+            int zoneOffset = i * 8;
             ZoneStatusResponse zoneStatus = new ZoneStatusResponse();
             zoneStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[zoneOffset + 0]));
             zoneStatus.setZoneNumber(resolveZoneNumber(airTouchDataBlock[zoneOffset + 0]));
@@ -85,11 +85,8 @@ public class ZoneStatusHandler extends AbstractHandler {
         if (-1 == byte5) {  // TODO: Need to confirm that 0xFF == -1
             return null; // Current Temp is not available.
         }
-        // Combine byte5, and the 3 MSBs from byte6
-        int temperatureUpper8bits = byte5 << 8;
-        int temperatureLower8bits = byte6 << 0;
-        temperatureLower8bits = temperatureLower8bits>>> 5;
-        int temperature = temperatureUpper8bits | temperatureLower8bits;
+        // Combine byte5, and byte6
+        int temperature = ByteUtil.toInt(byte5, byte6);
         // Get value from byte, subtract 500 and then divide by 10.
         return (temperature-500)/10;
     }
@@ -103,17 +100,7 @@ public class ZoneStatusHandler extends AbstractHandler {
     }
 
     private static int determineTargetSetpoint(byte byte3) {
-        // bitmask the first two bits, since we used them for the batteryLow and turboSupported
-        // Return the rest of the bits.
-        return byte3 & 0b00111111;
-    }
-
-    private static boolean determineTurboSupported(byte byte3) {
-        // bitmask everything except the second bit.
-        int turboSupported = byte3 & 0b01000000;
-        // Shift the bits right by 6 so that our MSB becomes the LSB.
-        turboSupported = turboSupported >> 6;
-        return turboSupported == 1;
+        return ((byte3 & 0xff) + 100) /10;
     }
 
     private static boolean determineBatteryLow(byte byte7) {
@@ -148,7 +135,7 @@ public class ZoneStatusHandler extends AbstractHandler {
         if (airTouchDataBlock.length % 8 == 0) {
             return airTouchDataBlock.length / 8;
         }
-        throw new IllegalArgumentException("ZoneStatus messageBlock is not a multiple of 8 bytes");
+        throw new IllegalArgumentException("ZoneStatus messageBlock is not a multiple of 8 bytes. Length is:" + airTouchDataBlock.length);
         
     }
 

@@ -1,6 +1,6 @@
 package airtouch.v5.handler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -19,8 +19,8 @@ public class ZoneControlHandlerTest {
                 .build();
 
        
-        Request request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
-        assertEquals("555555AA80B00FC0000C20000000000400010102FF00".toUpperCase(), request.getHexString());
+        Request request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        assertEquals("555555aa80b00fc0000c20000000000400010102000000e0".toUpperCase(), request.getHexString());
     }
 
     @Test
@@ -30,18 +30,25 @@ public class ZoneControlHandlerTest {
                 .power(ZonePower.POWER_OFF)
                 .build();
 
-        Request request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
-        assertEquals("555555aa80b0012a000401020000da59".toUpperCase(), request.getHexString());
+        Request request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        assertEquals("555555aa80b00fc0000c20000000000400010102000000e0".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGenerateRequestPercetageControlFirstZone() {
         ZoneControlRequest zoneControlRequest = new ZoneControlRequestBuilder(0)
                 .control(ZoneControl.PERCENTAGE_CONTROL)
+                .settingValue(0)
                 .build();
 
-        Request request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
-        assertEquals("555555aa80b0012a00040010000023f8".toUpperCase(), request.getHexString());
+        Request request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        assertEquals("555555aa80b00fc0000c20000000000400010102ff00".toUpperCase(), request.getHexString());
+    }
+    
+    @Test
+    public void determineHex() {
+        int byte2 = 0b10000000;
+        System.out.println(byte2 & 0xFF);
     }
 
 }

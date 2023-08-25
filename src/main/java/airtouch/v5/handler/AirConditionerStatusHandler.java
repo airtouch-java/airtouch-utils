@@ -1,14 +1,17 @@
 package airtouch.v5.handler;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import airtouch.v5.Request;
 import airtouch.v5.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AcStatusConstants.FanSpeed;
 import airtouch.v5.constant.AcStatusConstants.Mode;
 import airtouch.v5.constant.AcStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.AirConditionerStatusResponse;
 import airtouch.utils.ByteUtil;
@@ -17,19 +20,10 @@ import airtouch.utils.ByteUtil;
  * Handler for AirConditioner Status responses<p>
  * Is invoked when a message from the Airtouch5 has been identified as an AirConditioner status message.
  */
-public class AirConditionerStatusHandler extends AbstractHandler {
+public class AirConditionerStatusHandler extends AbstractControlHandler {
 
-    public static Request generateRequest(int messageId, Integer acNumber) {
-
-        if (acNumber == null) { // No AC number, so ask for all ACs.
-            // Empty data array for AC Status request.
-            byte[] data = new byte[] {};
-            return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_STATUS, data);
-        } else {
-            // Data array for AC Status request for specific AC unit.
-            byte[] data = { (byte) (acNumber & 0xFF) };
-            return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_STATUS, data);
-        }
+    public static Request generateRequest(int messageId) {
+        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.AC_STATUS);
     }
 
     /*

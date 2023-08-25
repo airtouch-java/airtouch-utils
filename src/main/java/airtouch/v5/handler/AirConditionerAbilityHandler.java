@@ -138,9 +138,13 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
             addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b00000010, FanSpeed.QUIET);
             addIfFanSpeedIsSupported(acAbility, airTouchDataBlock[acOffset + 21], 0b00000001, FanSpeed.AUTO);
 
-            // byte25 and 26 are the min and max setpoint.
-            acAbility.setMinSetPoint(airTouchDataBlock[acOffset + 22] & 0xFF);
-            acAbility.setMaxSetPoint(airTouchDataBlock[acOffset + 23] & 0xFF);
+            // byte25 and 26 are the min and max cool setpoint.
+            acAbility.setMinCoolSetPoint(airTouchDataBlock[acOffset + 22] & 0xFF);
+            acAbility.setMaxCoolSetPoint(airTouchDataBlock[acOffset + 23] & 0xFF);
+            
+            // byte27 and 28 are the min and max heat setpoint.
+            acAbility.setMinHeatSetPoint(airTouchDataBlock[acOffset + 24] & 0xFF);
+            acAbility.setMaxHeatSetPoint(airTouchDataBlock[acOffset + 25] & 0xFF);
 
             acAbilities.add(acAbility);
         }

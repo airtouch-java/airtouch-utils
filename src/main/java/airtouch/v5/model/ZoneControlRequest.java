@@ -38,7 +38,7 @@ public class ZoneControlRequest implements ControlRequest {
     }
 
     public byte[] getBytes() {
-       byte byte1 = (byte) (this.zoneNumber & 0xFF);
+       byte byte1 = (byte) (this.zoneNumber & 0b00111111);
        byte byte2 = (byte) (zoneSetting.getBits() | zoneControl.getBits() | zonePower.getBits());
        byte byte3 = (byte) (settingValue & 0xFF);
        return new byte[] {

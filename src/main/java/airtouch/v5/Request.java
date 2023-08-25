@@ -30,7 +30,7 @@ public class Request {
         this.buffer.put(calculateCheckSum());
     }
     
-    public Request(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType, byte[] data) {
+    public Request(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType) {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;
@@ -38,6 +38,8 @@ public class Request {
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
         this.buffer.put(ByteUtil.getBytes(messageType.getBytes(), 1));
+        byte[] data = new byte[] { (byte) subType.getBytes(), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
         this.buffer.put(ByteUtil.getBytes(data.length, 2));
         this.buffer.put(data);
         this.buffer.put(calculateCheckSum());

@@ -1,5 +1,6 @@
 package airtouch.v4.constant;
 
+import airtouch.exception.UnknownAirtouchResponseException;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;
 

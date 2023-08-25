@@ -1,19 +1,15 @@
 package airtouch.v5.handler;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import airtouch.utils.HexString;
 import airtouch.v5.Request;
 import airtouch.v5.ResponseList;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.ZoneControlConstants;
 import airtouch.v5.model.ZoneNameResponse;
-import airtouch.utils.ByteUtil;
-import airtouch.utils.HexString;
 
 /**
  * Handler for ZoneName extended format responses.

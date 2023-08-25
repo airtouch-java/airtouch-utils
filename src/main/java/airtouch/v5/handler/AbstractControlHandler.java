@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import airtouch.v5.model.ControlRequest;
 
-public abstract class AbstractControlHandler {
+public abstract class AbstractControlHandler extends AbstractHandler {
     
     protected static ByteBuffer assembleRequest(int messageSubType, ControlRequest... controlRequests) {
         int totalSize = (controlRequests.length * 4) + 8; 
@@ -20,7 +20,7 @@ public abstract class AbstractControlHandler {
         byteBuffer.put((byte) 0x4);
         
         byteBuffer.put((byte) 0x0); 
-        byteBuffer.put((byte) controlRequests.length); // Number of repeats of the data.
+        byteBuffer.put((byte) (controlRequests.length & 0xFF)); // Number of repeats of the data.
         
         for (int i = 0; i < controlRequests.length; i++) {
             byteBuffer.put(controlRequests[i].getBytes());

@@ -16,8 +16,10 @@ public class AirConditionerAbilityResponse {
     private Set<AirConditionerControlConstants.Mode> supportedModes = new HashSet<>();
     private Set<AirConditionerControlConstants.FanSpeed> supportedFanSpeeds = new HashSet<>();
 
-    private int minSetPoint;
-    private int maxSetPoint;
+    private int minCoolSetPoint;
+    private int maxCoolSetPoint;
+    private int minHeatSetPoint;
+    private int maxHeatSetPoint;
     public int getAcNumber() {
         return acNumber;
     }
@@ -59,24 +61,37 @@ public class AirConditionerAbilityResponse {
         return this.supportedFanSpeeds.add(fanSpeed);
     }
 
-    public int getMinSetPoint() {
-        return minSetPoint;
+    public int getMinCoolSetPoint() {
+        return minCoolSetPoint;
     }
-    public void setMinSetPoint(int minSetPoint) {
-        this.minSetPoint = minSetPoint;
+    public void setMinCoolSetPoint(int minSetPoint) {
+        this.minCoolSetPoint = minSetPoint;
     }
-    public int getMaxSetPoint() {
-        return maxSetPoint;
+    public int getMaxCoolSetPoint() {
+        return maxCoolSetPoint;
     }
-    public void setMaxSetPoint(int maxSetPoint) {
-        this.maxSetPoint = maxSetPoint;
+    public void setMaxCoolSetPoint(int maxSetPoint) {
+        this.maxCoolSetPoint = maxSetPoint;
+    }
+    
+    public int getMinHeatSetPoint() {
+        return minHeatSetPoint;
+    }
+    public void setMinHeatSetPoint(int minSetPoint) {
+        this.minHeatSetPoint = minSetPoint;
+    }
+    public int getMaxHeatSetPoint() {
+        return maxHeatSetPoint;
+    }
+    public void setMaxHeatSetPoint(int maxSetPoint) {
+        this.maxHeatSetPoint = maxSetPoint;
     }
     @Override
     public String toString() {
         return "AirConditionerAbilityResponse [acNumber=" + acNumber + ", acName=" + acName + ", startGroupNumber="
                 + startGroupNumber + ", groupCount=" + groupCount + ", supportedModes=" + supportedModes
-                + ", supportedFanSpeeds=" + supportedFanSpeeds + ", minSetPoint=" + minSetPoint + ", maxSetPoint="
-                + maxSetPoint + "]";
+                + ", supportedFanSpeeds=" + supportedFanSpeeds + ", minCoolSetPoint=" + minCoolSetPoint + ", maxCoolSetPoint="
+                + maxCoolSetPoint + " , minHeatSetPoint=" + minHeatSetPoint + ", maxHeatSetPoint=" + maxHeatSetPoint + "]";
     }
 
 

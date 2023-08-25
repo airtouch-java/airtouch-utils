@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.v5.Response;
 import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.model.SubMessageMetaData;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
@@ -53,7 +55,7 @@ public class MessageHandler extends AbstractHandler {
 
         // After the dataBlock is the CRC. Validate the CRC.
         int crc = ByteUtil.toInt(airTouchMessage, 10 + dataLength, 2);
-        long checksum = calculateChecksum(airTouchMessage, 4, airTouchMessage.length -4);
+        long checksum = calculateChecksum(airTouchMessage, 4, airTouchMessage.length -6);
         if (checksum != crc) {
             throw new IllegalArgumentException(String.format("CRC does not match calculated value. calculatedValue:'%s', fromPayload:'%s'", checksum, crc));
         }
@@ -62,14 +64,8 @@ public class MessageHandler extends AbstractHandler {
         switch (messageType) {
         
         case CONTROL_OR_STATUS:
-
-        // Group control actions, and Group status requests will return a GROUP_STATUS response.
-        case ZONE_STATUS:
-            return ZoneStatusHandler.handle(messageId, data);
-
-        // AC control actions, and AC status requests will return an AC_STATUS response.
-        case AC_STATUS:
-            return AirConditionerStatusHandler.handle(messageId, data);
+            log.debug("CONTROL_OR_STATUS");
+            return handleControlOrStatus(determineSubMessageMetaData(data), messageId, Arrays.copyOfRange(data, 8, dataLength));
 
         // Extended messages (since console version 1.0.5) have the actual message type as the first
         // byte of the data, so handle those with their own Handler.
@@ -81,6 +77,32 @@ public class MessageHandler extends AbstractHandler {
             throw new UnsupportedOperationException(String.format("No Handler available for type '%s'", messageType.toString()));
         }
 
+    }
+
+    private Response<?> handleControlOrStatus(SubMessageMetaData subMessageMetaData, int messageId, byte[] data) {
+        verifySubTypeData(subMessageMetaData, data);
+
+        switch (subMessageMetaData.getSubMessageType()) {
+        // Group control actions, and Group status requests will return a GROUP_STATUS response.
+        case ZONE_STATUS:
+            return ZoneStatusHandler.handle(subMessageMetaData, messageId, data);
+
+        // AC control actions, and AC status requests will return an AC_STATUS response.
+        case AC_STATUS:
+            return AirConditionerStatusHandler.handle(messageId, data);
+        // If we don't know how to handle the message, throw UnsupportedOperationException.
+        default:
+            throw new UnsupportedOperationException(String.format("No Handler available for type '%s'", subMessageMetaData.getSubMessageType().toString()));
+        }
+    }
+
+    protected static SubMessageMetaData determineSubMessageMetaData(byte[] airTouchMessage) {
+        SubMessageMetaData subMessageMetaData = new SubMessageMetaData();
+        subMessageMetaData.setSubType(ControlOrStatusMessageSubType.getFromBytes(airTouchMessage[0]));
+        subMessageMetaData.setNormalDataLength(ByteUtil.toInt(airTouchMessage, 2, 2));
+        subMessageMetaData.setEachRepeatDataLength(ByteUtil.toInt(airTouchMessage, 4, 2));
+        subMessageMetaData.setRepeatDataCount(ByteUtil.toInt(airTouchMessage, 6, 2));
+        return subMessageMetaData;
     }
 
     private long calculateChecksum(byte[] airTouchDataBlock, int from, int to) {
