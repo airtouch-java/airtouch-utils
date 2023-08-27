@@ -6,7 +6,8 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 import airtouch.Request;
-import airtouch.v4.ResponseList;
+import airtouch.ResponseList;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.ConsoleVersionResponse;
 import airtouch.utils.HexString;
 
@@ -28,7 +29,7 @@ public class ConsoleVersionHandlerTest {
         String dataBlockHexString = "000b312e332e337c312e332e33";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<ConsoleVersionResponse> response = ConsoleVersionHandler.handle(0, dataBlockBytes);
+        ResponseList<ConsoleVersionResponse, MessageType> response = ConsoleVersionHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());

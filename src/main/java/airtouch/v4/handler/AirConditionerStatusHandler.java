@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.utils.ByteUtil;
 import airtouch.v4.AirTouchRequest;
-import airtouch.v4.ResponseList;
 import airtouch.v4.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
@@ -78,7 +78,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerStatusResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {

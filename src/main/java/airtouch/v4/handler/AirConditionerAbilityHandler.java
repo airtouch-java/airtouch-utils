@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.utils.HexString;
 import airtouch.v4.AirTouchRequest;
-import airtouch.v4.ResponseList;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.MessageConstants.Address;
@@ -97,7 +97,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Ability objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerAbilityResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerAbilityResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         log.debug("Handling AirConditionerAbility message: {}", HexString.fromBytes(airTouchDataBlock));
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerAbilityResponse> acAbilities = new ArrayList<>();

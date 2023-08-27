@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.v4.AirTouchRequest;
-import airtouch.v4.ResponseList;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerErrorResponse;
@@ -50,7 +50,7 @@ public class AirConditionerErrorHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List containing one AC Error object.
      */
-    public static ResponseList<AirConditionerErrorResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerErrorResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
 
         AirConditionerErrorResponse acErrorResponse = new AirConditionerErrorResponse();

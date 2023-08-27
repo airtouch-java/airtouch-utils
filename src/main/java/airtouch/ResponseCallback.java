@@ -1,4 +1,4 @@
-package airtouch.v4;
+package airtouch;
 
 public interface ResponseCallback {
     

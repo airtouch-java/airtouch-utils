@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.utils.HexString;
 import airtouch.v4.AirTouchRequest;
-import airtouch.v4.ResponseList;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
@@ -45,7 +45,7 @@ public class GroupNameHandler extends AbstractHandler {
 
      */
 
-    public static ResponseList<GroupNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<GroupNameResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<GroupNameResponse> groupNames = new ArrayList<>();
 

@@ -6,7 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import airtouch.Request;
-import airtouch.v4.ResponseList;
+import airtouch.ResponseList;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerErrorResponse;
 import airtouch.utils.HexString;
 
@@ -28,7 +29,7 @@ public class AirConditionerErrorHandlerTest {
         String dataBlockHexString = "000845523a2046464645";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<AirConditionerErrorResponse> response = AirConditionerErrorHandler.handle(0, dataBlockBytes);
+        ResponseList<AirConditionerErrorResponse, MessageType> response = AirConditionerErrorHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());

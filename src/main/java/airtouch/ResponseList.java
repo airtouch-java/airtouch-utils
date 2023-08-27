@@ -1,19 +1,17 @@
-package airtouch.v4;
+package airtouch;
 
 import java.util.List;
 
-import airtouch.v4.constant.MessageConstants.MessageType;
-
 import java.util.ArrayList;
 
-public class ResponseList<T> extends ArrayList<T> implements Response<T> {
+public class ResponseList<R,T> extends ArrayList<R> implements Response<R,T> {
 
     private static final long serialVersionUID = -8195951265313899256L;
 
-    private MessageType messageType;
+    private T messageType;
     private int messageId;
 
-    public ResponseList (MessageType messageType, int messageId, List<T> responses ) {
+    public ResponseList (T messageType, int messageId, List<R> responses ) {
         this.addAll(responses);
         this.messageType = messageType;
         this.messageId = messageId;
@@ -25,17 +23,17 @@ public class ResponseList<T> extends ArrayList<T> implements Response<T> {
     }
 
     @Override
-    public MessageType getMessageType() {
+    public T getMessageType() {
         return this.messageType;
     }
     
-    public void setMessageType(MessageType messageType) {
+    public void setMessageType(T messageType) {
         this.messageType = messageType;
     }
     
 
     @Override
-    public List<T> getData() {
+    public List<R> getData() {
         return this;
     }
 
@@ -43,7 +41,7 @@ public class ResponseList<T> extends ArrayList<T> implements Response<T> {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ResponseList)) return false;
-        ResponseList<T> that = (ResponseList<T>)o;
+        ResponseList<R,T> that = (ResponseList<R,T>)o;
         return this.messageId == that.messageId && super.equals(o) ;
     }
 

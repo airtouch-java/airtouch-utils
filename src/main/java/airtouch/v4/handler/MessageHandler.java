@@ -5,9 +5,9 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.Response;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.UnknownAirtouchResponseException;
-import airtouch.v4.Response;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.utils.ByteUtil;

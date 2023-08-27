@@ -5,7 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import airtouch.Request;
-import airtouch.v4.ResponseList;
+import airtouch.ResponseList;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
 import airtouch.utils.HexString;
 
@@ -33,7 +34,7 @@ public class GroupNameHandlerTest {
         String dataBlockHexString = "0047726f7570310000";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
+        ResponseList<GroupNameResponse, MessageType> response = GroupNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());
@@ -53,7 +54,7 @@ public class GroupNameHandlerTest {
         String dataBlockHexString = "004c6976696e670000014b69746368656e0002426564726f6f6d00";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
+        ResponseList<GroupNameResponse, MessageType> response = GroupNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(3, response.size());

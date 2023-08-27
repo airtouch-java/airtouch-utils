@@ -7,10 +7,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.utils.HexString;
-import airtouch.v4.ResponseList;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerAbilityResponse;
 
 public class AirConditionerAbilityHandlerTest {
@@ -37,7 +38,7 @@ public class AirConditionerAbilityHandlerTest {
         String dataBlockHexString = "0016554e49540000000000000000000000000004171d111f0700";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<AirConditionerAbilityResponse> response = AirConditionerAbilityHandler.handle(0, dataBlockBytes);
+        ResponseList<AirConditionerAbilityResponse, MessageType> response = AirConditionerAbilityHandler.handle(0, dataBlockBytes);
         System.out.println(response);
 
         assertEquals(1, response.size());

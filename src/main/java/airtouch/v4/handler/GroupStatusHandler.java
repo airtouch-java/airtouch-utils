@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.v4.AirTouchRequest;
-import airtouch.v4.ResponseList;
 import airtouch.v4.constant.GroupStatusConstants.ControlMethod;
 import airtouch.v4.constant.GroupStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.Address;
@@ -49,7 +49,7 @@ public class GroupStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of GroupStatus objects. One for each group message found.
      */
-    public static ResponseList<GroupStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<GroupStatusResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<GroupStatusResponse> groupStatuses = new ArrayList<>();
         for (int i = 0; i < getGroupCount(airTouchDataBlock); i++) {
