@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.exception.AirtouchMessagingException;
-import airtouch.v4.Request;
+import airtouch.Request;
 import airtouch.v4.ResponseCallback;
 
 public class AirtouchConnector {

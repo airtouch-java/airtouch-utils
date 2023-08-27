@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.utils.HexString;
+import airtouch.v4.AirTouchRequest;
 import airtouch.v4.ResponseList;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
-import airtouch.utils.HexString;
 
 /**
  * Handler for GroupName extended format responses.
@@ -23,11 +24,11 @@ public class GroupNameHandler extends AbstractHandler {
         if (groupNumber == null) { // No group number, so ask for all groups.
             // data array for Group Name request - 0xff 0x12.
             byte[] data = HexString.toByteArray("ff12");
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         } else {
             // data array for Group Name request - 0xff 0x12 + group number (1 byte).
             byte[] data = { (byte) 0xff, (byte) 0x12, (byte) (groupNumber & 0xFF) };
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         }
     }
 

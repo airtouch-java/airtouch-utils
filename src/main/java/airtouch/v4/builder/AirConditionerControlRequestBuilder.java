@@ -1,6 +1,6 @@
 package airtouch.v4.builder;
 
-import airtouch.v4.Request;
+import airtouch.Request;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;

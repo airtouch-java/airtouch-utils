@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import airtouch.v4.Request;
+import airtouch.Request;
 import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.constant.GroupControlConstants.GroupControl;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;

@@ -8,14 +8,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.utils.HexString;
+import airtouch.v4.AirTouchRequest;
 import airtouch.v4.ResponseList;
-import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerAbilityResponse;
-import airtouch.utils.HexString;
 
 /**
  * Handler for AirConditioner Ability responses<p>
@@ -30,11 +31,11 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         if (acNumber == null) { // No acNumber number, so ask for all ACs.
             // data array for AC Ability Name request - 0xff 0x11.
             byte[] data = { (byte) 0xff, (byte) 0x11 };
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         } else {
             // data array for AC Ability request - 0xff 0x11 + AC number (1 byte).
             byte[] data = { (byte) 0xff, (byte) 0x11, (byte) (acNumber & 0xFF) };
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         }
     }
 

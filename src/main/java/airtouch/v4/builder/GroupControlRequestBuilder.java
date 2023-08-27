@@ -1,6 +1,6 @@
 package airtouch.v4.builder;
 
-import airtouch.v4.Request;
+import airtouch.Request;
 import airtouch.v4.constant.GroupControlConstants.GroupControl;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.GroupControlConstants.GroupSetting;

@@ -5,18 +5,19 @@ import java.nio.ByteBuffer;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
+import airtouch.Request;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
 
-public class Request {
+public class AirTouchRequest implements Request {
 
     private ByteBuffer buffer = ByteBuffer.allocateDirect(18); // TODO: make this more relevant.
     private Address address;
     private int messageId;
     private MessageType messageType;
 
-    public Request(Address address, int messageId, MessageType messageType, byte[] data) {
+    public AirTouchRequest(Address address, int messageId, MessageType messageType, byte[] data) {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;

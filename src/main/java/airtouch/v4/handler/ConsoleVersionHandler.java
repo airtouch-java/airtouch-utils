@@ -7,7 +7,8 @@ import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.v4.AirTouchRequest;
 import airtouch.v4.ResponseList;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
@@ -25,7 +26,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
 
         // data array for Console Version request - 0xff 0x30.
         byte[] data = { (byte) 0xff, (byte) 0x30 };
-        return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+        return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
     }
 
     /*

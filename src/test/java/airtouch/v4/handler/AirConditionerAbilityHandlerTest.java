@@ -1,15 +1,17 @@
-package airtouch.v4.handler;
 
-import static org.junit.Assert.*;
+package airtouch.v4.handler;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.utils.HexString;
 import airtouch.v4.ResponseList;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.model.AirConditionerAbilityResponse;
-import airtouch.utils.HexString;
 
 public class AirConditionerAbilityHandlerTest {
 

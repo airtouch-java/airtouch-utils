@@ -1,6 +1,7 @@
 package airtouch.v4.handler;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.v4.AirTouchRequest;
 import airtouch.v4.builder.AirConditionerControlRequestBuilder;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
@@ -27,7 +28,7 @@ public class AirConditionerControlHandler {
 
     public static Request generateRequest(int messageId, AirConditionerControlRequest acControlRequest) {
         byte[] data = acControlRequest.getBytes();
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_CONTROL, data);
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.AC_CONTROL, data);
     }
 
     public static AirConditionerControlRequestBuilder requestBuilder() {

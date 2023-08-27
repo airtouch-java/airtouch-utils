@@ -3,7 +3,8 @@ package airtouch.v4.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.v4.AirTouchRequest;
 import airtouch.v4.ResponseList;
 import airtouch.v4.constant.GroupStatusConstants.ControlMethod;
 import airtouch.v4.constant.GroupStatusConstants.PowerState;
@@ -17,7 +18,7 @@ public class GroupStatusHandler extends AbstractHandler {
 
         // Empty data array for group Status request.
         byte[] data = new byte[] {};
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.GROUP_STATUS, data);
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.GROUP_STATUS, data);
     }
 
     /*

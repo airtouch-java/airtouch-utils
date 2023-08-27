@@ -3,7 +3,9 @@ package airtouch.v4.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import airtouch.v4.Request;
+import airtouch.Request;
+import airtouch.utils.ByteUtil;
+import airtouch.v4.AirTouchRequest;
 import airtouch.v4.ResponseList;
 import airtouch.v4.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
@@ -11,7 +13,6 @@ import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerStatusResponse;
-import airtouch.utils.ByteUtil;
 
 /**
  * Handler for AirConditioner Status responses<p>
@@ -24,11 +25,11 @@ public class AirConditionerStatusHandler extends AbstractHandler {
         if (acNumber == null) { // No AC number, so ask for all ACs.
             // Empty data array for AC Status request.
             byte[] data = new byte[] {};
-            return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_STATUS, data);
+            return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.AC_STATUS, data);
         } else {
             // Data array for AC Status request for specific AC unit.
             byte[] data = { (byte) (acNumber & 0xFF) };
-            return new Request(Address.STANDARD_SEND, messageId, MessageType.AC_STATUS, data);
+            return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.AC_STATUS, data);
         }
     }
 

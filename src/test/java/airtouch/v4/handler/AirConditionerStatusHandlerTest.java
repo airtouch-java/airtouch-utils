@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import airtouch.v4.Request;
+import airtouch.Request;
 import airtouch.v4.ResponseList;
 import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
