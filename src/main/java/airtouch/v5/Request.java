@@ -6,6 +6,7 @@ import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.utils.MessageEscapingUtil;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
@@ -47,16 +48,19 @@ public class Request {
 
     private byte[] calculateCheckSum() {
         CRC16Modbus crc = new CRC16Modbus();
-        crc.update(this.getRequestMessage(), 4, this.buffer.position() -4);
+        crc.update(this.getUnEscapedMessage(), 4, this.buffer.position() -4);
         return crc.getCrcBytes();
     }
-
-    public byte[] getRequestMessage() {
+    
+    private byte[] getUnEscapedMessage() {
         final byte[] bs = new byte[buffer.position()];
         final ByteBuffer duplicate = buffer.duplicate();
         duplicate.position(0).limit(buffer.position());
         duplicate.get(bs);
         return bs;
+    }
+    public byte[] getRequestMessage() {
+        return MessageEscapingUtil.addMessageEscaping(getUnEscapedMessage());
     }
 
     public String getHexString() {

@@ -10,6 +10,7 @@ import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.SubMessageMetaData;
+import airtouch.v5.utils.MessageEscapingUtil;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
@@ -20,14 +21,19 @@ public class MessageHandler extends AbstractHandler {
 
 
     @SuppressWarnings("rawtypes")
-    public Response handle(byte[] airTouchMessage) {
+    public Response handle(byte[] airTouchMessageEscaped) {
 
         if (log.isDebugEnabled()) {
-            log.debug("Handling Airtouch response message: hexresponse={}", HexString.fromBytes(airTouchMessage));
+            log.debug("Handling Airtouch response message: hexresponse={}", HexString.fromBytes(airTouchMessageEscaped));
         }
         // Check that we are handling a message with the correct header.
         // Throws IllegalArgumentException if not valid.
-        checkHeaderIsPresent(airTouchMessage);
+        checkHeaderIsPresent(airTouchMessageEscaped);
+        
+        // Remove any redundant bytes. 
+        // So that the header comes through correctly, things that look like headers in the data are
+        // escaped with a "00" on the end. Remove these superfluous "00" bytes.
+        byte[] airTouchMessage = MessageEscapingUtil.removeMessageEscaping(airTouchMessageEscaped);
 
         // Check that our message has a known Address
         // Throws IllegalArgumentException if not valid.
