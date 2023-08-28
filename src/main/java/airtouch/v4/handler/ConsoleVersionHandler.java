@@ -22,7 +22,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ConsoleVersionHandler.class);
 
-    public static Request generateRequest(int messageId) {
+    public static Request<MessageType> generateRequest(int messageId) {
 
         // data array for Console Version request - 0xff 0x30.
         byte[] data = { (byte) 0xff, (byte) 0x30 };

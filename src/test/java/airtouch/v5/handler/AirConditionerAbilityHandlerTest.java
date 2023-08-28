@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerControlConstants.Mode;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.AirConditionerAbilityResponse;
 import airtouch.utils.HexString;
 
@@ -15,13 +16,13 @@ public class AirConditionerAbilityHandlerTest {
 
     @Test
     public void testGeneratingAbilityRequest() {
-        Request request = AirConditionerAbilityHandler.generateRequest(1, null);
+        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, null);
         assertEquals("555555aa90b0011f0002ff11834c".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingAcAbilityRequestForAcZero() {
-        Request request = AirConditionerAbilityHandler.generateRequest(1, 0);
+        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff11000983".toUpperCase(), request.getHexString());
     }
 
@@ -35,7 +36,7 @@ public class AirConditionerAbilityHandlerTest {
         String dataBlockHexString = "0018554E49540000000000000000000000000004171D101f121f";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<AirConditionerAbilityResponse> response = AirConditionerAbilityHandler.handle(0, dataBlockBytes);
+        ResponseList<AirConditionerAbilityResponse, MessageType> response = AirConditionerAbilityHandler.handle(0, dataBlockBytes);
         System.out.println(response);
 
         assertEquals(1, response.size());

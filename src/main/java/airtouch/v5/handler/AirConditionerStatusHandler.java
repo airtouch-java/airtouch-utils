@@ -1,12 +1,12 @@
 package airtouch.v5.handler;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
-import airtouch.v5.constant.MessageConstants;
+import airtouch.Request;
+import airtouch.ResponseList;
+import airtouch.utils.ByteUtil;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.AcStatusConstants.FanSpeed;
 import airtouch.v5.constant.AcStatusConstants.Mode;
 import airtouch.v5.constant.AcStatusConstants.PowerState;
@@ -14,7 +14,6 @@ import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.AirConditionerStatusResponse;
-import airtouch.utils.ByteUtil;
 
 /**
  * Handler for AirConditioner Status responses<p>
@@ -22,8 +21,8 @@ import airtouch.utils.ByteUtil;
  */
 public class AirConditionerStatusHandler extends AbstractControlHandler {
 
-    public static Request generateRequest(int messageId) {
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.AC_STATUS);
+    public static Request<MessageType> generateRequest(int messageId) {
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.AC_STATUS);
     }
 
     /*
@@ -71,7 +70,7 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerStatusResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {

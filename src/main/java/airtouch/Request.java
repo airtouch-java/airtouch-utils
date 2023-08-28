@@ -1,13 +1,11 @@
 package airtouch;
 
-import airtouch.v4.constant.MessageConstants.MessageType;
-
-public interface Request {
+public interface Request<T> {
     String getHexString();
 
     byte[] getRequestMessage();
 
-    MessageType getMessageType();
+    T getMessageType();
 
     int getMessageId();
 }

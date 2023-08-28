@@ -2,7 +2,8 @@ package airtouch.v5.handler;
 
 import java.nio.ByteBuffer;
 
-import airtouch.v5.Request;
+import airtouch.Request;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.builder.ZoneControlRequestBuilder;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
@@ -13,9 +14,9 @@ public class ZoneControlHandler extends AbstractControlHandler {
 
     private ZoneControlHandler() {}
 
-    public static Request generateRequest(int messageId, ZoneControlRequest zoneControlRequest) {
+    public static Request<MessageType> generateRequest(int messageId, ZoneControlRequest zoneControlRequest) {
         ByteBuffer byteBuffer = assembleRequest(MessageConstants.ControlOrStatusMessageSubType.ZONE_CONTROL.getBytes(), zoneControlRequest);
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
     }
 
     public static ZoneControlRequestBuilder requestBuilder(int zoneNumber) {

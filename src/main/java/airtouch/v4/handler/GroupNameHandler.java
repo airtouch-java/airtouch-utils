@@ -19,7 +19,7 @@ import airtouch.v4.model.GroupNameResponse;
  */
 public class GroupNameHandler extends AbstractHandler {
 
-    public static Request generateRequest(int messageId, Integer groupNumber) {
+    public static Request<MessageType> generateRequest(int messageId, Integer groupNumber) {
 
         if (groupNumber == null) { // No group number, so ask for all groups.
             // data array for Group Name request - 0xff 0x12.

@@ -4,8 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.Request;
+import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.model.SubMessageMetaData;
 import airtouch.v5.model.ZoneStatusResponse;
@@ -17,7 +18,7 @@ public class ZoneStatusHandlerTest {
     public void testGeneratingZoneStatusRequest() {
         //555555AA80B001C000082100000000000000
         
-        Request request = ZoneStatusHandler.generateRequest(1, 0);
+        Request<MessageType> request = ZoneStatusHandler.generateRequest(1, 0);
         assertEquals("555555aa80b001c000082100000000000000a431".toUpperCase(), request.getHexString());
     }
 
@@ -33,7 +34,7 @@ public class ZoneStatusHandlerTest {
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
         SubMessageMetaData subMessageMetaData = MessageHandler.determineSubMessageMetaData(subTypeMetaData);
-        ResponseList<ZoneStatusResponse> responses = ZoneStatusHandler.handle(subMessageMetaData, 1, dataBlockBytes);
+        ResponseList<ZoneStatusResponse, MessageType> responses = ZoneStatusHandler.handle(subMessageMetaData, 1, dataBlockBytes);
         assertEquals(2, responses.size());
         ZoneStatusResponse response1 = responses.get(0);
         assertEquals(PowerState.ON, response1.getPowerstate());

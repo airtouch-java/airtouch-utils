@@ -1,8 +1,7 @@
 package airtouch;
 
-public interface ResponseCallback {
+public interface ResponseCallback<R,T> {
     
-    @SuppressWarnings("rawtypes")
-    public void handleResponse(Response response);
+    public void handleResponse(Response<R,T> response);
 
 }

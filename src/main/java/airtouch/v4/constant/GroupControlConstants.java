@@ -5,8 +5,8 @@ public class GroupControlConstants {
     public enum GroupSetting {
         //                    ||| Bits 8 to 6
         NO_CHANGE          (0b00000000), // 000
-        VALUE_INCREASE     (0b01000000), // 010
-        VALUE_DECREASE     (0b01100000), // 011
+        VALUE_DECREASE     (0b01000000), // 010
+        VALUE_INCREASE     (0b01100000), // 011
         SET_OPEN_PERCENTAGE(0b10000000), // 100
         SET_TARGET_SETPOINT(0b10100000); // 101
         

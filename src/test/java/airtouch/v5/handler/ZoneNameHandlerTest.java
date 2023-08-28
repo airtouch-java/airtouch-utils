@@ -4,8 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.Request;
+import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ZoneNameResponse;
 import airtouch.utils.HexString;
 
@@ -13,13 +14,13 @@ public class ZoneNameHandlerTest {
 
     @Test
     public void testGeneratingZoneNameRequest() {
-        Request request = ZoneNameHandler.generateRequest(1, null);
+        Request<MessageType> request = ZoneNameHandler.generateRequest(1, null);
         assertEquals("555555aa90b0011f0002ff1342cd".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingZoneNameRequestForZoneZero() {
-        Request request = ZoneNameHandler.generateRequest(1, 0);
+        Request<MessageType> request = ZoneNameHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff13006982".toUpperCase(), request.getHexString());
     }
 
@@ -33,7 +34,7 @@ public class ZoneNameHandlerTest {
         String dataBlockHexString = "00064c6976696e67";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<ZoneNameResponse> response = ZoneNameHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneNameResponse, MessageType> response = ZoneNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());
@@ -54,7 +55,7 @@ public class ZoneNameHandlerTest {
         String dataBlockHexString = "00064C6976696E6701074B69746368656E0207426564726F6F6D";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<ZoneNameResponse> response = ZoneNameHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneNameResponse, MessageType> response = ZoneNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(3, response.size());

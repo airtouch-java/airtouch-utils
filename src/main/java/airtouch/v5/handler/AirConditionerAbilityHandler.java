@@ -8,14 +8,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
-import airtouch.v5.constant.AirConditionerControlConstants.Mode;
+import airtouch.Request;
+import airtouch.ResponseList;
+import airtouch.utils.HexString;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.v5.constant.AirConditionerControlConstants.Mode;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.AirConditionerAbilityResponse;
-import airtouch.utils.HexString;
 
 /**
  * Handler for AirConditioner Ability responses<p>
@@ -25,16 +26,16 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerAbilityHandler.class);
 
-    public static Request generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageType> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No acNumber number, so ask for all ACs.
             // data array for AC Ability Name request - 0xff 0x11.
             byte[] data = { (byte) 0xff, (byte) 0x11 };
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         } else {
             // data array for AC Ability request - 0xff 0x11 + AC number (1 byte).
             byte[] data = { (byte) 0xff, (byte) 0x11, (byte) (acNumber & 0xFF) };
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         }
     }
 
@@ -96,7 +97,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Ability objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerAbilityResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerAbilityResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         log.debug("Handling AirConditionerAbility message: {}", HexString.fromBytes(airTouchDataBlock));
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerAbilityResponse> acAbilities = new ArrayList<>();

@@ -2,7 +2,8 @@ package airtouch.v5.handler;
 
 import java.nio.ByteBuffer;
 
-import airtouch.v5.Request;
+import airtouch.Request;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.builder.AirConditionerControlRequestBuilder;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
@@ -28,10 +29,10 @@ public class AirConditionerControlHandler extends AbstractControlHandler {
 
     private AirConditionerControlHandler() {}
 
-    public static Request generateRequest(int messageId, AirConditionerControlRequest... acControlRequest) {
+    public static Request<MessageType> generateRequest(int messageId, AirConditionerControlRequest... acControlRequest) {
         
         ByteBuffer byteBuffer = assembleRequest(MessageConstants.ControlOrStatusMessageSubType.AC_CONTROL.getBytes(), acControlRequest);
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
     }
 
     public static AirConditionerControlRequestBuilder requestBuilder() {

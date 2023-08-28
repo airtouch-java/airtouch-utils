@@ -7,18 +7,19 @@ import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.utils.MessageEscapingUtil;
+import airtouch.Request;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
 
-public class Request {
+public class AirTouchRequest implements Request<MessageType> {
 
     private ByteBuffer buffer = ByteBuffer.allocateDirect(64); // TODO: make this more relevant.
     private Address address;
     private int messageId;
     private MessageType messageType;
 
-    public Request(Address address, int messageId, MessageType messageType, byte[] data) {
+    public AirTouchRequest(Address address, int messageId, MessageType messageType, byte[] data) {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;
@@ -31,7 +32,7 @@ public class Request {
         this.buffer.put(calculateCheckSum());
     }
     
-    public Request(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType) {
+    public AirTouchRequest(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType) {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;

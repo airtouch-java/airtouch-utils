@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v5.Response;
+import airtouch.Response;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
@@ -19,9 +19,7 @@ public class MessageHandler extends AbstractHandler {
 
     private final Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
-
-    @SuppressWarnings("rawtypes")
-    public Response handle(byte[] airTouchMessageEscaped) {
+    public Response<?,?> handle(byte[] airTouchMessageEscaped) {
 
         if (log.isDebugEnabled()) {
             log.debug("Handling Airtouch response message: hexresponse={}", HexString.fromBytes(airTouchMessageEscaped));
@@ -85,7 +83,7 @@ public class MessageHandler extends AbstractHandler {
 
     }
 
-    private Response<?> handleControlOrStatus(SubMessageMetaData subMessageMetaData, int messageId, byte[] data) {
+    private Response<?,?> handleControlOrStatus(SubMessageMetaData subMessageMetaData, int messageId, byte[] data) {
         verifySubTypeData(subMessageMetaData, data);
 
         switch (subMessageMetaData.getSubMessageType()) {

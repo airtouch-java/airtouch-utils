@@ -14,7 +14,7 @@ import airtouch.v4.model.GroupStatusResponse;
 
 public class GroupStatusHandler extends AbstractHandler {
 
-    public static Request generateRequest(int messageId, Integer groupNumber) {
+    public static Request<MessageType> generateRequest(int messageId, Integer groupNumber) {
 
         // Empty data array for group Status request.
         byte[] data = new byte[] {};

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import airtouch.v5.Response;
+import airtouch.Response;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.utils.HexString;
 

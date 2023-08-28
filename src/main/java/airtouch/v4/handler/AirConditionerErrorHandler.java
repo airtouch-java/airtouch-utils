@@ -22,7 +22,7 @@ public class AirConditionerErrorHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerErrorHandler.class);
 
-    public static Request generateRequest(int messageId, int acNumber) {
+    public static Request<MessageType> generateRequest(int messageId, int acNumber) {
 
         // data array for Error request - 0xff 0x10 .
         byte[] data = { (byte) 0xff, (byte) 0x10, (byte) (acNumber & 0xFF)} ;

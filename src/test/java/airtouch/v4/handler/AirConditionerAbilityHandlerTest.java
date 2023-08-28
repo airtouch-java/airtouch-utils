@@ -18,13 +18,13 @@ public class AirConditionerAbilityHandlerTest {
 
     @Test
     public void testGeneratingAbilityRequest() {
-        Request request = AirConditionerAbilityHandler.generateRequest(1, null);
+        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, null);
         assertEquals("555590b0011f0002ff11834C".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingAcAbilityRequestForAcZero() {
-        Request request = AirConditionerAbilityHandler.generateRequest(1, 0);
+        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, 0);
         assertEquals("555590b0011f0003ff11000983".toUpperCase(), request.getHexString());
     }
 

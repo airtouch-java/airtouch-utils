@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import airtouch.utils.HexString;
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.v5.AirTouchRequest;
+import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ZoneNameResponse;
@@ -17,16 +18,16 @@ import airtouch.v5.model.ZoneNameResponse;
  */
 public class ZoneNameHandler extends AbstractHandler {
 
-    public static Request generateRequest(int messageId, Integer zoneNumber) {
+    public static Request<MessageType> generateRequest(int messageId, Integer zoneNumber) {
 
         if (zoneNumber == null) { // No zone number, so ask for all zones.
             // data array for Zone Name request - 0xff 0x13.
             byte[] data = HexString.toByteArray("ff13");
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         } else {
             // data array for Zone Name request - 0xff 0x13 + zone number (1 byte).
             byte[] data = { (byte) 0xff, (byte) 0x13, (byte) (zoneNumber & 0xFF) };
-            return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
         }
     }
 
@@ -44,7 +45,7 @@ public class ZoneNameHandler extends AbstractHandler {
 
      */
 
-    public static ResponseList<ZoneNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneNameResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneNameResponse> zoneNames = new ArrayList<>();
         

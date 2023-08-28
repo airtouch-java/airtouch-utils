@@ -7,8 +7,9 @@ import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.Request;
+import airtouch.ResponseList;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ConsoleVersionResponse;
@@ -21,11 +22,11 @@ public class ConsoleVersionHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ConsoleVersionHandler.class);
 
-    public static Request generateRequest(int messageId) {
+    public static Request<MessageType> generateRequest(int messageId) {
 
         // data array for Console Version request - 0xff 0x30.
         byte[] data = { (byte) 0xff, (byte) 0x30 };
-        return new Request(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+        return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
     }
 
     /*
@@ -50,7 +51,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<ConsoleVersionResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ConsoleVersionResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
 
         ConsoleVersionResponse consoleVersionResponse = new ConsoleVersionResponse();

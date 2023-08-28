@@ -20,7 +20,7 @@ import airtouch.v4.model.AirConditionerStatusResponse;
  */
 public class AirConditionerStatusHandler extends AbstractHandler {
 
-    public static Request generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageType> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No AC number, so ask for all ACs.
             // Empty data array for AC Status request.

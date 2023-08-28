@@ -5,8 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.Request;
+import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.AirConditionerErrorResponse;
 import airtouch.utils.HexString;
 
@@ -14,7 +15,7 @@ public class AirConditionerErrorHandlerTest {
 
     @Test
     public void testGeneratingAirConditionerErrorRequestForGroupZero() {
-        Request request = AirConditionerErrorHandler.generateRequest(1, 0);
+        Request<MessageType> request = AirConditionerErrorHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff10009982".toUpperCase(), request.getHexString());
     }
 
@@ -28,7 +29,7 @@ public class AirConditionerErrorHandlerTest {
         String dataBlockHexString = "000845523a2046464645";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<AirConditionerErrorResponse> response = AirConditionerErrorHandler.handle(0, dataBlockBytes);
+        ResponseList<AirConditionerErrorResponse, MessageType> response = AirConditionerErrorHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());

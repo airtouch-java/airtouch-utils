@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import airtouch.utils.ByteUtil;
-import airtouch.v5.Request;
-import airtouch.v5.ResponseList;
+import airtouch.Request;
+import airtouch.ResponseList;
 import airtouch.v5.constant.ZoneStatusConstants.ControlMethod;
 import airtouch.v5.constant.ZoneStatusConstants.PowerState;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
@@ -16,8 +17,8 @@ import airtouch.v5.model.ZoneStatusResponse;
 
 public class ZoneStatusHandler extends AbstractHandler {
 
-    public static Request generateRequest(int messageId, Integer zoneNumber) {
-        return new Request(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS);
+    public static Request<MessageType> generateRequest(int messageId, Integer zoneNumber) {
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS);
     }
 
     /*
@@ -50,7 +51,7 @@ public class ZoneStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of ZoneStatus objects. One for each zone message found.
      */
-    public static ResponseList<ZoneStatusResponse> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneStatusResponse, MessageType> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneStatusResponse> zoneStatuses = new ArrayList<>();
         for (int i = 0; i <= subMessageMetaData.getRepeatDataCount(); i++) {

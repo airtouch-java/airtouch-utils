@@ -10,7 +10,7 @@ import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
 
-public class AirTouchRequest implements Request {
+public class AirTouchRequest implements Request<MessageType> {
 
     private ByteBuffer buffer = ByteBuffer.allocateDirect(18); // TODO: make this more relevant.
     private Address address;

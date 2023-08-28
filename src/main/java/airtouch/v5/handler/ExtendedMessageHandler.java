@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.v5.Response;
+import airtouch.Response;
 import airtouch.v5.constant.MessageConstants.ExtendedMessageType;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;

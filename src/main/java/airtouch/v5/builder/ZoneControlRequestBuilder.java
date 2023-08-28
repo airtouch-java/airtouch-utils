@@ -1,7 +1,7 @@
 package airtouch.v5.builder;
 
-import airtouch.v5.Request;
-import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
+import airtouch.Request;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.constant.ZoneControlConstants.ZonePower;
 import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.v5.handler.ZoneControlHandler;
@@ -11,7 +11,6 @@ public class ZoneControlRequestBuilder {
 
     private Integer zoneNumber;
     private ZoneSetting zoneSetting;
-    private ZoneControl zoneControl;
     private ZonePower zonePower;
 
     private Integer settingValue;
@@ -41,23 +40,6 @@ public class ZoneControlRequestBuilder {
      */
     public ZoneControlRequestBuilder setting(ZoneSetting zoneSetting) {
         this.zoneSetting = zoneSetting;
-        return this;
-    }
-
-    /**
-     * Method to set the {@link ZoneControl}.<br>
-     * Calling this method is optional. If not called, the request will default to ZoneControl.NO_CHANGE.
-     * If called, zoneControl must be one of:<ul>
-     * <li>NO_CHANGE - No change made to zone control
-     * <li>TOGGLE_CONTROL_METHOD - Change from % open to °C or vice-versa
-     * <li>PERCENTAGE_CONTROL - Set to use percentage open control for this zone
-     * <li>TEMPERATURE_CONTROL - Set to use temperature control for this zone
-     * </ul>
-     * @param zoneControl
-     * @return {@link ZoneControlRequestBuilder} to support fluent builder pattern.
-     */
-    public ZoneControlRequestBuilder control(ZoneControl zoneControl) {
-        this.zoneControl = zoneControl;
         return this;
     }
 
@@ -105,16 +87,14 @@ public class ZoneControlRequestBuilder {
                         String.format("setting value must be defined when ZoneSettings is %s", this.zoneSetting));
             }
             request.setZoneSetting(this.zoneSetting);
-            request.setSettingValue(this.settingValue);
+            if (ZoneSetting.SET_OPEN_PERCENTAGE.equals(this.zoneSetting)) {
+                request.setSettingValue(this.settingValue);
+            } else if (ZoneSetting.SET_TARGET_SETPOINT.equals(this.zoneSetting)) {
+                request.setSettingValue((this.settingValue  * 10) - 100); // Convert as per page 8 of v5 docs.);
+            }
         } else {
             request.setZoneSetting(this.zoneSetting);
             request.setSettingValue(0);
-        }
-
-        if (this.zoneControl == null) {
-            request.setZoneControl(ZoneControl.NO_CHANGE);
-        } else {
-            request.setZoneControl(this.zoneControl);
         }
 
         if (this.zonePower == null) {
@@ -126,7 +106,7 @@ public class ZoneControlRequestBuilder {
         return request;
     }
 
-    public Request build(int messageId) {
+    public Request<MessageType> build(int messageId) {
         return ZoneControlHandler.generateRequest(messageId, build());
     }
 }
