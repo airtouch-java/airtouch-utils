@@ -16,7 +16,7 @@ public class AirConditionerStatusHandlerTest {
 
     @Test
     public void testGeneratingAcStatusRequest() {
-        Request request = AirConditionerStatusHandler.generateRequest(1, null);
+        Request<MessageType> request = AirConditionerStatusHandler.generateRequest(1, null);
         assertEquals("555580b0012d0000f4cf".toUpperCase(), request.getHexString());
     }
     

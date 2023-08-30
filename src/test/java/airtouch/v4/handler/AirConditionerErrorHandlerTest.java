@@ -15,7 +15,7 @@ public class AirConditionerErrorHandlerTest {
 
     @Test
     public void testGeneratingAirConditionerErrorRequestForGroupZero() {
-        Request request = AirConditionerErrorHandler.generateRequest(1, 0);
+        Request<MessageType> request = AirConditionerErrorHandler.generateRequest(1, 0);
         assertEquals("555590b0011f0003ff10009982".toUpperCase(), request.getHexString());
     }
 

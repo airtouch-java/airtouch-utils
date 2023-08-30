@@ -14,7 +14,7 @@ public class GroupStatusHandlerTest {
 
     @Test
     public void testGeneratingGroupStatusRequest() {
-        Request request = GroupStatusHandler.generateRequest(1, 0);
+        Request<MessageType> request = GroupStatusHandler.generateRequest(1, 0);
         assertEquals("555580b0012b0000f52f".toUpperCase(), request.getHexString());
     }
 

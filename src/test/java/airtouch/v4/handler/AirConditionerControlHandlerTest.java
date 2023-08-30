@@ -8,6 +8,7 @@ import airtouch.Request;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerControlRequest;
 
 public class AirConditionerControlHandlerTest {
@@ -19,7 +20,7 @@ public class AirConditionerControlHandlerTest {
                 .acPower(AcPower.POWER_OFF)
                 .build();
 
-        Request request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
+        Request<MessageType> request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
         assertEquals("555580b0012c000481ff3f001a96".toUpperCase(), request.getHexString());
     }
 
@@ -30,7 +31,7 @@ public class AirConditionerControlHandlerTest {
                 .acMode(Mode.COOL)
                 .build();
 
-        Request request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
+        Request<MessageType> request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
         assertEquals("555580b0012c0004004f3f00c1bf".toUpperCase(), request.getHexString());
     }
 
@@ -42,7 +43,7 @@ public class AirConditionerControlHandlerTest {
                 .fanSpeed(FanSpeed.AUTO)
                 .build();
 
-        Request request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
+        Request<MessageType> request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
         assertEquals("555580b0012c000400403f00c28f".toUpperCase(), request.getHexString());
     }
 

@@ -83,9 +83,13 @@ public class ZoneControlHandlerTest {
     
     @Test
     public void determineHex() {
-        byte byte2 = (byte) 0b10000000;
-        System.out.println(HexString.fromBytes(new byte[] { 
-                (byte) 0b00011000 }));
+        System.out.println(
+                HexString.fromBytes(
+                        new byte[] { 
+                                (byte) 0b00011000 
+                                }
+                        )
+                );
     }
 
 }
