@@ -20,7 +20,24 @@ public class ZoneControlConstants {
             return bits;
         }
     }
-    
+    public enum ZoneControl {
+        //                         ||      Bits 5 and 4
+        NO_CHANGE            (0b00000000),  // 00
+        TOGGLE_CONTROL_METHOD(0b00001000),  // 01
+        PERCENTAGE_CONTROL   (0b00010000),  // 10
+        TEMPERATURE_CONTROL  (0b00011000);  // 11
+        
+        private int bits;
+        
+        ZoneControl(int bits) {
+            this.bits = bits;
+        }
+        
+        public int getBits() {
+            return bits;
+        }
+    }
+            
     public enum ZonePower {
         //                           |||     Bits 3 to 1
         NO_CHANGE            (0b00000000),  // 000
