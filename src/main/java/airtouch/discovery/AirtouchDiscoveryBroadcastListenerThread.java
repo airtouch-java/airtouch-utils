@@ -35,6 +35,7 @@ public class AirtouchDiscoveryBroadcastListenerThread extends Thread implements 
     }
 
     public void shutdown() {
+        log.debug("Shutdown called.");
         this.stopping = true;
     }
 
