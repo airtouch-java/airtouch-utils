@@ -17,10 +17,11 @@ public enum AirtouchVersion {
             airtouch.v4.constant.ConnectionConstants.AIRTOUCH_LISTEN_PORT,
             airtouch.v4.constant.ConnectionConstants.DISCOVERY_LISTEN_PORT,
             airtouch.v4.constant.ConnectionConstants.DISCOVERY_BROADCAST_MESSAGE),
-    AIRTOUCH5 ("AirTouch5",
-            9005,
-            49005,
-            "::REQUEST-POLYAIRE-AIRTOUCH-DEVICE-INFO:;");
+    AIRTOUCH5 (
+            airtouch.v5.constant.ConnectionConstants.AIRTOUCH_VERSION_IDENTIFIER,
+            airtouch.v5.constant.ConnectionConstants.AIRTOUCH_LISTEN_PORT,
+            airtouch.v5.constant.ConnectionConstants.DISCOVERY_LISTEN_PORT,
+            airtouch.v5.constant.ConnectionConstants.DISCOVERY_BROADCAST_MESSAGE);
 
     private String versionIdentifier;
     private int listeningPort;

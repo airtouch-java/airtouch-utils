@@ -44,6 +44,7 @@ public class AirtouchDiscoveryBroadcastListenerThread extends Thread implements 
 
     @Override
     public void run() {
+        log.debug("Discovery port: {}", this.airtouchVersion.getDiscoveryPort());
         try(DatagramSocket socket = new DatagramSocket(this.airtouchVersion.getDiscoveryPort(), InetAddress.getByName("0.0.0.0"))) {
             byte[] buf = new byte[512];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
