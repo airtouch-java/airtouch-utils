@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.AirConditionerErrorResponse;
 import airtouch.utils.HexString;
@@ -15,7 +16,7 @@ public class AirConditionerErrorHandlerTest {
 
     @Test
     public void testGeneratingAirConditionerErrorRequestForGroupZero() {
-        Request<MessageType> request = AirConditionerErrorHandler.generateRequest(1, 0);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerErrorHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff10009982".toUpperCase(), request.getHexString());
     }
 

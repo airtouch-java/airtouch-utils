@@ -9,6 +9,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.HexString;
 import airtouch.v4.AirTouchRequest;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
@@ -19,7 +20,7 @@ import airtouch.v4.model.GroupNameResponse;
  */
 public class GroupNameHandler extends AbstractHandler {
 
-    public static Request<MessageType> generateRequest(int messageId, Integer groupNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer groupNumber) {
 
         if (groupNumber == null) { // No group number, so ask for all groups.
             // data array for Group Name request - 0xff 0x12.

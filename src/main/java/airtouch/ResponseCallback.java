@@ -1,7 +1,7 @@
 package airtouch;
 
-public interface ResponseCallback<R,T> {
-    
-    public void handleResponse(Response<R,T> response);
+public interface ResponseCallback<T> {
+
+    public void handleResponse(Response<T> response);
 
 }

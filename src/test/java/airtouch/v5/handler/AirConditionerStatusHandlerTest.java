@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v5.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants.MessageType;
@@ -16,10 +17,10 @@ public class AirConditionerStatusHandlerTest {
 
     @Test
     public void testGeneratingAcStatusRequest() {
-        Request<MessageType> request = AirConditionerStatusHandler.generateRequest(1);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerStatusHandler.generateRequest(1);
         assertEquals("555555AA80B001C0000823000000000000007DB0".toUpperCase(), request.getHexString());
     }
-    
+
     @Test
     public void testHandleAcStatusResponse() {
         // This data is copied from AirTouch4 protocol doc page 8.
@@ -40,15 +41,15 @@ public class AirConditionerStatusHandlerTest {
         assertEquals(26, acStatus01.getTargetSetpoint());
         assertEquals(28, acStatus01.getCurrentTemperature().intValue());
         assertEquals(0, acStatus01.getErrorCode());
-        
+
         AirConditionerStatusResponse acStatus02 = response.get(1);
         assertEquals(PowerState.OFF, acStatus02.getPowerstate());
         assertEquals(26, acStatus02.getTargetSetpoint());
         assertEquals(28, acStatus02.getCurrentTemperature().intValue());
         assertEquals(65534, acStatus02.getErrorCode());
-        
+
     }
-    
+
     @Test
     public void testBitShift() {
         Integer mode = 64 >> 4;

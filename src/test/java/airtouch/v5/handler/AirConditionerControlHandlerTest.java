@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import airtouch.Request;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v5.constant.AirConditionerControlConstants.Mode;
 import airtouch.v5.constant.AirConditionerControlConstants.SetpointControl;
@@ -20,7 +21,7 @@ public class AirConditionerControlHandlerTest {
                 .acPower(AcPower.POWER_OFF)
                 .build();
 
-        Request<MessageType> request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
         assertEquals("555555aa80b001c0000c220000000004000121ff00ffd347".toUpperCase(), request.getHexString());
     }
 
@@ -36,7 +37,7 @@ public class AirConditionerControlHandlerTest {
                 .setpointValue(26)
                 .build();
 
-        Request<MessageType> request = AirConditionerControlHandler.generateRequest(1, acControlRequest, acControlRequest2);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerControlHandler.generateRequest(1, acControlRequest, acControlRequest2);
         assertEquals("555555aa80b001c000102200000000040002004f00ff01ff40a0104b".toUpperCase(), request.getHexString());
     }
 

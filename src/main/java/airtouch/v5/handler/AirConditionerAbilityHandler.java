@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.HexString;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerControlConstants.Mode;
@@ -26,7 +27,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerAbilityHandler.class);
 
-    public static Request<MessageType> generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No acNumber number, so ask for all ACs.
             // data array for AC Ability Name request - 0xff 0x11.
@@ -52,8 +53,8 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
                                                           | the ability of this AC
         | Byte5-20 |        | AC Name                     | 24 bytes in total. If less than 24 bytes, end with 0.
         | Byte21   |        | Start group number          | TODO: Need to figure out what this is.
-        | Byte22   |        | Zone count                 
-        | Byte23   | Bit8-6 | Not used                   
+        | Byte22   |        | Zone count
+        | Byte23   | Bit8-6 | Not used
                    | Bit5   | Cool mode                   | 1: supported, 0: not supported
                    | Bit4   | Fan mode                    | 1: supported, 0: not supported
                    | Bit3   | Dry mode                    | 1: supported, 0: not supported
@@ -69,8 +70,8 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
                    | Bit2   | Fan speed - Quiet           | 1: supported, 0: not supported
                    | Bit1   | Fan speed - Auto            | 1: supported, 0: not supported
                                                           |
-        | Byte25   |        | Minimum set point           
-        | Byte26   |        | Maximum set point           
+        | Byte25   |        | Minimum set point
+        | Byte26   |        | Maximum set point
         | Byte27   | Bit8   | Group display option        | Group8. 1: show, 0: hide
                    | Bit7   | Group display option        | Group7. 1: show, 0: hide
                    | Bit6   | Group display option        | Group6. 1: show, 0: hide
@@ -142,7 +143,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
             // byte25 and 26 are the min and max cool setpoint.
             acAbility.setMinCoolSetPoint(airTouchDataBlock[acOffset + 22] & 0xFF);
             acAbility.setMaxCoolSetPoint(airTouchDataBlock[acOffset + 23] & 0xFF);
-            
+
             // byte27 and 28 are the min and max heat setpoint.
             acAbility.setMinHeatSetPoint(airTouchDataBlock[acOffset + 24] & 0xFF);
             acAbility.setMaxHeatSetPoint(airTouchDataBlock[acOffset + 25] & 0xFF);

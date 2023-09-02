@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.Response;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;
@@ -14,7 +15,7 @@ public class ExtendedMessageHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ExtendedMessageHandler.class);
 
-    public static Response<?,?> handle(int messageId, byte[] data) {
+    public static Response<MessageType> handle(int messageId, byte[] data) {
         checkHeaderIsRemoved(data);
         ExtendedMessageType extendedMessageType = ExtendedMessageType.getFromBytes(ByteUtil.toInt(data[0], data[1]));
 

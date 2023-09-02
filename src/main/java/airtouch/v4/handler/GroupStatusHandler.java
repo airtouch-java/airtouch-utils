@@ -6,6 +6,7 @@ import java.util.List;
 import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.v4.AirTouchRequest;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.GroupStatusConstants.ControlMethod;
 import airtouch.v4.constant.GroupStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants.Address;
@@ -14,7 +15,7 @@ import airtouch.v4.model.GroupStatusResponse;
 
 public class GroupStatusHandler extends AbstractHandler {
 
-    public static Request<MessageType> generateRequest(int messageId, Integer groupNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer groupNumber) {
 
         // Empty data array for group Status request.
         byte[] data = new byte[] {};
@@ -150,7 +151,7 @@ public class GroupStatusHandler extends AbstractHandler {
             return airTouchDataBlock.length / 6;
         }
         throw new IllegalArgumentException("GroupStatus messageBlock is not a multiple of 6 bytes");
-        
+
     }
 
 }

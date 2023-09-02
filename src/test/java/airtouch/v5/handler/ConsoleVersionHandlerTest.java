@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ConsoleVersionResponse;
 import airtouch.utils.HexString;
@@ -15,13 +16,13 @@ public class ConsoleVersionHandlerTest {
 
     @Test
     public void testGeneratingConsoleVersionRequestForGroupZero() {
-        Request<MessageType> request = ConsoleVersionHandler.generateRequest(1);
+        Request<MessageType, MessageConstants.Address> request = ConsoleVersionHandler.generateRequest(1);
         assertEquals("555555AA90b0011f0002ff309b8c".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testHandleConsoleVersionResponse() {
-        
+
         // This data is copied from AirTouch5 protocol doc page 18 (labeled as 15).
         // 555555AA b090 01 1f 001a ff30 000b312e302e332c312e302e33 2c0e
         //                               ^------ data block ------^

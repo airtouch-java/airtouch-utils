@@ -15,6 +15,7 @@ import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
+import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.handler.MessageHandler;
 import airtouch.v4.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
@@ -31,7 +32,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
 
     private boolean stopping;
     private final InputStream input;
-    private final ResponseCallback responseCallback;
+    private final ResponseCallback<MessageType> responseCallback;
 
 
     public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
@@ -115,7 +116,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
 
     private void handleFinishedMessage(MessageHandler messageHandler, MessageHolder messageHolder) {
         try {
-            Response<?,?> response = messageHandler.handle(messageHolder.getBytes());
+            Response<MessageType> response = messageHandler.handle(messageHolder.getBytes());
             if (log.isDebugEnabled()) {
                 log.debug("Received response: '{}'. Sending to ", response);
             }

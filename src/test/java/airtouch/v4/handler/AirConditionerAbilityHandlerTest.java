@@ -13,18 +13,19 @@ import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerAbilityResponse;
+import airtouch.v4.constant.MessageConstants;
 
 public class AirConditionerAbilityHandlerTest {
 
     @Test
     public void testGeneratingAbilityRequest() {
-        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, null);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerAbilityHandler.generateRequest(1, null);
         assertEquals("555590b0011f0002ff11834C".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingAcAbilityRequestForAcZero() {
-        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, 0);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerAbilityHandler.generateRequest(1, 0);
         assertEquals("555590b0011f0003ff11000983".toUpperCase(), request.getHexString());
     }
 

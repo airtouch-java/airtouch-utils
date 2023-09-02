@@ -7,6 +7,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.ByteUtil;
 import airtouch.v4.AirTouchRequest;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
@@ -20,7 +21,7 @@ import airtouch.v4.model.AirConditionerStatusResponse;
  */
 public class AirConditionerStatusHandler extends AbstractHandler {
 
-    public static Request<MessageType> generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No AC number, so ask for all ACs.
             // Empty data array for AC Status request.

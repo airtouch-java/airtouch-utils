@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.v4.AirTouchRequest;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerErrorResponse;
@@ -22,7 +23,7 @@ public class AirConditionerErrorHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerErrorHandler.class);
 
-    public static Request<MessageType> generateRequest(int messageId, int acNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, int acNumber) {
 
         // data array for Error request - 0xff 0x10 .
         byte[] data = { (byte) 0xff, (byte) 0x10, (byte) (acNumber & 0xFF)} ;

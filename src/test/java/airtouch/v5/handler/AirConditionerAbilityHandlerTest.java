@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerControlConstants.Mode;
 import airtouch.v5.constant.MessageConstants.MessageType;
@@ -16,13 +17,13 @@ public class AirConditionerAbilityHandlerTest {
 
     @Test
     public void testGeneratingAbilityRequest() {
-        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, null);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerAbilityHandler.generateRequest(1, null);
         assertEquals("555555aa90b0011f0002ff11834c".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingAcAbilityRequestForAcZero() {
-        Request<MessageType> request = AirConditionerAbilityHandler.generateRequest(1, 0);
+        Request<MessageType, MessageConstants.Address> request = AirConditionerAbilityHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff11000983".toUpperCase(), request.getHexString());
     }
 

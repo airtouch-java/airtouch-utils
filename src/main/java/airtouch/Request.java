@@ -1,6 +1,6 @@
 package airtouch;
 
-public interface Request<T> {
+public interface Request<T,A> {
     String getHexString();
 
     byte[] getRequestMessage();
@@ -8,4 +8,6 @@ public interface Request<T> {
     T getMessageType();
 
     int getMessageId();
+
+    A getAddress();
 }

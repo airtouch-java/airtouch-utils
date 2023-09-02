@@ -19,7 +19,7 @@ public class MessageHandler extends AbstractHandler {
 
     private final Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
-    public Response<?,?> handle(byte[] airTouchMessageEscaped) {
+    public Response handle(byte[] airTouchMessageEscaped) {
 
         if (log.isDebugEnabled()) {
             log.debug("Handling Airtouch response message: hexresponse={}", HexString.fromBytes(airTouchMessageEscaped));
@@ -27,8 +27,8 @@ public class MessageHandler extends AbstractHandler {
         // Check that we are handling a message with the correct header.
         // Throws IllegalArgumentException if not valid.
         checkHeaderIsPresent(airTouchMessageEscaped);
-        
-        // Remove any redundant bytes. 
+
+        // Remove any redundant bytes.
         // So that the header comes through correctly, things that look like headers in the data are
         // escaped with a "00" on the end. Remove these superfluous "00" bytes.
         byte[] airTouchMessage = MessageEscapingUtil.removeMessageEscaping(airTouchMessageEscaped);
@@ -66,7 +66,7 @@ public class MessageHandler extends AbstractHandler {
 
         // Now handle the response message with the correct Handler.
         switch (messageType) {
-        
+
         case CONTROL_OR_STATUS:
             log.debug("CONTROL_OR_STATUS");
             return handleControlOrStatus(determineSubMessageMetaData(data), messageId, Arrays.copyOfRange(data, 8, dataLength));
@@ -83,7 +83,7 @@ public class MessageHandler extends AbstractHandler {
 
     }
 
-    private Response<?,?> handleControlOrStatus(SubMessageMetaData subMessageMetaData, int messageId, byte[] data) {
+    private Response handleControlOrStatus(SubMessageMetaData subMessageMetaData, int messageId, byte[] data) {
         verifySubTypeData(subMessageMetaData, data);
 
         switch (subMessageMetaData.getSubMessageType()) {

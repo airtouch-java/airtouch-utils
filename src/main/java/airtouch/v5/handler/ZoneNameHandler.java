@@ -8,6 +8,7 @@ import airtouch.utils.HexString;
 import airtouch.v5.AirTouchRequest;
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ZoneNameResponse;
@@ -18,7 +19,7 @@ import airtouch.v5.model.ZoneNameResponse;
  */
 public class ZoneNameHandler extends AbstractHandler {
 
-    public static Request<MessageType> generateRequest(int messageId, Integer zoneNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer zoneNumber) {
 
         if (zoneNumber == null) { // No zone number, so ask for all zones.
             // data array for Zone Name request - 0xff 0x13.
@@ -37,7 +38,7 @@ public class ZoneNameHandler extends AbstractHandler {
 
         Data block received from AirTouch (variable number of bytes). See docs page 17.
 
-        | Byte1    | Fixed 0xFF   <- This will have been removed already 
+        | Byte1    | Fixed 0xFF   <- This will have been removed already
         | Byte2    | Fixed 0x13   <- This will have been removed already
         | Byte3    | Zone number | 0-15
         | Byte4    | Name length
@@ -48,7 +49,7 @@ public class ZoneNameHandler extends AbstractHandler {
     public static ResponseList<ZoneNameResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneNameResponse> zoneNames = new ArrayList<>();
-        
+
         int zoneOffset = 0;
         while (zoneOffset != airTouchDataBlock.length) {
             ZoneNameResponse zoneName = new ZoneNameResponse();

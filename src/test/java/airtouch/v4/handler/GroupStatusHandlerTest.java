@@ -8,13 +8,14 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupStatusResponse;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.utils.HexString;
 
 public class GroupStatusHandlerTest {
 
     @Test
     public void testGeneratingGroupStatusRequest() {
-        Request<MessageType> request = GroupStatusHandler.generateRequest(1, 0);
+        Request<MessageType, MessageConstants.Address> request = GroupStatusHandler.generateRequest(1, 0);
         assertEquals("555580b0012b0000f52f".toUpperCase(), request.getHexString());
     }
 

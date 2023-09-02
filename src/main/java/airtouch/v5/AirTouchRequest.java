@@ -12,7 +12,7 @@ import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
 
-public class AirTouchRequest implements Request<MessageType> {
+public class AirTouchRequest implements Request<MessageType, MessageConstants.Address> {
 
     private ByteBuffer buffer = ByteBuffer.allocateDirect(64); // TODO: make this more relevant.
     private Address address;
@@ -31,7 +31,7 @@ public class AirTouchRequest implements Request<MessageType> {
         this.buffer.put(data);
         this.buffer.put(calculateCheckSum());
     }
-    
+
     public AirTouchRequest(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType) {
         this.address = address;
         this.messageId = messageId;
@@ -52,7 +52,7 @@ public class AirTouchRequest implements Request<MessageType> {
         crc.update(this.getUnEscapedMessage(), 4, this.buffer.position() -4);
         return crc.getCrcBytes();
     }
-    
+
     private byte[] getUnEscapedMessage() {
         final byte[] bs = new byte[buffer.position()];
         final ByteBuffer duplicate = buffer.duplicate();
@@ -67,15 +67,15 @@ public class AirTouchRequest implements Request<MessageType> {
     public String getHexString() {
         return HexString.fromBytes(getRequestMessage());
     }
-    
+
     public Address getAddress() {
         return address;
     }
-    
+
     public int getMessageId() {
         return messageId;
     }
-    
+
     public MessageType getMessageType() {
         return messageType;
     }

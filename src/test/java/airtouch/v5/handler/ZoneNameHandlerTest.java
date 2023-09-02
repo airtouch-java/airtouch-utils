@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ZoneNameResponse;
 import airtouch.utils.HexString;
@@ -14,13 +15,13 @@ public class ZoneNameHandlerTest {
 
     @Test
     public void testGeneratingZoneNameRequest() {
-        Request<MessageType> request = ZoneNameHandler.generateRequest(1, null);
+        Request<MessageType, MessageConstants.Address> request = ZoneNameHandler.generateRequest(1, null);
         assertEquals("555555aa90b0011f0002ff1342cd".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingZoneNameRequestForZoneZero() {
-        Request<MessageType> request = ZoneNameHandler.generateRequest(1, 0);
+        Request<MessageType, MessageConstants.Address> request = ZoneNameHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff13006982".toUpperCase(), request.getHexString());
     }
 
@@ -51,7 +52,7 @@ public class ZoneNameHandlerTest {
         //                               ^------------------- data block -------------------^
         // Just pass in the data block. The rest should have been
         // validated and removed earlier.
-        
+
         String dataBlockHexString = "00064C6976696E6701074B69746368656E0207426564726F6F6D";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 

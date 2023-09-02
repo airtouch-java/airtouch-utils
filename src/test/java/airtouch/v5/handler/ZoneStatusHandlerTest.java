@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.model.SubMessageMetaData;
@@ -17,8 +18,8 @@ public class ZoneStatusHandlerTest {
     @Test
     public void testGeneratingZoneStatusRequest() {
         //555555AA80B001C000082100000000000000
-        
-        Request<MessageType> request = ZoneStatusHandler.generateRequest(1, 0);
+
+        Request<MessageType, MessageConstants.Address> request = ZoneStatusHandler.generateRequest(1, 0);
         assertEquals("555555aa80b001c000082100000000000000a431".toUpperCase(), request.getHexString());
     }
 
@@ -40,7 +41,7 @@ public class ZoneStatusHandlerTest {
         assertEquals(PowerState.ON, response1.getPowerstate());
         assertEquals(0, response1.getZoneNumber());
         assertEquals(0, response1.getOpenPercentage());
-        
+
         ZoneStatusResponse response2 = responses.get(1);
         assertEquals(PowerState.OFF, response2.getPowerstate());
         assertEquals(1, response2.getZoneNumber());

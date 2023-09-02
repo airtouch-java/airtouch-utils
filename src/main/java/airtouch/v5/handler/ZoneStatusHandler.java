@@ -9,6 +9,7 @@ import airtouch.ResponseList;
 import airtouch.v5.constant.ZoneStatusConstants.ControlMethod;
 import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.AirTouchRequest;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
@@ -17,7 +18,7 @@ import airtouch.v5.model.ZoneStatusResponse;
 
 public class ZoneStatusHandler extends AbstractHandler {
 
-    public static Request<MessageType> generateRequest(int messageId, Integer zoneNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer zoneNumber) {
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS);
     }
 
@@ -35,7 +36,7 @@ public class ZoneStatusHandler extends AbstractHandler {
         | Byte4 | Bit8   | Sensor            | 1: has sensor, 0: no sensor
         |       | Bit7-1 |                   | NOT USED
         | Byte5 |        | Temperature       | Temperature=(value- 500)/10, temp>150 invalid
-        | Byte6 |        |                   | 
+        | Byte6 |        |                   |
         | Byte7 | Bit8-3 |                   | NOT USED
         |       | Bit2   | Spill             | 1: Spill
         |       | Bit1   | Battery low       | 1: battery low, 0: normal
@@ -46,7 +47,7 @@ public class ZoneStatusHandler extends AbstractHandler {
     /**
      * Parse the Zone Status data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
-     * @param subMessageMetaData 
+     * @param subMessageMetaData
      *
      * @param airTouchDataBlock
      * @return a List of ZoneStatus objects. One for each zone message found.
@@ -137,7 +138,7 @@ public class ZoneStatusHandler extends AbstractHandler {
             return airTouchDataBlock.length / 8;
         }
         throw new IllegalArgumentException("ZoneStatus messageBlock is not a multiple of 8 bytes. Length is:" + airTouchDataBlock.length);
-        
+
     }
 
 }

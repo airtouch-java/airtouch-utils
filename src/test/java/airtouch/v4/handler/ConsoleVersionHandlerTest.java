@@ -9,13 +9,14 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.ConsoleVersionResponse;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.utils.HexString;
 
 public class ConsoleVersionHandlerTest {
 
     @Test
     public void testGeneratingConsoleVersionRequestForGroupZero() {
-        Request<MessageType> request = ConsoleVersionHandler.generateRequest(1);
+        Request<MessageType, MessageConstants.Address> request = ConsoleVersionHandler.generateRequest(1);
         assertEquals("555590b0011f0002ff309b8c".toUpperCase(), request.getHexString());
     }
 

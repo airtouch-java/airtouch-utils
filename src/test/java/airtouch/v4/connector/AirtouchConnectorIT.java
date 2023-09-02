@@ -29,6 +29,7 @@ import airtouch.v4.handler.ConsoleVersionHandler;
 import airtouch.v4.handler.GroupControlHandler;
 import airtouch.v4.handler.GroupNameHandler;
 import airtouch.v4.handler.GroupStatusHandler;
+import airtouch.v4.constant.MessageConstants;
 
 @SuppressWarnings("rawtypes")
 public class AirtouchConnectorIT {
@@ -45,9 +46,9 @@ public class AirtouchConnectorIT {
         String hostName = System.getenv("AIRTOUCH_HOST");
         int portNumber = 9004;
 
-        AirtouchConnector airtouchConnector = new AirtouchConnector(hostName, portNumber, new ResponseCallback() {
+        AirtouchConnector airtouchConnector = new AirtouchConnector(hostName, portNumber, new ResponseCallback<MessageType>() {
             @Override
-            public void handleResponse(Response response) {
+            public void handleResponse(Response<MessageType> response) {
                 responses.put(response.getMessageId(), response);
                 log.info(response.toString());
                 counter.getAndIncrement();

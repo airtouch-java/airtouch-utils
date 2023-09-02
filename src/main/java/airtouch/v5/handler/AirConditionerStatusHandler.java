@@ -7,6 +7,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.ByteUtil;
 import airtouch.v5.AirTouchRequest;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v5.constant.AirConditionerStatusConstants.PowerState;
@@ -21,7 +22,7 @@ import airtouch.v5.model.AirConditionerStatusResponse;
  */
 public class AirConditionerStatusHandler extends AbstractControlHandler {
 
-    public static Request<MessageType> generateRequest(int messageId) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId) {
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.AC_STATUS);
     }
 

@@ -14,6 +14,7 @@ import airtouch.utils.HexString;
 import airtouch.v4.AirTouchRequest;
 import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerAbilityResponse;
@@ -26,7 +27,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerAbilityHandler.class);
 
-    public static Request<MessageType> generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No acNumber number, so ask for all ACs.
             // data array for AC Ability Name request - 0xff 0x11.
