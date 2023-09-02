@@ -1,9 +1,9 @@
 package airtouch.v5.model;
 
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.AcStatusConstants.FanSpeed;
-import airtouch.v5.constant.AcStatusConstants.Mode;
-import airtouch.v5.constant.AcStatusConstants.PowerState;
+import airtouch.v5.constant.AirConditionerStatusConstants.FanSpeed;
+import airtouch.v5.constant.AirConditionerStatusConstants.Mode;
+import airtouch.v5.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants.MessageType;
 
 public class AirConditionerStatusResponse {

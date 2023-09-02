@@ -1,6 +1,6 @@
 package airtouch.v5.constant;
 
-public class AcStatusConstants {
+public class AirConditionerStatusConstants {
 
     public enum PowerState {
         OFF(0x00),
