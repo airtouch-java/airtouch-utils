@@ -34,7 +34,7 @@ Connect to the Airtouch to send messages. Message responses are sent asynchronou
 You should expect `ResponseCallback.handleResponse(Response response)` to be called for any response event, and would typically code a switch statement to handle the type of message in the callback.
 
 #### Sending a message to AirTouch
-`artouch-utils` contains a number of [handlers](./src/main/airtouch.v4.handler/) that do the job of creating request messages for the AirTouch and for parsing the responses received from AirTouch.
+`artouch-utils` contains a number of [handlers](src/main/java/airtouch/v4/handler/) that do the job of creating request messages for the AirTouch and for parsing the responses received from AirTouch.
 
 ```	// Example send a request to get the Group statuses
     // When sending a message to AirTouch, you can include a request ID. The response
