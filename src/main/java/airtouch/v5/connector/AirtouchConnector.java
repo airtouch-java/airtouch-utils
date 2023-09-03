@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.exception.AirtouchMessagingException;
+import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.Request;
 import airtouch.ResponseCallback;
 
@@ -21,12 +22,12 @@ public class AirtouchConnector {
     private InputStream input;
     private OutputStream output;
 
-    private final ResponseCallback responseCallback;
+    private final ResponseCallback<MessageType> responseCallback;
     private final String hostName;
     private final int portNumber;
     private AirtouchConnectorThread thread;
 
-    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback responseCallback) {
+    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback<MessageType> responseCallback) {
         if (hostName == null || hostName.trim().equals("")) {
             throw new AirtouchMessagingException("hostName is blank. Please pass in a valid hostName when creating an AirtouchConnector instance.");
         }
@@ -54,6 +55,7 @@ public class AirtouchConnector {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     public synchronized void sendRequest(Request request) throws IOException {
         if (this.socket == null || this.output == null) {
             throw new AirtouchMessagingException("Failed to send request. Connection not available. Did you call 'start()' first?");

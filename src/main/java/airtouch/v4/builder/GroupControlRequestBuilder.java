@@ -126,6 +126,7 @@ public class GroupControlRequestBuilder {
         return request;
     }
 
+    @SuppressWarnings("rawtypes")
     public Request build(int messageId) {
         return GroupControlHandler.generateRequest(messageId, build());
     }

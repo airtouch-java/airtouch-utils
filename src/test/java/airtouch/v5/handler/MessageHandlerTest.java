@@ -13,7 +13,6 @@ import airtouch.utils.HexString;
 
 public class MessageHandlerTest {
 
-    @SuppressWarnings("rawtypes")
     @Test
     public void test() {
         // This data is copied from AirTouch5 protocol doc page 9 (labeled 6).

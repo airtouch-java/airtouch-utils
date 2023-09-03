@@ -35,13 +35,13 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
     private final ResponseCallback<MessageType> responseCallback;
 
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
+    public AirtouchConnectorThread(final InputStream input, final ResponseCallback<MessageType> responseCallback) {
         super(DEFAULT_THREAD_NAME);
         this.input = input;
         this.responseCallback = responseCallback;
     }
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
+    public AirtouchConnectorThread(final InputStream input, final ResponseCallback<MessageType> responseCallback, String threadName) {
         super(threadName);
         this.input = input;
         this.responseCallback = responseCallback;
@@ -116,6 +116,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
 
     private void handleFinishedMessage(MessageHandler messageHandler, MessageHolder messageHolder) {
         try {
+            @SuppressWarnings("unchecked")
             Response<MessageType> response = messageHandler.handle(messageHolder.getBytes());
             if (log.isDebugEnabled()) {
                 log.debug("Received response: '{}'. Sending to ", response);

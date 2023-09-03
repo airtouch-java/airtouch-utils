@@ -19,6 +19,7 @@ public class MessageHandler extends AbstractHandler {
 
     private final Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
+    @SuppressWarnings("rawtypes")
     public Response handle(byte[] airTouchMessageEscaped) {
 
         if (log.isDebugEnabled()) {

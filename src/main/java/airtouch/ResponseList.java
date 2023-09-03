@@ -11,7 +11,7 @@ public class ResponseList<R,T> extends ArrayList<R> implements Response<T> {
     private T messageType;
     private int messageId;
 
-    public ResponseList (T messageType, int messageId, List responses ) {
+    public ResponseList (T messageType, int messageId, List<R> responses ) {
         this.addAll(responses);
         this.messageType = messageType;
         this.messageId = messageId;

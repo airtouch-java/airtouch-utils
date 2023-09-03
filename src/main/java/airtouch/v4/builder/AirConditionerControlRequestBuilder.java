@@ -156,7 +156,8 @@ public class AirConditionerControlRequestBuilder {
             }
             return request;
         }
-        
+
+        @SuppressWarnings("rawtypes")
         public Request build(int messageId) {
             return AirConditionerControlHandler.generateRequest(messageId, build());
         }
