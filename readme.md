@@ -2,7 +2,7 @@
 
 AirTouch is a third party unit for controlling a home Air-conditioning system. For more information see: [AirTouch](https://www.airtouch.net.au/)
 
-The developer of this library is not associated with the Polyaire company or the AirTouch product other than to have an AirTouch unit installed at home.
+The developer of this library is not associated with the Polyaire company or the AirTouch product other than to have an AirTouch unit installed at home. However, I'd like to thank the team at Polyaire for the support they have provided whilst developing the library.
 
 The AirTouch unit is an Android tablet device and some integration hardware installed in the home. The hardware integrates with various make of ducted home air-conditioners and the tablet runs the AirTouch UI and service.
 
@@ -12,7 +12,15 @@ This library `airtouch-utils` connects to the AirTouch service (over TCP) runnin
 
 ### Features of `airtouch-utils`
 - A discovery service and callback to broadcast the required UDP packets on the WiFi network in an attacmpt to discover the AirTouch system
-- Java implementation of ModBus over TCP protocol that the AirTouch uses for communication.
+- Handlers to generate status (read) requests and handle responses for the following:
+    - Air Conditioner (Power, Mode, Fan Speed, Temp. Setpoint, Error state)
+    - Air Conditioner Ability (Name, Zone count, Supported modes and fan-speeds, min and max setpoints)
+    - Zone (Temp. Setpoint, Damper Percentage, Control Mode - damper vs temperature, Temp. Sensor installed, Temp. Sensor battery low)
+    - Zone Names (Names of the zones as configured in AirTouch)
+    - Console information (Console version, update available)
+- Handlers to generate control (update) requests and handle responses for the following:
+    - Air Conditioner (Power, Mode, Fan Speed, Setpoint)
+    - Zone (Temp. Setpoint, Damper Percentage, Control Mode - damper vs temperature
 
 ### Using the `airtouch-utils` library
 
@@ -34,14 +42,41 @@ Connect to the Airtouch to send messages. Message responses are sent asynchronou
 You should expect `ResponseCallback.handleResponse(Response response)` to be called for any response event, and would typically code a switch statement to handle the type of message in the callback.
 
 #### Sending a message to AirTouch
-`artouch-utils` contains a number of [handlers](src/main/java/airtouch/v4/handler/) that do the job of creating request messages for the AirTouch and for parsing the responses received from AirTouch.
+`artouch-utils` contains a number of [handlers](src/main/java/airtouch/v4/handler/) that do the job of creating request messages for the AirTouch and parsing the responses received from AirTouch.
 
-```	// Example send a request to get the Group statuses
+There are two types of Handlers:
+1. Status Handlers - For generating a request for a status update and for handling responses to status updates.
+2. Control Handlers - For generating a request to change the state of the AirTouch.
+
+Note: A control request will generate a status response. Therefore, the control handlers don't need to handle responses because they are handled by the appropriate status handler.
+
+```java
+    // Example send a request to get the Zone statuses (known as Groups in AirTouch4)
     // When sending a message to AirTouch, you can include a request ID. The response
     // will contain the same request id.
     // For the GroupStatusHandler, you pass in a group index (zero based) or null to request the status for all groups.
     airtouchConnector.sendRequest(GroupStatusHandler.generateRequest(nextRequestId, null));
 ```
+Shortly after this is invoked, AirTouch will send a response to the connected TCP port. This will be handled by the listener and then the relevant Status Handler invoked to parse the message. Once successfully parsed, `ResponseCallback.handleResponse(Response response)` to be called for your code to handle the response. In the above you would expect the message to be a Zone (aka Group) status update.
+
+Control messages (to change a state in the AirTouch) are similar. A control message is sent, and then shortly after this is invoked, AirTouch will send a response to the connected TCP port. The response will be a status message showing the updated status of the changed object. For example, a Zone control message will generate an updated Zone Status response.
+
+```java
+        // Create control request to turn off second Air Conditioning unit on AirTouch (zero based index)
+        AirConditionerControlRequest acControlRequest = AirConditionerControlHandler.requestBuilder()
+                .acNumber(1)
+                .acPower(AcPower.POWER_OFF)
+                .build();
+        // Set the messageId to "1", and then convert the acControlRequest into an AirTouch Hex byte array
+        // with applicable header information and checksum.
+        Request<MessageType, MessageConstants.Address> request = AirConditionerControlHandler.generateRequest(1, acControlRequest);
+        // Send the request to the AirTouch (via the connector)
+        airtouchConnector.sendRequest(request);
+```
+
+Shortly after this is invoked, AirTouch will send a response to the connected TCP port. This will be handled by the listener and then the relevant Status Handler invoked to parse the message. Once successfully parsed, `ResponseCallback.handleResponse(Response response)` to be called for your code to handle the response. In the above you would expect the message to be a Air Conditioner status update.
+
+For more examples of the usage of handlers see the [handler unit tests](src/test/java/airtouch/v4/handler/). Note: These tests are examples of generating the requests and then validating that the message built matches the hex that should be sent to the AirTouch, or parsing the hex message from the AirTouch back into a valid response event.
 
 #### Handling a response from AirTouch
 Responses from AirTouch are parsed and then the `Response` object created and the `ResponseCallback.handleResponse(Response response)` is called.
@@ -105,7 +140,7 @@ Example broadcast to AirTouch4 and the call back implementation just printing th
 
 Note: The discoverer will broadcast forever, so it you should call `airtouch4Discoverer.shutdown();` whilst handling the response.
 
-###Building
+### Building
 Using Java8 (or higher) run maven as follows:
 
 ```
