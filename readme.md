@@ -11,7 +11,7 @@ This library `airtouch-utils` connects to the AirTouch service (over TCP) runnin
 `airtouch-utils` currently supports AirTouch4 (well tested), and AirTouch5 (un-tested).
 
 ### Features of `airtouch-utils`
-- A discovery service and callback to broadcast the required UDP packets on the WiFi network in an attacmpt to discover the AirTouch system
+- A discovery service and callback to broadcast the required UDP packets on the WiFi network in an attempt to discover the AirTouch system
 - Handlers to generate status (read) requests and handle responses for the following:
     - Air Conditioner (Power, Mode, Fan Speed, Temp. Setpoint, Error state)
     - Air Conditioner Ability (Name, Zone count, Supported modes and fan-speeds, min and max setpoints)
