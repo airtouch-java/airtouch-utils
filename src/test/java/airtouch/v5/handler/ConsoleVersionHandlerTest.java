@@ -7,16 +7,15 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.ConsoleVersionResponse;
 import airtouch.utils.HexString;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.model.ConsoleVersionResponse;
 
 public class ConsoleVersionHandlerTest {
 
     @Test
     public void testGeneratingConsoleVersionRequestForGroupZero() {
-        Request<MessageType, MessageConstants.Address> request = ConsoleVersionHandler.generateRequest(1);
+        Request<MessageConstants.Address> request = ConsoleVersionHandler.generateRequest(1);
         assertEquals("555555AA90b0011f0002ff309b8c".toUpperCase(), request.getHexString());
     }
 
@@ -31,7 +30,7 @@ public class ConsoleVersionHandlerTest {
         String dataBlockHexString = "000b312e302e332c312e302e33";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<ConsoleVersionResponse, MessageType> response = ConsoleVersionHandler.handle(0, dataBlockBytes);
+        ResponseList<ConsoleVersionResponse> response = ConsoleVersionHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());

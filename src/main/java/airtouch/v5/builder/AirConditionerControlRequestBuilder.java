@@ -1,12 +1,11 @@
 package airtouch.v5.builder;
 
 import airtouch.Request;
-import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerControlConstants.Mode;
 import airtouch.v5.constant.AirConditionerControlConstants.SetpointControl;
-import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.handler.AirConditionerControlHandler;
 import airtouch.v5.model.AirConditionerControlRequest;
 
@@ -159,7 +158,7 @@ public class AirConditionerControlRequestBuilder {
             return request;
         }
 
-        public Request<MessageType, MessageConstants.Address> build(int messageId) {
+        public Request<MessageConstants.Address> build(int messageId) {
             return AirConditionerControlHandler.generateRequest(messageId, build());
         }
     }

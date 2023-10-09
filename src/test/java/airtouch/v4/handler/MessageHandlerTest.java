@@ -11,7 +11,6 @@ import airtouch.utils.HexString;
 
 public class MessageHandlerTest {
 
-    @SuppressWarnings("rawtypes")
     @Test
     public void test() {
         // This data is copied from AirTouch4 protocol doc page 8.
@@ -21,7 +20,7 @@ public class MessageHandlerTest {
         byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
         MessageHandler messageHandler = new MessageHandler();
         Response response = messageHandler.handle(messsageBytes);
-        assertEquals(MessageType.GROUP_STATUS, response.getMessageType());
+        assertEquals(MessageType.GROUP_STATUS.toString(), response.getMessageType());
     }
 
     @Test(expected=UnknownAirtouchResponseException.class)

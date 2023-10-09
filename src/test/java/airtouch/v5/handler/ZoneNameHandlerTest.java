@@ -6,22 +6,21 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.ZoneNameResponse;
 import airtouch.utils.HexString;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.model.ZoneNameResponse;
 
 public class ZoneNameHandlerTest {
 
     @Test
     public void testGeneratingZoneNameRequest() {
-        Request<MessageType, MessageConstants.Address> request = ZoneNameHandler.generateRequest(1, null);
+        Request<MessageConstants.Address> request = ZoneNameHandler.generateRequest(1, null);
         assertEquals("555555aa90b0011f0002ff1342cd".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingZoneNameRequestForZoneZero() {
-        Request<MessageType, MessageConstants.Address> request = ZoneNameHandler.generateRequest(1, 0);
+        Request<MessageConstants.Address> request = ZoneNameHandler.generateRequest(1, 0);
         assertEquals("555555aa90b0011f0003ff13006982".toUpperCase(), request.getHexString());
     }
 
@@ -35,7 +34,7 @@ public class ZoneNameHandlerTest {
         String dataBlockHexString = "00064c6976696e67";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<ZoneNameResponse, MessageType> response = ZoneNameHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneNameResponse> response = ZoneNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());
@@ -56,7 +55,7 @@ public class ZoneNameHandlerTest {
         String dataBlockHexString = "00064C6976696E6701074B69746368656E0207426564726F6F6D";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<ZoneNameResponse, MessageType> response = ZoneNameHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneNameResponse> response = ZoneNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(3, response.size());

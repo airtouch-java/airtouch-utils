@@ -16,6 +16,7 @@ import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
+import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerAbilityResponse;
 
@@ -27,7 +28,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerAbilityHandler.class);
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No acNumber number, so ask for all ACs.
             // data array for AC Ability Name request - 0xff 0x11.
@@ -98,7 +99,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Ability objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerAbilityResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerAbilityResponse> handle(int messageId, byte[] airTouchDataBlock) {
         log.debug("Handling AirConditionerAbility message: {}", HexString.fromBytes(airTouchDataBlock));
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerAbilityResponse> acAbilities = new ArrayList<>();
@@ -146,7 +147,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
 
             acAbilities.add(acAbility);
         }
-        return new ResponseList<>(MessageType.AC_ABILITY, messageId, acAbilities);
+        return new ResponseList<>(ExtendedMessageType.AC_ABILITY, messageId, acAbilities);
     }
 
     private static int getDataLength(byte[] airTouchDataBlock) {

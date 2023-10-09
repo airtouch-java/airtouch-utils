@@ -7,16 +7,15 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AirConditionerErrorResponse;
-import airtouch.v4.constant.MessageConstants;
 import airtouch.utils.HexString;
+import airtouch.v4.constant.MessageConstants;
+import airtouch.v4.model.AirConditionerErrorResponse;
 
 public class AirConditionerErrorHandlerTest {
 
     @Test
     public void testGeneratingAirConditionerErrorRequestForGroupZero() {
-        Request<MessageType, MessageConstants.Address> request = AirConditionerErrorHandler.generateRequest(1, 0);
+        Request<MessageConstants.Address> request = AirConditionerErrorHandler.generateRequest(1, 0);
         assertEquals("555590b0011f0003ff10009982".toUpperCase(), request.getHexString());
     }
 
@@ -30,7 +29,7 @@ public class AirConditionerErrorHandlerTest {
         String dataBlockHexString = "000845523a2046464645";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<AirConditionerErrorResponse, MessageType> response = AirConditionerErrorHandler.handle(0, dataBlockBytes);
+        ResponseList<AirConditionerErrorResponse> response = AirConditionerErrorHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());

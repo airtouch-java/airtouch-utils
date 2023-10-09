@@ -12,7 +12,7 @@ import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
 import airtouch.utils.HexString;
 
-public class AirTouchRequest implements Request<MessageType, MessageConstants.Address> {
+public class AirTouchRequest implements Request<MessageConstants.Address> {
 
     private ByteBuffer buffer = ByteBuffer.allocateDirect(64); // TODO: make this more relevant.
     private Address address;
@@ -26,7 +26,7 @@ public class AirTouchRequest implements Request<MessageType, MessageConstants.Ad
         this.buffer.put(ByteUtil.getBytes(MessageConstants.HEADER, 4));
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
-        this.buffer.put(ByteUtil.getBytes(messageType.getBytes(), 1));
+        this.buffer.put(messageType.getBytes());
         this.buffer.put(ByteUtil.getBytes(data.length, 2));
         this.buffer.put(data);
         this.buffer.put(calculateCheckSum());
@@ -39,7 +39,7 @@ public class AirTouchRequest implements Request<MessageType, MessageConstants.Ad
         this.buffer.put(ByteUtil.getBytes(MessageConstants.HEADER, 4));
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
-        this.buffer.put(ByteUtil.getBytes(messageType.getBytes(), 1));
+        this.buffer.put(messageType.getBytes());
         byte[] data = new byte[] { (byte) subType.getBytes(), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         this.buffer.put(ByteUtil.getBytes(data.length, 2));

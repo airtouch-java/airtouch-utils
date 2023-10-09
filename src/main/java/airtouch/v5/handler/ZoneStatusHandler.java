@@ -18,7 +18,7 @@ import airtouch.v5.model.ZoneStatusResponse;
 
 public class ZoneStatusHandler extends AbstractHandler {
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer zoneNumber) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, Integer zoneNumber) {
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.ZONE_STATUS);
     }
 
@@ -52,7 +52,7 @@ public class ZoneStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of ZoneStatus objects. One for each zone message found.
      */
-    public static ResponseList<ZoneStatusResponse, MessageType> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneStatusResponse> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneStatusResponse> zoneStatuses = new ArrayList<>();
         for (int i = 0; i <= subMessageMetaData.getRepeatDataCount(); i++) {

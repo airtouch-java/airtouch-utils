@@ -13,13 +13,12 @@ import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.Address;
-import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.handler.MessageHandler;
-import airtouch.v5.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.handler.MessageHandler;
+import airtouch.v5.internal.MessageHolder;
 
 public class AirtouchConnectorThread extends Thread implements Runnable {
 
@@ -32,16 +31,16 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
 
     private boolean stopping;
     private final InputStream input;
-    private final ResponseCallback<MessageType> responseCallback;
+    private final ResponseCallback responseCallback;
 
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback<MessageType> responseCallback) {
+    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
         super(DEFAULT_THREAD_NAME);
         this.input = input;
         this.responseCallback = responseCallback;
     }
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback<MessageType> responseCallback, String threadName) {
+    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
         super(threadName);
         this.input = input;
         this.responseCallback = responseCallback;
@@ -116,8 +115,7 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
 
     private void handleFinishedMessage(MessageHandler messageHandler, MessageHolder messageHolder) {
         try {
-            @SuppressWarnings("unchecked")
-            Response<MessageType> response = messageHandler.handle(messageHolder.getBytes());
+            Response response = messageHandler.handle(messageHolder.getBytes());
             if (log.isDebugEnabled()) {
                 log.debug("Received response: '{}'. Sending to ", response);
             }

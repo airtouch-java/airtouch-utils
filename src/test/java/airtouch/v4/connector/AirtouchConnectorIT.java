@@ -21,6 +21,7 @@ import airtouch.v4.builder.AirConditionerControlRequestBuilder;
 import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
+import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.handler.AirConditionerAbilityHandler;
 import airtouch.v4.handler.AirConditionerControlHandler;
@@ -29,9 +30,7 @@ import airtouch.v4.handler.ConsoleVersionHandler;
 import airtouch.v4.handler.GroupControlHandler;
 import airtouch.v4.handler.GroupNameHandler;
 import airtouch.v4.handler.GroupStatusHandler;
-import airtouch.v4.constant.MessageConstants;
 
-@SuppressWarnings("rawtypes")
 public class AirtouchConnectorIT {
 
     private final Logger log = LoggerFactory.getLogger(AirtouchConnector.class);
@@ -46,9 +45,9 @@ public class AirtouchConnectorIT {
         String hostName = System.getenv("AIRTOUCH_HOST");
         int portNumber = 9004;
 
-        AirtouchConnector airtouchConnector = new AirtouchConnector(hostName, portNumber, new ResponseCallback<MessageType>() {
+        AirtouchConnector airtouchConnector = new AirtouchConnector(hostName, portNumber, new ResponseCallback() {
             @Override
-            public void handleResponse(Response<MessageType> response) {
+            public void handleResponse(Response response) {
                 responses.put(response.getMessageId(), response);
                 log.info(response.toString());
                 counter.getAndIncrement();
@@ -77,7 +76,7 @@ public class AirtouchConnectorIT {
         assertEquals(MessageType.GROUP_STATUS, responses.get(1).getMessageType());
 
         assertTrue(responses.containsKey(2));
-        assertEquals(MessageType.GROUP_NAME, responses.get(2).getMessageType());
+        assertEquals(ExtendedMessageType.GROUP_NAME, responses.get(2).getMessageType());
 
         assertTrue(responses.containsKey(3));
         assertEquals(MessageType.AC_STATUS, responses.get(3).getMessageType());

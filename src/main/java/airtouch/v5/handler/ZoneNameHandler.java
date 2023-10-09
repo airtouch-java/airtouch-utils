@@ -10,6 +10,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ZoneNameResponse;
 
@@ -19,7 +20,7 @@ import airtouch.v5.model.ZoneNameResponse;
  */
 public class ZoneNameHandler extends AbstractHandler {
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer zoneNumber) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, Integer zoneNumber) {
 
         if (zoneNumber == null) { // No zone number, so ask for all zones.
             // data array for Zone Name request - 0xff 0x13.
@@ -46,7 +47,7 @@ public class ZoneNameHandler extends AbstractHandler {
 
      */
 
-    public static ResponseList<ZoneNameResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneNameResponse> zoneNames = new ArrayList<>();
 
@@ -62,7 +63,7 @@ public class ZoneNameHandler extends AbstractHandler {
             zoneOffset = zoneOffset + 2 + zoneNameLength;
         }
 
-        return new ResponseList<>(MessageType.ZONE_NAME, messageId, zoneNames);
+        return new ResponseList<>(ExtendedMessageType.ZONE_NAME, messageId, zoneNames);
     }
 
 }

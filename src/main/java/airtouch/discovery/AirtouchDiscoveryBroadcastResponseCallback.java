@@ -18,7 +18,7 @@ public interface AirtouchDiscoveryBroadcastResponseCallback {
      * <li> {@link AirtouchVersion}
      * <li> AirTouch Unique ID
      * </ul>
-     * or the following or AirTouch5
+     * or the following for AirTouch5
      * <ul>
      * <li> Host IP Address
      * <li> Console ID

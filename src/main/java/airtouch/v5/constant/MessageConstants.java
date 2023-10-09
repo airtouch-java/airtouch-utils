@@ -1,5 +1,6 @@
 package airtouch.v5.constant;
 
+import airtouch.ResponseMessageType;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;
 
@@ -7,7 +8,7 @@ public class MessageConstants {
 
     public static final int HEADER = 0x555555AA;
 
-    public enum Address {
+    public enum Address implements ResponseMessageType {
         STANDARD_SEND(0x80b0),
         EXTENDED_SEND(0x90b0),
         STANDARD_RECEIVE(0xb080),
@@ -48,20 +49,24 @@ public class MessageConstants {
         private int getLastByte() {
             return this.bytes & 0x00FF;
         }
+
+        @Override
+        public String getMessageType() {
+            return this.toString();
+        }
     }
 
-    public enum MessageType {
+    public enum MessageType implements ResponseMessageType {
         CONTROL_OR_STATUS(0xC0),
         EXTENDED(0x1F),
         
 
-        AC_ABILITY(0xFF11),       // Extended Message sub-type
-        ZONE_NAME(0xFF13),        // Extended Message sub-type
-        CONSOLE_VERSION(0xFF30),  // Extended Message sub-type
-        
+//        AC_ABILITY(0xFF11),       // Extended Message sub-type
+//        ZONE_NAME(0xFF13),        // Extended Message sub-type
+//        CONSOLE_VERSION(0xFF30),  // Extended Message sub-type
+//        
         ZONE_STATUS(0x21),        // Status Message sub-type
         AC_STATUS(0x23);          // Status Message sub-type
-
 
         private int bytes;
 
@@ -69,14 +74,19 @@ public class MessageConstants {
             this.bytes = bytes;
         }
 
-        public int getBytes() {
-            return bytes & 0xFF;
+        public byte[] getBytes() {
+            return ByteUtil.getBytes(this.bytes, 1);
+        }
+        
+        @Override
+        public String getMessageType() {
+            return this.toString();
         }
 
         public static MessageType getFromByte(int byte8) {
-            if (CONTROL_OR_STATUS.getBytes() == byte8) {
+            if (CONTROL_OR_STATUS.bytes == byte8) {
                 return CONTROL_OR_STATUS;
-            } else if (EXTENDED.getBytes() == byte8) {
+            } else if (EXTENDED.bytes == byte8) {
                 return EXTENDED;
             } else {
                 throw new IllegalArgumentException(
@@ -119,7 +129,7 @@ public class MessageConstants {
         }
     }
 
-    public enum ExtendedMessageType {
+    public enum ExtendedMessageType implements ResponseMessageType {
         AC_ERROR(0xFF10),
         AC_ABILITY(0xFF11),
         ZONE_NAME(0xFF13),
@@ -148,6 +158,11 @@ public class MessageConstants {
             throw new IllegalArgumentException(String.format(
                     "Unable to resolve ExtendedMessageType from supplied bytes. Supplied bytes are: '%s'",
                     HexString.fromBytes(ByteUtil.getBytes(l, 2))));
+        }
+
+        @Override
+        public String getMessageType() {
+            return this.toString();
         }
 
     }

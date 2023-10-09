@@ -10,10 +10,9 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.exception.AirtouchMessagingException;
-import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.Request;
 import airtouch.ResponseCallback;
+import airtouch.exception.AirtouchMessagingException;
 
 public class AirtouchConnector {
 
@@ -22,12 +21,12 @@ public class AirtouchConnector {
     private InputStream input;
     private OutputStream output;
 
-    private final ResponseCallback<MessageType> responseCallback;
+    private final ResponseCallback responseCallback;
     private final String hostName;
     private final int portNumber;
     private AirtouchConnectorThread thread;
 
-    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback<MessageType> responseCallback) {
+    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback responseCallback) {
         if (hostName == null || hostName.trim().equals("")) {
             throw new AirtouchMessagingException("hostName is blank. Please pass in a valid hostName when creating an AirtouchConnector instance.");
         }

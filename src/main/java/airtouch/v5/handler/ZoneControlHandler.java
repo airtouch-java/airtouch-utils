@@ -14,7 +14,7 @@ public class ZoneControlHandler extends AbstractControlHandler {
 
     private ZoneControlHandler() {}
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, ZoneControlRequest zoneControlRequest) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, ZoneControlRequest zoneControlRequest) {
         ByteBuffer byteBuffer = assembleRequest(MessageConstants.ControlOrStatusMessageSubType.ZONE_CONTROL.getBytes(), zoneControlRequest);
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
     }

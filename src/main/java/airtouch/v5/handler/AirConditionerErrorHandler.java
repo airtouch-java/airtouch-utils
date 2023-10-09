@@ -23,7 +23,7 @@ public class AirConditionerErrorHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AirConditionerErrorHandler.class);
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, int acNumber) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, int acNumber) {
 
         // data array for Error request - 0xff 0x10 .
         byte[] data = { (byte) 0xff, (byte) 0x10, (byte) (acNumber & 0xFF)} ;
@@ -51,7 +51,7 @@ public class AirConditionerErrorHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List containing one AC Error object.
      */
-    public static ResponseList<AirConditionerErrorResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerErrorResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
 
         AirConditionerErrorResponse acErrorResponse = new AirConditionerErrorResponse();

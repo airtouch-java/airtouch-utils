@@ -2,7 +2,6 @@ package airtouch.v5.builder;
 
 import airtouch.Request;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
 import airtouch.v5.constant.ZoneControlConstants.ZonePower;
 import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;
@@ -131,7 +130,7 @@ public class ZoneControlRequestBuilder {
         return request;
     }
 
-    public Request<MessageType, MessageConstants.Address> build(int messageId) {
+    public Request<MessageConstants.Address> build(int messageId) {
         return ZoneControlHandler.generateRequest(messageId, build());
     }
 }

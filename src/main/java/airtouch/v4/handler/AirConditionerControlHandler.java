@@ -27,7 +27,7 @@ public class AirConditionerControlHandler {
 
     private AirConditionerControlHandler() {}
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, AirConditionerControlRequest acControlRequest) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, AirConditionerControlRequest acControlRequest) {
         byte[] data = acControlRequest.getBytes();
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.AC_CONTROL, data);
     }

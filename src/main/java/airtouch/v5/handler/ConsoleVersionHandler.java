@@ -12,6 +12,7 @@ import airtouch.ResponseList;
 import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.model.ConsoleVersionResponse;
 
@@ -23,7 +24,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ConsoleVersionHandler.class);
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId) {
 
         // data array for Console Version request - 0xff 0x30.
         byte[] data = { (byte) 0xff, (byte) 0x30 };
@@ -52,7 +53,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<ConsoleVersionResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ConsoleVersionResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
 
         ConsoleVersionResponse consoleVersionResponse = new ConsoleVersionResponse();
@@ -65,7 +66,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
         String versionString = new String(stripNulls(Arrays.copyOfRange(airTouchDataBlock, 2, dataLength + 2)), StandardCharsets.US_ASCII);
         consoleVersionResponse.setVersions(Arrays.asList(versionString.trim().split("\\,")));
 
-        return new ResponseList<>(MessageType.CONSOLE_VERSION, messageId, Collections.singletonList(consoleVersionResponse));
+        return new ResponseList<>(ExtendedMessageType.CONSOLE_VERSION, messageId, Collections.singletonList(consoleVersionResponse));
     }
 
     private static boolean determineUpdateRequired(byte byte3) {

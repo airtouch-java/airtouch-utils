@@ -7,10 +7,10 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.ByteUtil;
 import airtouch.v4.AirTouchRequest;
-import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.v4.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.AirConditionerStatusResponse;
@@ -21,7 +21,7 @@ import airtouch.v4.model.AirConditionerStatusResponse;
  */
 public class AirConditionerStatusHandler extends AbstractHandler {
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, Integer acNumber) {
 
         if (acNumber == null) { // No AC number, so ask for all ACs.
             // Empty data array for AC Status request.
@@ -79,7 +79,7 @@ public class AirConditionerStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerStatusResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {

@@ -1,21 +1,20 @@
 package airtouch.v4.handler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.GroupStatusResponse;
-import airtouch.v4.constant.MessageConstants;
 import airtouch.utils.HexString;
+import airtouch.v4.constant.MessageConstants;
+import airtouch.v4.model.GroupStatusResponse;
 
 public class GroupStatusHandlerTest {
 
     @Test
     public void testGeneratingGroupStatusRequest() {
-        Request<MessageType, MessageConstants.Address> request = GroupStatusHandler.generateRequest(1, 0);
+        Request<MessageConstants.Address> request = GroupStatusHandler.generateRequest(1, 0);
         assertEquals("555580b0012b0000f52f".toUpperCase(), request.getHexString());
     }
 
@@ -29,7 +28,7 @@ public class GroupStatusHandlerTest {
         String dataBlockHexString = "40640000ff0041e41a806180";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupStatusResponse, MessageType> response = GroupStatusHandler.handle(0, dataBlockBytes);
+        ResponseList<GroupStatusResponse> response = GroupStatusHandler.handle(0, dataBlockBytes);
         assertEquals(2, response.size());
     }
 

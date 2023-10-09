@@ -6,22 +6,21 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.GroupNameResponse;
-import airtouch.v4.constant.MessageConstants;
 import airtouch.utils.HexString;
+import airtouch.v4.constant.MessageConstants;
+import airtouch.v4.model.GroupNameResponse;
 
 public class GroupNameHandlerTest {
 
     @Test
     public void testGeneratingGroupNameRequest() {
-        Request<MessageType, MessageConstants.Address> request = GroupNameHandler.generateRequest(1, null);
+        Request<MessageConstants.Address> request = GroupNameHandler.generateRequest(1, null);
         assertEquals("555590b0011f0002ff12820c".toUpperCase(), request.getHexString());
     }
 
     @Test
     public void testGeneratingGroupNameRequestForGroupZero() {
-        Request<MessageType, MessageConstants.Address> request = GroupNameHandler.generateRequest(1, 0);
+        Request<MessageConstants.Address> request = GroupNameHandler.generateRequest(1, 0);
         assertEquals("555590b0011f0003ff1200f983".toUpperCase(), request.getHexString());
     }
 
@@ -35,7 +34,7 @@ public class GroupNameHandlerTest {
         String dataBlockHexString = "0047726f7570310000";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupNameResponse, MessageType> response = GroupNameHandler.handle(0, dataBlockBytes);
+        ResponseList<GroupNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());
@@ -55,7 +54,7 @@ public class GroupNameHandlerTest {
         String dataBlockHexString = "004c6976696e670000014b69746368656e0002426564726f6f6d00";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupNameResponse, MessageType> response = GroupNameHandler.handle(0, dataBlockBytes);
+        ResponseList<GroupNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(3, response.size());

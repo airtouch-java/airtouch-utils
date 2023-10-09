@@ -8,7 +8,6 @@ import airtouch.Request;
 import airtouch.utils.HexString;
 import airtouch.v5.builder.ZoneControlRequestBuilder;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
 import airtouch.v5.constant.ZoneControlConstants.ZonePower;
 import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;
@@ -23,7 +22,7 @@ public class ZoneControlHandlerTest {
                 .build();
 
 
-        Request<MessageType, MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        Request<MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
         assertEquals("555555aa80b00fc0000c20000000000400010102000000e0".toUpperCase(), request.getHexString());
     }
 
@@ -34,7 +33,7 @@ public class ZoneControlHandlerTest {
                 .power(ZonePower.POWER_OFF)
                 .build();
 
-        Request<MessageType, MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        Request<MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
         assertEquals("555555aa80b00fc0000c20000000000400010102000000e0".toUpperCase(), request.getHexString());
     }
 
@@ -45,7 +44,7 @@ public class ZoneControlHandlerTest {
                 .control(ZoneControl.PERCENTAGE_CONTROL)
                 .build();
 
-        Request<MessageType, MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        Request<MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
         assertEquals("555555aa80b00fc0000c2000000000040001011000000540".toUpperCase(), request.getHexString());
     }
 
@@ -56,7 +55,7 @@ public class ZoneControlHandlerTest {
                 .control(ZoneControl.TEMPERATURE_CONTROL)
                 .build();
 
-        Request<MessageType, MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
+        Request<MessageConstants.Address> request = ZoneControlHandler.generateRequest(15, zoneControlRequest);
         assertEquals("555555aa80b00fc0000c200000000004000101180000C7C1".toUpperCase(), request.getHexString());
     }
 
@@ -67,7 +66,7 @@ public class ZoneControlHandlerTest {
                 .settingValue(80)
                 .build();
 
-        Request<MessageType, MessageConstants.Address> request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
+        Request<MessageConstants.Address> request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
         assertEquals("555555aa80b001c0000c200000000004000100805000b0f9".toUpperCase(), request.getHexString());
     }
 
@@ -78,7 +77,7 @@ public class ZoneControlHandlerTest {
                 .settingValue(25)
                 .build();
 
-        Request<MessageType, MessageConstants.Address> request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
+        Request<MessageConstants.Address> request = ZoneControlHandler.generateRequest(1, zoneControlRequest);
         assertEquals("555555aa80b001c0000c200000000004000100a09600daab".toUpperCase(), request.getHexString());
     }
 

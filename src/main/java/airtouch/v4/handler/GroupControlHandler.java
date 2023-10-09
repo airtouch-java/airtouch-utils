@@ -12,7 +12,7 @@ public class GroupControlHandler {
 
     private GroupControlHandler() {}
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, GroupControlRequest groupControlRequest) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, GroupControlRequest groupControlRequest) {
         byte[] data = groupControlRequest.getBytes();
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.GROUP_CONTROL, data);
     }

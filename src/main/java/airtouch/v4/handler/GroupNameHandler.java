@@ -11,6 +11,7 @@ import airtouch.utils.HexString;
 import airtouch.v4.AirTouchRequest;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
+import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.v4.model.GroupNameResponse;
 
@@ -20,7 +21,7 @@ import airtouch.v4.model.GroupNameResponse;
  */
 public class GroupNameHandler extends AbstractHandler {
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId, Integer groupNumber) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId, Integer groupNumber) {
 
         if (groupNumber == null) { // No group number, so ask for all groups.
             // data array for Group Name request - 0xff 0x12.
@@ -46,7 +47,7 @@ public class GroupNameHandler extends AbstractHandler {
 
      */
 
-    public static ResponseList<GroupNameResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<GroupNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<GroupNameResponse> groupNames = new ArrayList<>();
 
@@ -58,7 +59,7 @@ public class GroupNameHandler extends AbstractHandler {
             groupName.setName(name);
             groupNames.add(groupName);
         }
-        return new ResponseList<>(MessageType.GROUP_NAME, messageId, groupNames);
+        return new ResponseList<>(ExtendedMessageType.GROUP_NAME, messageId, groupNames);
     }
 
     private static int getGroupCount(byte[] airTouchDataBlock) {

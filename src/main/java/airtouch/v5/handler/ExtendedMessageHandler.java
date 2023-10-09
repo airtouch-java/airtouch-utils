@@ -14,7 +14,6 @@ public class ExtendedMessageHandler extends AbstractHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ExtendedMessageHandler.class);
 
-    @SuppressWarnings("rawtypes")
     public static Response handle(int messageId, byte[] data) {
         checkHeaderIsRemoved(data);
         ExtendedMessageType extendedMessageType = ExtendedMessageType.getFromBytes(ByteUtil.toInt(data[0], data[1]));
@@ -23,9 +22,9 @@ public class ExtendedMessageHandler extends AbstractHandler {
             log.debug("Airtouch message: [messageId={}, type={}, dataLength={}, hexData={}]", messageId, extendedMessageType, data.length, HexString.fromBytes(data));
         }
 
-        switch(extendedMessageType) { //NOSONAR - Will add more to this switch
+        switch(extendedMessageType) {
         case AC_ERROR:
-            // Strip off the first two bytes, as they will be the 0xFF 0x10 for Console Version.
+            // Strip off the first two bytes, as they will be the 0xFF 0x10 for AC Error.
             return AirConditionerErrorHandler.handle(messageId, Arrays.copyOfRange(data, 2, data.length));
         case ZONE_NAME:
             // Strip off the first two bytes, as they will be the 0xFF 0x13 for ZoneName.

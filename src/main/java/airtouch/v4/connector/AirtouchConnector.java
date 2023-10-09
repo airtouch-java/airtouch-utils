@@ -15,6 +15,7 @@ import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.Request;
 import airtouch.ResponseCallback;
+import airtouch.ResponseMessageType;
 
 public class AirtouchConnector {
 
@@ -23,12 +24,12 @@ public class AirtouchConnector {
     private InputStream input;
     private OutputStream output;
 
-    private final ResponseCallback<MessageType> responseCallback;
+    private final ResponseCallback responseCallback;
     private final String hostName;
     private final int portNumber;
     private AirtouchConnectorThread thread;
 
-    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback<MessageType> responseCallback) {
+    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback responseCallback) {
         if (hostName == null || hostName.trim().equals("")) {
             throw new AirtouchMessagingException("hostName is blank. Please pass in a valid hostName when creating an AirtouchConnector instance.");
         }
@@ -56,7 +57,7 @@ public class AirtouchConnector {
         }
     }
 
-    public synchronized void sendRequest(Request<MessageType, MessageConstants.Address> request) throws IOException {
+    public synchronized void sendRequest(Request<MessageConstants.Address> request) throws IOException {
         if (this.socket == null || this.output == null) {
             throw new AirtouchMessagingException("Failed to send request. Connection not available. Did you call 'start()' first?");
         }

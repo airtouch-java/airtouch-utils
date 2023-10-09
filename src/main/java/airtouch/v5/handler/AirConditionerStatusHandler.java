@@ -22,7 +22,7 @@ import airtouch.v5.model.AirConditionerStatusResponse;
  */
 public class AirConditionerStatusHandler extends AbstractControlHandler {
 
-    public static Request<MessageType, MessageConstants.Address> generateRequest(int messageId) {
+    public static Request<MessageConstants.Address> generateRequest(int messageId) {
         return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, ControlOrStatusMessageSubType.AC_STATUS);
     }
 
@@ -71,7 +71,7 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
      * @param airTouchDataBlock
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerStatusResponse, MessageType> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {
