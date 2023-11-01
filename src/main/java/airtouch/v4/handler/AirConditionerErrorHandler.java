@@ -13,7 +13,7 @@ import airtouch.v4.AirTouchRequest;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AirConditionerErrorResponse;
+import airtouch.model.AirConditionerErrorResponse;
 
 /**
  * Handler for AirConditioner Error responses<p>

@@ -8,7 +8,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.HexString;
 import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.model.GroupNameResponse;
+import airtouch.model.ZoneNameResponse;
 
 public class GroupNameHandlerTest {
 
@@ -34,12 +34,12 @@ public class GroupNameHandlerTest {
         String dataBlockHexString = "0047726f7570310000";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(1, response.size());
-        GroupNameResponse acStatus01 = response.get(0);
-        assertEquals(0, acStatus01.getGroupNumber());
+        ZoneNameResponse acStatus01 = response.get(0);
+        assertEquals(0, acStatus01.getZoneNumber());
         assertEquals("Group1", acStatus01.getName());
 
     }
@@ -54,20 +54,20 @@ public class GroupNameHandlerTest {
         String dataBlockHexString = "004c6976696e670000014b69746368656e0002426564726f6f6d00";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneNameResponse> response = GroupNameHandler.handle(0, dataBlockBytes);
         System.out.println("##" + response + "##");
 
         assertEquals(3, response.size());
-        GroupNameResponse acStatus01 = response.get(0);
-        assertEquals(0, acStatus01.getGroupNumber());
+        ZoneNameResponse acStatus01 = response.get(0);
+        assertEquals(0, acStatus01.getZoneNumber());
         assertEquals("Living", acStatus01.getName());
 
-        GroupNameResponse acStatus02 = response.get(1);
-        assertEquals(1, acStatus02.getGroupNumber());
+        ZoneNameResponse acStatus02 = response.get(1);
+        assertEquals(1, acStatus02.getZoneNumber());
         assertEquals("Kitchen", acStatus02.getName());
 
-        GroupNameResponse acStatus03 = response.get(2);
-        assertEquals(2, acStatus03.getGroupNumber());
+        ZoneNameResponse acStatus03 = response.get(2);
+        assertEquals(2, acStatus03.getZoneNumber());
         assertEquals("Bedroom", acStatus03.getName());
 
     }

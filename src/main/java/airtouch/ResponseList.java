@@ -23,7 +23,7 @@ public class ResponseList<R> extends ArrayList<R> implements Response {
     }
 
     @Override
-    public String getMessageType() {
+    public MessageType getMessageType() {
         return this.messageType.getMessageType();
     }
 

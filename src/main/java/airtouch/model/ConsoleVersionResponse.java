@@ -1,4 +1,4 @@
-package airtouch.v4.model;
+package airtouch.model;
 
 import java.util.List;
 

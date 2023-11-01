@@ -2,6 +2,6 @@ package airtouch;
 
 public interface ResponseMessageType {
 
-    public String getMessageType();
+    public MessageType getMessageType();
     public byte[] getBytes();
 }

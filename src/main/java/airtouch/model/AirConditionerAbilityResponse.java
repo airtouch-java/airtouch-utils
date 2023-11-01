@@ -1,18 +1,18 @@
-package airtouch.v4.model;
+package airtouch.model;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import airtouch.v4.constant.AirConditionerControlConstants;
-import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v4.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants;
+import airtouch.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.constant.AirConditionerControlConstants.Mode;
 
 public class AirConditionerAbilityResponse {
 
     private int acNumber;
     private String acName;
-    private int startGroupNumber;
-    private int groupCount;
+    private int startZoneNumber;
+    private int zoneCount;
     private Set<AirConditionerControlConstants.Mode> supportedModes = new HashSet<>();
     private Set<AirConditionerControlConstants.FanSpeed> supportedFanSpeeds = new HashSet<>();
 
@@ -33,17 +33,17 @@ public class AirConditionerAbilityResponse {
     }
 
     public int getStartGroupNumber() {
-        return startGroupNumber;
+        return startZoneNumber;
     }
     public void setStartGroupNumber(int startGroupNumber) {
-        this.startGroupNumber = startGroupNumber;
+        this.startZoneNumber = startGroupNumber;
     }
 
-    public int getGroupCount() {
-        return groupCount;
+    public int getZoneCount() {
+        return zoneCount;
     }
-    public void setGroupCount(int groupCount) {
-        this.groupCount = groupCount;
+    public void setZoneCount(int zoneCount) {
+        this.zoneCount = zoneCount;
     }
 
     public boolean addSupportedMode(AirConditionerControlConstants.Mode mode) {
@@ -74,7 +74,7 @@ public class AirConditionerAbilityResponse {
     @Override
     public String toString() {
         return "AirConditionerAbilityResponse [acNumber=" + acNumber + ", acName=" + acName + ", startGroupNumber="
-                + startGroupNumber + ", groupCount=" + groupCount + ", supportedModes=" + supportedModes
+                + startZoneNumber + ", groupCount=" + zoneCount + ", supportedModes=" + supportedModes
                 + ", supportedFanSpeeds=" + supportedFanSpeeds + ", minSetPoint=" + minSetPoint + ", maxSetPoint="
                 + maxSetPoint + "]";
     }

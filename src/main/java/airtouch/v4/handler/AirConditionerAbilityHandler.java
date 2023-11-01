@@ -18,7 +18,7 @@ import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AirConditionerAbilityResponse;
+import airtouch.model.AirConditionerAbilityResponse;
 
 /**
  * Handler for AirConditioner Ability responses<p>
@@ -121,7 +121,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
             // byte21 is Group Start number, aka 18
             acAbility.setStartGroupNumber(airTouchDataBlock[acOffset + 18] & 0xFF);
             // byte22 is the count of groups, aka 19
-            acAbility.setGroupCount(airTouchDataBlock[acOffset + 19] & 0xFF);
+            acAbility.setZoneCount(airTouchDataBlock[acOffset + 19] & 0xFF);
             // byte23 tells us which modes are supported. aka 20
             // The first 3 bits (8-6) are not used. The remaining 5 bits represent one Mode each.
             addIfModeIsSupported(acAbility, airTouchDataBlock[acOffset + 20], 0b00010000, Mode.COOL);
@@ -165,7 +165,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         int modeBit = byte23 & bitmask;
         // if the modeBit still equals the bitmask, then the bit we care about is a '1'
         if (modeBit == bitmask) {
-            acAbility.addSupportedMode(acMode);
+            acAbility.addSupportedMode(acMode.getGeneric());
         };
     }
     private static void addIfFanSpeedIsSupported(AirConditionerAbilityResponse acAbility, byte byte24, int bitmask, FanSpeed fanSpeed) {
@@ -173,7 +173,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         int fanSpeedBit = byte24 & bitmask;
         // if the fanSpeedBit still equals the bitmask, then the bit we care about is a '1'
         if (fanSpeedBit == bitmask) {
-            acAbility.addSupportedFanSpeed(fanSpeed);
+            acAbility.addSupportedFanSpeed(fanSpeed.getGeneric());
         };
     }
 

@@ -13,7 +13,7 @@ import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.GroupNameResponse;
+import airtouch.model.ZoneNameResponse;
 
 /**
  * Handler for GroupName extended format responses.
@@ -47,14 +47,14 @@ public class GroupNameHandler extends AbstractHandler {
 
      */
 
-    public static ResponseList<GroupNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneNameResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
-        List<GroupNameResponse> groupNames = new ArrayList<>();
+        List<ZoneNameResponse> groupNames = new ArrayList<>();
 
         for (int i = 0; i < getGroupCount(airTouchDataBlock); i++) {
             int groupOffset = i * 9;
-            GroupNameResponse groupName = new GroupNameResponse();
-            groupName.setGroupNumber(airTouchDataBlock[groupOffset + 0]);
+            ZoneNameResponse groupName = new ZoneNameResponse();
+            groupName.setZoneNumber(airTouchDataBlock[groupOffset + 0]);
             String name = new String(stripNulls(Arrays.copyOfRange(airTouchDataBlock, groupOffset + 1, groupOffset +9)), StandardCharsets.US_ASCII);
             groupName.setName(name);
             groupNames.add(groupName);

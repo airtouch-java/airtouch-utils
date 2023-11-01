@@ -14,7 +14,7 @@ import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.ConsoleVersionResponse;
+import airtouch.model.ConsoleVersionResponse;
 
 /**
  * Handler for AirConditioner Ability responses<p>

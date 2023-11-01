@@ -11,7 +11,7 @@ import airtouch.v4.constant.GroupStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.GroupStatusResponse;
+import airtouch.model.ZoneStatusResponse;
 
 public class GroupStatusHandler extends AbstractHandler {
 
@@ -50,15 +50,15 @@ public class GroupStatusHandler extends AbstractHandler {
      * @param airTouchDataBlock
      * @return a List of GroupStatus objects. One for each group message found.
      */
-    public static ResponseList<GroupStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<ZoneStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
-        List<GroupStatusResponse> groupStatuses = new ArrayList<>();
+        List<ZoneStatusResponse> groupStatuses = new ArrayList<>();
         for (int i = 0; i < getGroupCount(airTouchDataBlock); i++) {
             int groupOffset = i * 6;
-            GroupStatusResponse groupStatus = new GroupStatusResponse();
-            groupStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[groupOffset + 0]));
-            groupStatus.setGroupNumber(resolveGroupNumber(airTouchDataBlock[groupOffset + 0]));
-            groupStatus.setControlMethod(ControlMethod.getFromByte(airTouchDataBlock[groupOffset + 1]));
+            ZoneStatusResponse groupStatus = new ZoneStatusResponse();
+            groupStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[groupOffset + 0]).getGeneric());
+            groupStatus.setZoneNumber(resolveGroupNumber(airTouchDataBlock[groupOffset + 0]));
+            groupStatus.setControlMethod(ControlMethod.getFromByte(airTouchDataBlock[groupOffset + 1]).getGeneric());
             groupStatus.setOpenPercentage(determineOpenPercentage(airTouchDataBlock[groupOffset + 1]));
             groupStatus.setBatteryLow(determineBatteryLow(airTouchDataBlock[groupOffset + 2]));
             groupStatus.setTurboSupported(determineTurboSupported(airTouchDataBlock[groupOffset + 2]));

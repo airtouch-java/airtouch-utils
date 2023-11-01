@@ -51,20 +51,31 @@ public class MessageConstants {
         }
 
         @Override
-        public String getMessageType() {
-            return this.toString();
+        public airtouch.MessageType getMessageType() {
+            switch (this) {
+            case STANDARD_SEND:
+                return airtouch.MessageType.STANDARD_SEND;
+            case EXTENDED_SEND:
+                return airtouch.MessageType.EXTENDED_SEND;
+            case STANDARD_RECEIVE:
+                return airtouch.MessageType.STANDARD_RECEIVE;
+            case EXTENDED_RECEIVE:
+                return airtouch.MessageType.EXTENDED_RECEIVE;
+            default:
+                return airtouch.MessageType.UNKNOWN;
+            }
         }
     }
 
     public enum MessageType implements ResponseMessageType {
         CONTROL_OR_STATUS(0xC0),
         EXTENDED(0x1F),
-        
+
 
 //        AC_ABILITY(0xFF11),       // Extended Message sub-type
 //        ZONE_NAME(0xFF13),        // Extended Message sub-type
 //        CONSOLE_VERSION(0xFF30),  // Extended Message sub-type
-//        
+//
         ZONE_STATUS(0x21),        // Status Message sub-type
         AC_STATUS(0x23);          // Status Message sub-type
 
@@ -77,10 +88,17 @@ public class MessageConstants {
         public byte[] getBytes() {
             return ByteUtil.getBytes(this.bytes, 1);
         }
-        
+
         @Override
-        public String getMessageType() {
-            return this.toString();
+        public airtouch.MessageType getMessageType() {
+            switch (this) {
+            case CONTROL_OR_STATUS:
+                return airtouch.MessageType.CONTROL_OR_STATUS;
+            case EXTENDED:
+                return airtouch.MessageType.EXTENDED;
+            default:
+                return airtouch.MessageType.UNKNOWN;
+            }
         }
 
         public static MessageType getFromByte(int byte8) {
@@ -95,13 +113,13 @@ public class MessageConstants {
             }
         }
     }
-    
+
     public enum ControlOrStatusMessageSubType {
         ZONE_CONTROL(0x20),
         ZONE_STATUS(0x21),
         AC_CONTROL(0x22),
         AC_STATUS(0x23);
-        
+
         private int bytes;
 
         ControlOrStatusMessageSubType(int bytes) {
@@ -111,7 +129,7 @@ public class MessageConstants {
         public int getBytes() {
             return bytes & 0xFF;
         }
-        
+
         public static ControlOrStatusMessageSubType getFromBytes(int byte8) {
             if (ZONE_CONTROL.getBytes() == byte8) {
                 return ZONE_CONTROL;
@@ -161,8 +179,19 @@ public class MessageConstants {
         }
 
         @Override
-        public String getMessageType() {
-            return this.toString();
+        public airtouch.MessageType getMessageType() {
+            switch (this) {
+            case AC_ERROR:
+                return airtouch.MessageType.AC_ERROR;
+            case AC_ABILITY:
+                return airtouch.MessageType.AC_ABILITY;
+            case ZONE_NAME:
+                return airtouch.MessageType.ZONE_NAME;
+            case CONSOLE_VERSION:
+                return airtouch.MessageType.CONSOLE_VERSION;
+            default:
+                return airtouch.MessageType.UNKNOWN;
+            }
         }
 
     }

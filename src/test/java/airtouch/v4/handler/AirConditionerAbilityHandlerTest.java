@@ -9,10 +9,10 @@ import org.junit.Test;
 import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.HexString;
-import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v4.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.constant.AirConditionerControlConstants.Mode;
 import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.model.AirConditionerAbilityResponse;
+import airtouch.model.AirConditionerAbilityResponse;
 
 public class AirConditionerAbilityHandlerTest {
 
@@ -46,7 +46,7 @@ public class AirConditionerAbilityHandlerTest {
         assertEquals(0, acAbility01.getAcNumber());
         assertEquals("UNIT", acAbility01.getAcName());
         assertEquals(0, acAbility01.getStartGroupNumber());
-        assertEquals(4, acAbility01.getGroupCount());
+        assertEquals(4, acAbility01.getZoneCount());
 
         assertFalse("Not expecting to find FAN mode", acAbility01.getSupportedModes().contains(Mode.FAN));
         assertTrue("Expected COOL mode but not found", acAbility01.getSupportedModes().contains(Mode.COOL));

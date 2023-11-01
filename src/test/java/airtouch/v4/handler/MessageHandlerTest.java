@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import airtouch.Response;
 import airtouch.exception.UnknownAirtouchResponseException;
-import airtouch.v4.constant.MessageConstants.MessageType;
+import airtouch.MessageType;
 import airtouch.utils.HexString;
 
 public class MessageHandlerTest {
@@ -20,7 +20,7 @@ public class MessageHandlerTest {
         byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
         MessageHandler messageHandler = new MessageHandler();
         Response response = messageHandler.handle(messsageBytes);
-        assertEquals(MessageType.GROUP_STATUS.toString(), response.getMessageType());
+        assertEquals(MessageType.ZONE_STATUS, response.getMessageType());
     }
 
     @Test(expected=UnknownAirtouchResponseException.class)

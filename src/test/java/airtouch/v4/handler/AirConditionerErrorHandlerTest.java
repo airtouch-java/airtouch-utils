@@ -9,7 +9,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.HexString;
 import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.model.AirConditionerErrorResponse;
+import airtouch.model.AirConditionerErrorResponse;
 
 public class AirConditionerErrorHandlerTest {
 

@@ -52,8 +52,19 @@ public class MessageConstants {
         }
 
         @Override
-        public String getMessageType() {
-            return this.toString();
+        public airtouch.MessageType getMessageType() {
+            switch (this) {
+            case STANDARD_SEND:
+                return airtouch.MessageType.STANDARD_SEND;
+            case EXTENDED_SEND:
+                return airtouch.MessageType.EXTENDED_SEND;
+            case STANDARD_RECEIVE:
+                return airtouch.MessageType.STANDARD_RECEIVE;
+            case EXTENDED_RECEIVE:
+                return airtouch.MessageType.EXTENDED_RECEIVE;
+            default:
+                return airtouch.MessageType.UNKNOWN;
+            }
         }
     }
 
@@ -97,8 +108,21 @@ public class MessageConstants {
         }
 
         @Override
-        public String getMessageType() {
-            return this.toString();
+        public airtouch.MessageType getMessageType() {
+            switch (this) {
+            case GROUP_CONTROL:
+                return airtouch.MessageType.ZONE_CONTROL;
+            case GROUP_STATUS:
+                return airtouch.MessageType.ZONE_STATUS;
+            case AC_CONTROL:
+                return airtouch.MessageType.AC_CONTROL;
+            case AC_STATUS:
+                return airtouch.MessageType.AC_STATUS;
+            case EXTENDED:
+                return airtouch.MessageType.EXTENDED;
+            default:
+                return airtouch.MessageType.UNKNOWN;
+            }
         }
     }
 
@@ -134,8 +158,19 @@ public class MessageConstants {
         }
 
         @Override
-        public String getMessageType() {
-            return this.toString();
+        public airtouch.MessageType getMessageType() {
+            switch (this) {
+            case AC_ERROR:
+                return airtouch.MessageType.AC_ERROR;
+            case AC_ABILITY:
+                return airtouch.MessageType.AC_ABILITY;
+            case GROUP_NAME:
+                return airtouch.MessageType.ZONE_NAME;
+            case CONSOLE_VERSION:
+                return airtouch.MessageType.CONSOLE_VERSION;
+            default:
+                return airtouch.MessageType.UNKNOWN;
+            }
         }
 
     }

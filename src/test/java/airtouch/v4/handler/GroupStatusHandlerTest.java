@@ -8,7 +8,7 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.utils.HexString;
 import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.model.GroupStatusResponse;
+import airtouch.model.ZoneStatusResponse;
 
 public class GroupStatusHandlerTest {
 
@@ -28,7 +28,7 @@ public class GroupStatusHandlerTest {
         String dataBlockHexString = "40640000ff0041e41a806180";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
-        ResponseList<GroupStatusResponse> response = GroupStatusHandler.handle(0, dataBlockBytes);
+        ResponseList<ZoneStatusResponse> response = GroupStatusHandler.handle(0, dataBlockBytes);
         assertEquals(2, response.size());
     }
 

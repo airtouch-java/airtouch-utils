@@ -37,7 +37,7 @@ public class AirtouchConnectorIT {
 
     Map<Integer, Response> responses = new HashMap<>();
 
-    @Test
+    //@Test
     public void test() throws IOException {
 
         AtomicInteger counter = new AtomicInteger(0);

@@ -13,7 +13,7 @@ import airtouch.v4.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.model.AirConditionerStatusResponse;
+import airtouch.model.AirConditionerStatusResponse;
 
 /**
  * Handler for AirConditioner Status responses<p>
@@ -85,10 +85,10 @@ public class AirConditionerStatusHandler extends AbstractHandler {
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {
             int acOffset = i * 8;
             AirConditionerStatusResponse acStatus = new AirConditionerStatusResponse();
-            acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]));
+            acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]).getGeneric());
             acStatus.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
-            acStatus.setMode(Mode.getFromByte(airTouchDataBlock[acOffset + 1]));
-            acStatus.setFanSpeed(FanSpeed.getFromByte(airTouchDataBlock[acOffset + 1]));
+            acStatus.setMode(Mode.getFromByte(airTouchDataBlock[acOffset + 1]).getGeneric());
+            acStatus.setFanSpeed(FanSpeed.getFromByte(airTouchDataBlock[acOffset + 1]).getGeneric());
             acStatus.setSpill(determineSpill(airTouchDataBlock[acOffset + 2]));
             acStatus.setAcTimer(determineAcTimer(airTouchDataBlock[acOffset + 2]));
             acStatus.setTargetSetpoint(determineTargetSetpoint(airTouchDataBlock[acOffset + 2]));

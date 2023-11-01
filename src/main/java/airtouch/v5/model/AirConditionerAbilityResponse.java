@@ -3,9 +3,9 @@ package airtouch.v5.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import airtouch.v5.constant.AirConditionerControlConstants;
-import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v5.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants;
+import airtouch.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.constant.AirConditionerControlConstants.Mode;
 
 public class AirConditionerAbilityResponse {
 
@@ -73,7 +73,7 @@ public class AirConditionerAbilityResponse {
     public void setMaxCoolSetPoint(int maxSetPoint) {
         this.maxCoolSetPoint = maxSetPoint;
     }
-    
+
     public int getMinHeatSetPoint() {
         return minHeatSetPoint;
     }
