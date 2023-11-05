@@ -1,4 +1,4 @@
-package airtouch.v4.connector;
+package airtouch.v5.connector;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,40 +9,39 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.Response;
 import airtouch.ResponseCallback;
-import airtouch.ResponseMessageType;
+import airtouch.connector.AirtouchConnectorThread;
 import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
-import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.constant.MessageConstants.Address;
-import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.v4.handler.MessageHandler;
-import airtouch.v4.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.handler.MessageHandler;
+import airtouch.internal.MessageHolder;
 
-public class AirtouchConnectorThread extends Thread implements Runnable {
+public class Airtouch5ConnectorThread<T> extends Thread implements Runnable, AirtouchConnectorThread<T> {
 
     private static final String AIRTOUCH_MESSAGE_HAS_BAD_CRC = "Airtouch message has bad CRC: '{}'";
     private static final String IGNORING_ILLEGAL_MESSAGE = "Ignoring illegal message: '{}'";
     private static final String IGNORING_UNKNOWN_MESSAGE = "Ignoring unknown message: '{}'";
-    private static final String DEFAULT_THREAD_NAME = AirtouchConnectorThread.class.getSimpleName();
+    private static final String DEFAULT_THREAD_NAME = Airtouch5ConnectorThread.class.getSimpleName();
 
-    private final Logger log = LoggerFactory.getLogger(AirtouchConnectorThread.class);
+    private final Logger log = LoggerFactory.getLogger(Airtouch5ConnectorThread.class);
 
     private boolean stopping;
     private final InputStream input;
     private final ResponseCallback responseCallback;
 
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
+    public Airtouch5ConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
         super(DEFAULT_THREAD_NAME);
         this.input = input;
         this.responseCallback = responseCallback;
     }
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
+    public Airtouch5ConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
         super(threadName);
         this.input = input;
         this.responseCallback = responseCallback;

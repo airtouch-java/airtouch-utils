@@ -1,4 +1,4 @@
-package airtouch.v4.connector;
+package airtouch.connector;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -10,14 +10,11 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import airtouch.exception.AirtouchMessagingException;
-import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.constant.MessageConstants.MessageType;
 import airtouch.Request;
 import airtouch.ResponseCallback;
-import airtouch.ResponseMessageType;
+import airtouch.exception.AirtouchMessagingException;
 
-public class AirtouchConnector {
+public class AirtouchConnector<T> {
 
     private final Logger log = LoggerFactory.getLogger(AirtouchConnector.class);
     private Socket socket;
@@ -27,9 +24,10 @@ public class AirtouchConnector {
     private final ResponseCallback responseCallback;
     private final String hostName;
     private final int portNumber;
-    private AirtouchConnectorThread thread;
+    private AirtouchConnectorThread<T> thread;
+    private AirtouchConnectorThreadFactory<T> threadFactory;
 
-    public AirtouchConnector(final String hostName, final int portNumber, final ResponseCallback responseCallback) {
+    public AirtouchConnector(final AirtouchConnectorThreadFactory<T> threadFactory, final String hostName, final int portNumber, final ResponseCallback responseCallback) {
         if (hostName == null || hostName.trim().equals("")) {
             throw new AirtouchMessagingException("hostName is blank. Please pass in a valid hostName when creating an AirtouchConnector instance.");
         }
@@ -39,6 +37,7 @@ public class AirtouchConnector {
         if (responseCallback == null) {
             throw new AirtouchMessagingException("responseCallback is null. Please pass in a ResponseCallback instance when creating an AirtouchConnector instance.");
         }
+        this.threadFactory = threadFactory;
         this.hostName = hostName;
         this.portNumber = portNumber;
         this.responseCallback = responseCallback;
@@ -50,14 +49,14 @@ public class AirtouchConnector {
             log.info("Connected to Airtouch at '{}:{}'", this.hostName, this.portNumber);
             this.input = new BufferedInputStream(socket.getInputStream());
             this.output = new BufferedOutputStream(socket.getOutputStream());
-            this.thread = new AirtouchConnectorThread(input, responseCallback);
+            this.thread = this.threadFactory.create(input, responseCallback);
             this.thread.start();
         } catch (IOException e) {
             throw new AirtouchMessagingException("Failed to connect to Airtouch", e);
         }
     }
 
-    public synchronized void sendRequest(Request<MessageConstants.Address> request) throws IOException {
+    public synchronized void sendRequest(Request<T> request) throws IOException {
         if (this.socket == null || this.output == null) {
             throw new AirtouchMessagingException("Failed to send request. Connection not available. Did you call 'start()' first?");
         }

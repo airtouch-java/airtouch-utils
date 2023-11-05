@@ -17,12 +17,14 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.Response;
 import airtouch.ResponseCallback;
+import airtouch.connector.AirtouchConnector;
+import airtouch.connector.AirtouchConnectorThreadFactory;
 import airtouch.v4.builder.AirConditionerControlRequestBuilder;
 import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
-import airtouch.v4.constant.MessageConstants.ExtendedMessageType;
-import airtouch.v4.constant.MessageConstants.MessageType;
+import airtouch.v4.constant.MessageConstants;
+import airtouch.MessageType;
 import airtouch.v4.handler.AirConditionerAbilityHandler;
 import airtouch.v4.handler.AirConditionerControlHandler;
 import airtouch.v4.handler.AirConditionerStatusHandler;
@@ -37,15 +39,17 @@ public class AirtouchConnectorIT {
 
     Map<Integer, Response> responses = new HashMap<>();
 
-    //@Test
+    @Test
     public void test() throws IOException {
 
         AtomicInteger counter = new AtomicInteger(0);
 
         String hostName = System.getenv("AIRTOUCH_HOST");
         int portNumber = 9004;
+        
+        AirtouchConnectorThreadFactory<MessageConstants.Address> threadFactory = new Airtouch4ConnectorThreadFactory();
 
-        AirtouchConnector airtouchConnector = new AirtouchConnector(hostName, portNumber, new ResponseCallback() {
+        AirtouchConnector airtouchConnector = new AirtouchConnector(threadFactory, hostName, portNumber, new ResponseCallback() {
             @Override
             public void handleResponse(Response response) {
                 responses.put(response.getMessageId(), response);
@@ -73,10 +77,10 @@ public class AirtouchConnectorIT {
         airtouchConnector.shutdown();
 
         assertTrue(responses.containsKey(1));
-        assertEquals(MessageType.GROUP_STATUS, responses.get(1).getMessageType());
+        assertEquals(MessageType.ZONE_STATUS, responses.get(1).getMessageType());
 
         assertTrue(responses.containsKey(2));
-        assertEquals(ExtendedMessageType.GROUP_NAME, responses.get(2).getMessageType());
+        assertEquals(MessageType.ZONE_NAME, responses.get(2).getMessageType());
 
         assertTrue(responses.containsKey(3));
         assertEquals(MessageType.AC_STATUS, responses.get(3).getMessageType());

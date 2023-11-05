@@ -1,4 +1,4 @@
-package airtouch.v5.connector;
+package airtouch.v4.connector;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,14 +13,15 @@ import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
+import airtouch.connector.AirtouchConnectorThread;
+import airtouch.v4.constant.MessageConstants;
+import airtouch.v4.constant.MessageConstants.Address;
+import airtouch.v4.handler.MessageHandler;
+import airtouch.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.Address;
-import airtouch.v5.handler.MessageHandler;
-import airtouch.v5.internal.MessageHolder;
 
-public class AirtouchConnectorThread extends Thread implements Runnable {
+public class Airtouch4ConnectorThread<T> extends Thread implements Runnable, AirtouchConnectorThread<T> {
 
     private static final String AIRTOUCH_MESSAGE_HAS_BAD_CRC = "Airtouch message has bad CRC: '{}'";
     private static final String IGNORING_ILLEGAL_MESSAGE = "Ignoring illegal message: '{}'";
@@ -34,22 +35,24 @@ public class AirtouchConnectorThread extends Thread implements Runnable {
     private final ResponseCallback responseCallback;
 
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
+    public Airtouch4ConnectorThread(final InputStream input, final ResponseCallback responseCallback) {
         super(DEFAULT_THREAD_NAME);
         this.input = input;
         this.responseCallback = responseCallback;
     }
 
-    public AirtouchConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
+    public Airtouch4ConnectorThread(final InputStream input, final ResponseCallback responseCallback, String threadName) {
         super(threadName);
         this.input = input;
         this.responseCallback = responseCallback;
     }
 
+    @Override
     public void shutdown() {
         this.stopping = true;
     }
 
+    @Override
     public boolean isRunning() {
         return !this.stopping;
     }
