@@ -1,5 +1,6 @@
 package airtouch.v5.model;
 
+import airtouch.model.ControlRequest;
 import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
 import airtouch.v5.constant.ZoneControlConstants.ZonePower;
 import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;

@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.model.AirConditionerStatusResponse;
 import airtouch.utils.HexString;
-import airtouch.v5.constant.AirConditionerStatusConstants.Mode;
-import airtouch.v5.constant.AirConditionerStatusConstants.PowerState;
+import airtouch.constant.AirConditionerStatusConstants.Mode;
+import airtouch.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.model.AirConditionerStatusResponse;
 
 public class AirConditionerStatusHandlerTest {
 

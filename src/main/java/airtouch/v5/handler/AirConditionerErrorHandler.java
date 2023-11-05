@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.model.AirConditionerErrorResponse;
 import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.AirConditionerErrorResponse;
 
 /**
  * Handler for AirConditioner Error responses<p>

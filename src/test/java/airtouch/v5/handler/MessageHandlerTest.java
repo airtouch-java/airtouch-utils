@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import airtouch.Response;
+import airtouch.model.ZoneStatusResponse;
 import airtouch.utils.HexString;
 import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.ZoneStatusResponse;
 
 public class MessageHandlerTest {
 

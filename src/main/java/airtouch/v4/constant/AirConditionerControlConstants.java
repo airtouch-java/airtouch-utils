@@ -1,5 +1,7 @@
 package airtouch.v4.constant;
 
+import airtouch.constant.ToGeneric;
+
 public class AirConditionerControlConstants {
 
     public enum AcPower {
@@ -20,7 +22,7 @@ public class AirConditionerControlConstants {
         }
     }
 
-    public enum Mode {
+    public enum Mode  implements ToGeneric<airtouch.constant.AirConditionerControlConstants.Mode> {
         //              ||||    Bits 8 to 5 of byte 2
         AUTO         (0b00000000, airtouch.constant.AirConditionerControlConstants.Mode.AUTO),
         HEAT         (0b00010000, airtouch.constant.AirConditionerControlConstants.Mode.HEAT),
@@ -46,7 +48,7 @@ public class AirConditionerControlConstants {
         }
     }
 
-    public enum FanSpeed {
+    public enum FanSpeed implements ToGeneric<airtouch.constant.AirConditionerControlConstants.FanSpeed> {
         //                  ||||    Bits 4 to 1 of byte 2
         AUTO         (0b00000000, airtouch.constant.AirConditionerControlConstants.FanSpeed.AUTO),
         QUIET        (0b00000010, airtouch.constant.AirConditionerControlConstants.FanSpeed.QUIET),
@@ -74,7 +76,7 @@ public class AirConditionerControlConstants {
         }
     }
 
-    public enum SetpointControl {
+    public enum SetpointControl implements ToGeneric<airtouch.constant.AirConditionerControlConstants.SetpointControl> {
         //                      ||      Bits 8 and 7 of Byte 3
         NO_CHANGE            (0b00000000, airtouch.constant.AirConditionerControlConstants.SetpointControl.NO_CHANGE),  // 00
         SET_TO_VALUE         (0b01000000, airtouch.constant.AirConditionerControlConstants.SetpointControl.SET_TO_VALUE),  // 01

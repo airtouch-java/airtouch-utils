@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import airtouch.utils.HexString;
-import airtouch.v5.AirTouchRequest;
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.model.ZoneNameResponse;
+import airtouch.utils.HexString;
+import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.ZoneNameResponse;
 
 /**
  * Handler for ZoneName extended format responses.

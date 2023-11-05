@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.constant.ZoneStatusConstants.PowerState;
+import airtouch.model.ZoneStatusResponse;
 import airtouch.utils.HexString;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.model.SubMessageMetaData;
-import airtouch.v5.model.ZoneStatusResponse;
 
 public class ZoneStatusHandlerTest {
 

@@ -3,18 +3,18 @@ package airtouch.v5.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import airtouch.utils.ByteUtil;
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.v5.constant.ZoneStatusConstants.ControlMethod;
-import airtouch.v5.constant.ZoneStatusConstants.PowerState;
+import airtouch.model.ZoneStatusResponse;
+import airtouch.utils.ByteUtil;
 import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.constant.ZoneStatusConstants.ControlMethod;
+import airtouch.v5.constant.ZoneStatusConstants.PowerState;
 import airtouch.v5.model.SubMessageMetaData;
-import airtouch.v5.model.ZoneStatusResponse;
 
 public class ZoneStatusHandler extends AbstractHandler {
 
@@ -58,9 +58,9 @@ public class ZoneStatusHandler extends AbstractHandler {
         for (int i = 0; i <= subMessageMetaData.getRepeatDataCount(); i++) {
             int zoneOffset = i * 8;
             ZoneStatusResponse zoneStatus = new ZoneStatusResponse();
-            zoneStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[zoneOffset + 0]));
+            zoneStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[zoneOffset + 0]).getGeneric());
             zoneStatus.setZoneNumber(resolveZoneNumber(airTouchDataBlock[zoneOffset + 0]));
-            zoneStatus.setControlMethod(ControlMethod.getFromByte(airTouchDataBlock[zoneOffset + 1]));
+            zoneStatus.setControlMethod(ControlMethod.getFromByte(airTouchDataBlock[zoneOffset + 1]).getGeneric());
             zoneStatus.setOpenPercentage(determineOpenPercentage(airTouchDataBlock[zoneOffset + 1]));
             zoneStatus.setTargetSetpoint(determineTargetSetpoint(airTouchDataBlock[zoneOffset + 2]));
             zoneStatus.setHasTemperatureSensor(determineHasTemperatureSensor(airTouchDataBlock[zoneOffset + 3]));

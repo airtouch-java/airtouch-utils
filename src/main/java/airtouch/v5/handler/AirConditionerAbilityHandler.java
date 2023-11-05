@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.Request;
 import airtouch.ResponseList;
-import airtouch.utils.HexString;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.AirTouchRequest;
 import airtouch.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.constant.AirConditionerControlConstants.Mode;
+import airtouch.model.AirConditionerAbilityResponse;
+import airtouch.utils.HexString;
+import airtouch.v5.AirTouchRequest;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.AirConditionerAbilityResponse;
 
 /**
  * Handler for AirConditioner Ability responses<p>
@@ -121,7 +121,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
             // byte21 is Group Start number, aka 18
             acAbility.setStartGroupNumber(airTouchDataBlock[acOffset + 18] & 0xFF);
             // byte22 is the count of groups, aka 19
-            acAbility.setGroupCount(airTouchDataBlock[acOffset + 19] & 0xFF);
+            acAbility.setZoneCount(airTouchDataBlock[acOffset + 19] & 0xFF);
             // byte23 tells us which modes are supported. aka 20
             // The first 3 bits (8-6) are not used. The remaining 5 bits represent one Mode each.
             addIfModeIsSupported(acAbility, airTouchDataBlock[acOffset + 20], 0b00010000, Mode.COOL);

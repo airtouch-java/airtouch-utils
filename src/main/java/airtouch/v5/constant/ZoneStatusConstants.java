@@ -1,20 +1,29 @@
 package airtouch.v5.constant;
 
+import airtouch.constant.ToGeneric;
+
 public class ZoneStatusConstants {
 
-    public enum PowerState {
-        OFF(0x00),
-        ON(0x01),
-        TURBO(0x11);
+    public enum PowerState implements ToGeneric<airtouch.constant.ZoneStatusConstants.PowerState> {
+        OFF(0x00, airtouch.constant.ZoneStatusConstants.PowerState.OFF),
+        ON(0x01, airtouch.constant.ZoneStatusConstants.PowerState.ON),
+        TURBO(0x11, airtouch.constant.ZoneStatusConstants.PowerState.TURBO);
 
         private int bytes;
+        private airtouch.constant.ZoneStatusConstants.PowerState generic;
 
-        PowerState(int bytes) {
+        PowerState(int bytes, airtouch.constant.ZoneStatusConstants.PowerState generic) {
             this.bytes = bytes;
+            this.generic = generic;
         }
 
         public int getBytes() {
             return bytes;
+        }
+        
+        @Override
+        public airtouch.constant.ZoneStatusConstants.PowerState getGeneric() {
+            return generic;
         }
         
         public static PowerState getFromByte(byte byte1) {
@@ -42,18 +51,25 @@ public class ZoneStatusConstants {
         }
     }
 
-    public enum ControlMethod {
-        PERCENTAGE_CONTROL(0),
-        TEMPERATURE_CONTROL(1);
+    public enum ControlMethod implements ToGeneric<airtouch.constant.ZoneStatusConstants.ControlMethod> {
+        PERCENTAGE_CONTROL(0, airtouch.constant.ZoneStatusConstants.ControlMethod.PERCENTAGE_CONTROL),
+        TEMPERATURE_CONTROL(1, airtouch.constant.ZoneStatusConstants.ControlMethod.TEMPERATURE_CONTROL);
 
         private int bytes;
+        private airtouch.constant.ZoneStatusConstants.ControlMethod generic;
 
-        ControlMethod(int bytes) {
+        ControlMethod(int bytes, airtouch.constant.ZoneStatusConstants.ControlMethod generic) {
             this.bytes = bytes;
+            this.generic = generic;
         }
 
         public int getBytes() {
             return bytes;
+        }
+        
+        @Override
+        public airtouch.constant.ZoneStatusConstants.ControlMethod getGeneric() {
+            return this.generic;
         }
         
         public static ControlMethod getFromByte(byte byte2) {

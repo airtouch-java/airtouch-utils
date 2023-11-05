@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.model.AirConditionerErrorResponse;
 import airtouch.utils.HexString;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.model.AirConditionerErrorResponse;
 
 public class AirConditionerErrorHandlerTest {
 

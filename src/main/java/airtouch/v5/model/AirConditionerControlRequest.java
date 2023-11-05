@@ -1,5 +1,6 @@
 package airtouch.v5.model;
 
+import airtouch.model.ControlRequest;
 import airtouch.v5.constant.AirConditionerControlConstants.AcPower;
 import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerControlConstants.Mode;

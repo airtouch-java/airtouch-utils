@@ -18,6 +18,10 @@ public class AirConditionerAbilityResponse {
 
     private int minSetPoint;
     private int maxSetPoint;
+    private int minCoolSetPoint;
+    private int maxCoolSetPoint;
+    private int minHeatSetPoint;
+    private int maxHeatSetPoint;
     public int getAcNumber() {
         return acNumber;
     }
@@ -59,25 +63,92 @@ public class AirConditionerAbilityResponse {
         return this.supportedFanSpeeds.add(fanSpeed);
     }
 
+    /**
+     * For Airtouch4
+     * @return value
+     */
     public int getMinSetPoint() {
         return minSetPoint;
     }
+    
+    /**
+     * For Airtouch4
+     */
     public void setMinSetPoint(int minSetPoint) {
         this.minSetPoint = minSetPoint;
     }
+    
+    /**
+     * For Airtouch4
+     * @return value
+     */
     public int getMaxSetPoint() {
         return maxSetPoint;
     }
+    
+    /**
+     * For Airtouch4
+     */
     public void setMaxSetPoint(int maxSetPoint) {
         this.maxSetPoint = maxSetPoint;
     }
+    /**
+     * For Airtouch5
+     * @return value
+     */
+    public void setMinCoolSetPoint(int minCoolSetPoint) {
+        this.minCoolSetPoint = minCoolSetPoint;
+    }
+    /**
+     * For Airtouch5
+     * @return value
+     */
+    public int getMinCoolSetPoint() {
+        return minCoolSetPoint;
+    }
+    public void setMaxCoolSetPoint(int maxCoolSetPoint) {
+        this.maxCoolSetPoint = maxCoolSetPoint;
+    }
+    /**
+     * For Airtouch5
+     * @return value
+     */
+    public int getMaxCoolSetPoint() {
+        return maxCoolSetPoint;
+    }
+    /**
+     * For Airtouch5
+     * @return value
+     */
+    public int getMinHeatSetPoint() {
+        return minHeatSetPoint;
+    }
+    /**
+     * For Airtouch5
+     */
+    public void setMinHeatSetPoint(int minHeatSetPoint) {
+        this.minHeatSetPoint = minHeatSetPoint;
+    }
+    /**
+     * For Airtouch5
+     * @return value
+     */
+    public int getMaxHeatSetPoint() {
+        return maxHeatSetPoint;
+    }
+    /**
+     * For Airtouch5
+     */
+    public void setMaxHeatSetPoint(int maxHeatSetPoint) {
+        this.maxHeatSetPoint = maxHeatSetPoint;
+    }
+    
     @Override
     public String toString() {
-        return "AirConditionerAbilityResponse [acNumber=" + acNumber + ", acName=" + acName + ", startGroupNumber="
-                + startZoneNumber + ", groupCount=" + zoneCount + ", supportedModes=" + supportedModes
+        return "AirConditionerAbilityResponse [acNumber=" + acNumber + ", acName=" + acName + ", startZoneNumber="
+                + startZoneNumber + ", zoneCount=" + zoneCount + ", supportedModes=" + supportedModes
                 + ", supportedFanSpeeds=" + supportedFanSpeeds + ", minSetPoint=" + minSetPoint + ", maxSetPoint="
-                + maxSetPoint + "]";
+                + maxSetPoint + ", minCoolSetPoint=" + minCoolSetPoint + ", maxCoolSetPoint=" + maxCoolSetPoint
+                + ", minHeatSetPoint=" + minHeatSetPoint + ", maxHeatSetPoint=" + maxHeatSetPoint + "]";
     }
-
-
 }

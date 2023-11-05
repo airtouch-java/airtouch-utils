@@ -5,16 +5,16 @@ import java.util.List;
 
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.model.AirConditionerStatusResponse;
 import airtouch.utils.ByteUtil;
 import airtouch.v5.AirTouchRequest;
-import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.v5.constant.AirConditionerStatusConstants.Mode;
 import airtouch.v5.constant.AirConditionerStatusConstants.PowerState;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
-import airtouch.v5.model.AirConditionerStatusResponse;
 
 /**
  * Handler for AirConditioner Status responses<p>
@@ -77,10 +77,10 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {
             int acOffset = i * 8;
             AirConditionerStatusResponse acStatus = new AirConditionerStatusResponse();
-            acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]));
+            acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]).getGeneric());
             acStatus.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
-            acStatus.setMode(Mode.getFromByte(airTouchDataBlock[acOffset + 1]));
-            acStatus.setFanSpeed(FanSpeed.getFromByte(airTouchDataBlock[acOffset + 1]));
+            acStatus.setMode(Mode.getFromByte(airTouchDataBlock[acOffset + 1]).getGeneric());
+            acStatus.setFanSpeed(FanSpeed.getFromByte(airTouchDataBlock[acOffset + 1]).getGeneric());
             acStatus.setSpill(determineSpill(airTouchDataBlock[acOffset + 2]));
             acStatus.setAcTimer(determineAcTimer(airTouchDataBlock[acOffset + 2]));
             acStatus.setTargetSetpoint(determineTargetSetpoint(airTouchDataBlock[acOffset + 2]));

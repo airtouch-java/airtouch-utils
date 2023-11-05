@@ -2,7 +2,7 @@ package airtouch.v5.handler;
 
 import java.nio.ByteBuffer;
 
-import airtouch.v5.model.ControlRequest;
+import airtouch.model.ControlRequest;
 
 public abstract class AbstractControlHandler extends AbstractHandler {
     

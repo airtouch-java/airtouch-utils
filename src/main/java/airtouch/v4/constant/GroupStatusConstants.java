@@ -1,10 +1,11 @@
 package airtouch.v4.constant;
 
+import airtouch.constant.ToGeneric;
 import airtouch.exception.UnknownAirtouchResponseException;
 
 public class GroupStatusConstants {
 
-    public enum PowerState {
+    public enum PowerState  implements ToGeneric<airtouch.constant.ZoneStatusConstants.PowerState>{
         OFF(0x00, airtouch.constant.ZoneStatusConstants.PowerState.OFF),
         ON(0x01, airtouch.constant.ZoneStatusConstants.PowerState.ON),
         TURBO(0x11, airtouch.constant.ZoneStatusConstants.PowerState.TURBO);
@@ -50,7 +51,7 @@ public class GroupStatusConstants {
         }
     }
 
-    public enum ControlMethod {
+    public enum ControlMethod implements ToGeneric<airtouch.constant.ZoneStatusConstants.ControlMethod>{
         PERCENTAGE_CONTROL(0, airtouch.constant.ZoneStatusConstants.ControlMethod.PERCENTAGE_CONTROL),
         TEMPERATURE_CONTROL(1, airtouch.constant.ZoneStatusConstants.ControlMethod.TEMPERATURE_CONTROL);
 

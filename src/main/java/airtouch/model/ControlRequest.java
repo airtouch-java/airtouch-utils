@@ -1,4 +1,4 @@
-package airtouch.v5.model;
+package airtouch.model;
 
 public interface ControlRequest {
     
