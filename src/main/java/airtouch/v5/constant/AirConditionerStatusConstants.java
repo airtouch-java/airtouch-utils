@@ -1,10 +1,10 @@
 package airtouch.v5.constant;
 
-import airtouch.constant.ToGeneric;
+import airtouch.constant.AirtouchConstant;
 
 public class AirConditionerStatusConstants {
 
-    public enum PowerState implements ToGeneric<airtouch.constant.AirConditionerStatusConstants.PowerState> {
+    public enum PowerState implements AirtouchConstant<airtouch.constant.AirConditionerStatusConstants.PowerState> {
         OFF(0x00, airtouch.constant.AirConditionerStatusConstants.PowerState.OFF),
         ON(0x01, airtouch.constant.AirConditionerStatusConstants.PowerState.ON),
         NOT_AVAILABLE(0x11, airtouch.constant.AirConditionerStatusConstants.PowerState.NOT_AVAILABLE);
@@ -45,7 +45,7 @@ public class AirConditionerStatusConstants {
         }
     }
 
-    public enum Mode  implements ToGeneric<airtouch.constant.AirConditionerStatusConstants.Mode> {
+    public enum Mode  implements AirtouchConstant<airtouch.constant.AirConditionerStatusConstants.Mode> {
         
         AUTO         (0b0000, airtouch.constant.AirConditionerStatusConstants.Mode.AUTO),
         HEAT         (0b0001, airtouch.constant.AirConditionerStatusConstants.Mode.HEAT),
@@ -103,7 +103,7 @@ public class AirConditionerStatusConstants {
             
         }
     }
-    public enum FanSpeed  implements ToGeneric<airtouch.constant.AirConditionerStatusConstants.FanSpeed> {
+    public enum FanSpeed  implements AirtouchConstant<airtouch.constant.AirConditionerStatusConstants.FanSpeed> {
         
         AUTO         (0b0000, airtouch.constant.AirConditionerStatusConstants.FanSpeed.AUTO),
         QUIET        (0b0010, airtouch.constant.AirConditionerStatusConstants.FanSpeed.QUIET),

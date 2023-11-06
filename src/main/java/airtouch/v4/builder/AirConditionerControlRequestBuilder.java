@@ -1,10 +1,10 @@
 package airtouch.v4.builder;
 
 import airtouch.Request;
-import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
-import airtouch.v4.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v4.constant.AirConditionerControlConstants.Mode;
-import airtouch.v4.constant.AirConditionerControlConstants.SetpointControl;
+import airtouch.constant.AirConditionerControlConstants.AcPower;
+import airtouch.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants.SetpointControl;
 import airtouch.v4.handler.AirConditionerControlHandler;
 import airtouch.v4.model.AirConditionerControlRequest;
 
@@ -124,7 +124,7 @@ public class AirConditionerControlRequestBuilder {
             }
 
             if (this.acPower == null) {
-                request.setAcPower(AcPower.NO_CHANGE);
+                request.setAcPower(airtouch.v4.constant.AirConditionerControlConstants.AcPower.fromGeneric(AcPower.NO_CHANGE));
             } else {
                 request.setAcPower(this.acPower);
             }

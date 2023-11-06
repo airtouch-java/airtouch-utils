@@ -1,6 +1,8 @@
 package airtouch.v4.constant;
 
-import airtouch.constant.ToGeneric;
+import java.util.Arrays;
+
+import airtouch.constant.AirtouchConstant;
 
 public class AirConditionerControlConstants {
 
@@ -20,9 +22,14 @@ public class AirConditionerControlConstants {
         public int getBits() {
             return bits;
         }
+
+        AcPower fromGeneric(airtouch.constant.AirConditionerControlConstants.AcPower noChange) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
-    public enum Mode  implements ToGeneric<airtouch.constant.AirConditionerControlConstants.Mode> {
+    public enum Mode implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.Mode, Mode> {
         //              ||||    Bits 8 to 5 of byte 2
         AUTO         (0b00000000, airtouch.constant.AirConditionerControlConstants.Mode.AUTO),
         HEAT         (0b00010000, airtouch.constant.AirConditionerControlConstants.Mode.HEAT),
@@ -43,12 +50,18 @@ public class AirConditionerControlConstants {
             return bits;
         }
 
+        @Override
         public airtouch.constant.AirConditionerControlConstants.Mode getGeneric() {
             return generic;
         }
+
+        @Override
+        public Mode getDefaultValue() {
+            return Mode.NO_CHANGE;
+        }
     }
 
-    public enum FanSpeed implements ToGeneric<airtouch.constant.AirConditionerControlConstants.FanSpeed> {
+    public enum FanSpeed implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.FanSpeed, FanSpeed> {
         //                  ||||    Bits 4 to 1 of byte 2
         AUTO         (0b00000000, airtouch.constant.AirConditionerControlConstants.FanSpeed.AUTO),
         QUIET        (0b00000010, airtouch.constant.AirConditionerControlConstants.FanSpeed.QUIET),
@@ -76,7 +89,7 @@ public class AirConditionerControlConstants {
         }
     }
 
-    public enum SetpointControl implements ToGeneric<airtouch.constant.AirConditionerControlConstants.SetpointControl> {
+    public enum SetpointControl implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.SetpointControl> {
         //                      ||      Bits 8 and 7 of Byte 3
         NO_CHANGE            (0b00000000, airtouch.constant.AirConditionerControlConstants.SetpointControl.NO_CHANGE),  // 00
         SET_TO_VALUE         (0b01000000, airtouch.constant.AirConditionerControlConstants.SetpointControl.SET_TO_VALUE),  // 01
