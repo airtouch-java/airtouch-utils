@@ -5,7 +5,7 @@ import airtouch.exception.UnknownAirtouchResponseException;
 
 public class GroupStatusConstants {
 
-    public enum PowerState  implements AirtouchConstant<airtouch.constant.ZoneStatusConstants.PowerState>{
+    public enum PowerState implements AirtouchConstant<airtouch.constant.ZoneStatusConstants.PowerState>{
         OFF(0x00, airtouch.constant.ZoneStatusConstants.PowerState.OFF),
         ON(0x01, airtouch.constant.ZoneStatusConstants.PowerState.ON),
         TURBO(0x11, airtouch.constant.ZoneStatusConstants.PowerState.TURBO);
@@ -22,8 +22,13 @@ public class GroupStatusConstants {
             return bytes;
         }
 
+        @Override
         public airtouch.constant.ZoneStatusConstants.PowerState getGeneric() {
             return generic;
+        }
+        
+        public PowerState getSpecific(airtouch.constant.ZoneStatusConstants.PowerState generic) {
+            return PowerState.valueOf(generic.name());
         }
 
         public static PowerState getFromByte(byte byte1) {
@@ -66,8 +71,14 @@ public class GroupStatusConstants {
         public int getBytes() {
             return bytes;
         }
+        
+        @Override
         public airtouch.constant.ZoneStatusConstants.ControlMethod getGeneric() {
             return generic;
+        }
+        
+        public static ControlMethod getSpecific(airtouch.constant.ZoneStatusConstants.ControlMethod generic) {
+            return ControlMethod.valueOf(generic.name());
         }
 
         public static ControlMethod getFromByte(byte byte2) {

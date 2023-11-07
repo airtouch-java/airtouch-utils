@@ -1,6 +1,9 @@
 package airtouch.v4.builder;
 
 import airtouch.Request;
+import airtouch.constant.ZoneControlConstants.ZoneControl;
+import airtouch.constant.ZoneControlConstants.ZonePower;
+import airtouch.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.v4.constant.GroupControlConstants.GroupControl;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.GroupControlConstants.GroupSetting;
@@ -10,9 +13,9 @@ import airtouch.v4.model.GroupControlRequest;
 public class GroupControlRequestBuilder {
 
     private Integer groupNumber;
-    private GroupSetting groupSetting;
-    private GroupControl groupControl;
-    private GroupPower groupPower;
+    private ZoneSetting groupSetting;
+    private ZoneControl groupControl;
+    private ZonePower groupPower;
 
     private Integer settingValue;
 
@@ -39,7 +42,7 @@ public class GroupControlRequestBuilder {
      * @param groupSetting - {@link GroupSetting} enum value
      * @return {@link GroupControlRequestBuilder} to support fluent builder pattern.
      */
-    public GroupControlRequestBuilder setting(GroupSetting groupSetting) {
+    public GroupControlRequestBuilder setting(ZoneSetting groupSetting) {
         this.groupSetting = groupSetting;
         return this;
     }
@@ -56,7 +59,7 @@ public class GroupControlRequestBuilder {
      * @param groupControl
      * @return {@link GroupControlRequestBuilder} to support fluent builder pattern.
      */
-    public GroupControlRequestBuilder control(GroupControl groupControl) {
+    public GroupControlRequestBuilder control(ZoneControl groupControl) {
         this.groupControl = groupControl;
         return this;
     }
@@ -74,7 +77,7 @@ public class GroupControlRequestBuilder {
      * @param groupPower
      * @return {@link GroupControlRequestBuilder} to support fluent builder pattern.
      */
-    public GroupControlRequestBuilder power(GroupPower groupPower) {
+    public GroupControlRequestBuilder power(ZonePower groupPower) {
         this.groupPower = groupPower;
         return this;
     }
@@ -98,29 +101,29 @@ public class GroupControlRequestBuilder {
 
         if (this.groupSetting == null) {
             request.setGroupSetting(GroupSetting.NO_CHANGE);
-        } else if (GroupSetting.SET_OPEN_PERCENTAGE.equals(this.groupSetting)
-                || GroupSetting.SET_TARGET_SETPOINT.equals(this.groupSetting)){
+        } else if (GroupSetting.SET_OPEN_PERCENTAGE.equals(GroupSetting.getSpecific(this.groupSetting))
+                || GroupSetting.SET_TARGET_SETPOINT.equals(GroupSetting.getSpecific(this.groupSetting))){
             if (this.settingValue == null) {
                 throw new IllegalArgumentException(
                         String.format("setting value must be defined when GroupSettings is %s", this.groupSetting));
             }
-            request.setGroupSetting(this.groupSetting);
+            request.setGroupSetting(GroupSetting.getSpecific(this.groupSetting));
             request.setSettingValue(this.settingValue);
         } else {
-            request.setGroupSetting(this.groupSetting);
+            request.setGroupSetting(GroupSetting.getSpecific(this.groupSetting));
             request.setSettingValue(0);
         }
 
         if (this.groupControl == null) {
             request.setGroupControl(GroupControl.NO_CHANGE);
         } else {
-            request.setGroupControl(this.groupControl);
+            request.setGroupControl(GroupControl.getSpecific(this.groupControl));
         }
 
         if (this.groupPower == null) {
             request.setGroupPower(GroupPower.NO_CHANGE);
         } else {
-            request.setGroupPower(this.groupPower);
+            request.setGroupPower(GroupPower.getSpecific(this.groupPower));
         }
 
         return request;

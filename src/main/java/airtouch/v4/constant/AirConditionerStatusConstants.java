@@ -25,7 +25,7 @@ public class AirConditionerStatusConstants {
         public airtouch.constant.AirConditionerStatusConstants.PowerState getGeneric() {
             return generic;
         }
-
+        
         public static PowerState getFromByte(byte byte1) {
             // PowerState is represented by bits 8 & 7 of Byte 1.
             // Apply a bit mask to zero out any bits we don't care about.

@@ -124,34 +124,34 @@ public class AirConditionerControlRequestBuilder {
             }
 
             if (this.acPower == null) {
-                request.setAcPower(airtouch.v4.constant.AirConditionerControlConstants.AcPower.fromGeneric(AcPower.NO_CHANGE));
+                request.setAcPower(airtouch.v4.constant.AirConditionerControlConstants.AcPower.NO_CHANGE);
             } else {
-                request.setAcPower(this.acPower);
+                request.setAcPower(airtouch.v4.constant.AirConditionerControlConstants.AcPower.valueOf(this.acPower.name()));
             }
 
             if (this.acMode == null) {
-                request.setAcMode(Mode.NO_CHANGE);
+                request.setAcMode(airtouch.v4.constant.AirConditionerControlConstants.Mode.NO_CHANGE);
             } else {
-                request.setAcMode(this.acMode);
+                request.setAcMode(airtouch.v4.constant.AirConditionerControlConstants.Mode.valueOf(this.acMode.name()));
             }
 
             if (this.fanSpeed == null) {
-                request.setFanSpeed(FanSpeed.NO_CHANGE);
+                request.setFanSpeed(airtouch.v4.constant.AirConditionerControlConstants.FanSpeed.NO_CHANGE);
             } else {
-                request.setFanSpeed(this.fanSpeed);
+                request.setFanSpeed(airtouch.v4.constant.AirConditionerControlConstants.FanSpeed.valueOf(this.fanSpeed.name()));
             }
 
             if (this.setpointControl == null) {
-                request.setSetpointControl(SetpointControl.NO_CHANGE);
+                request.setSetpointControl(airtouch.v4.constant.AirConditionerControlConstants.SetpointControl.NO_CHANGE);
             } else if (SetpointControl.SET_TO_VALUE.equals(this.setpointControl)) {
                 if (this.setPointValue == null) {
                     throw new IllegalArgumentException(
                             String.format("setting value must be defined when SetpointControl is %s", this.setpointControl));
                 }
-                request.setSetpointControl(this.setpointControl);
+                request.setSetpointControl(airtouch.v4.constant.AirConditionerControlConstants.SetpointControl.valueOf(this.setpointControl.name()));
                 request.setSetpointValue(this.setPointValue);
             } else {
-                request.setSetpointControl(this.setpointControl);
+                request.setSetpointControl(airtouch.v4.constant.AirConditionerControlConstants.SetpointControl.valueOf(this.setpointControl.name()));
                 request.setSetpointValue(0);
             }
             return request;

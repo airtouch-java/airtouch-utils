@@ -21,8 +21,8 @@ import airtouch.connector.AirtouchConnector;
 import airtouch.connector.AirtouchConnectorThreadFactory;
 import airtouch.v4.builder.AirConditionerControlRequestBuilder;
 import airtouch.v4.builder.GroupControlRequestBuilder;
-import airtouch.v4.constant.AirConditionerControlConstants.AcPower;
-import airtouch.v4.constant.GroupControlConstants.GroupPower;
+import airtouch.constant.AirConditionerControlConstants.AcPower;
+import airtouch.constant.ZoneControlConstants.ZonePower;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.MessageType;
 import airtouch.v4.handler.AirConditionerAbilityHandler;
@@ -68,7 +68,7 @@ public class AirtouchConnectorIT {
         airtouchConnector.sendRequest(AirConditionerControlHandler.generateRequest(5,
                 new AirConditionerControlRequestBuilder().acNumber(0).acPower(AcPower.NO_CHANGE).build()));
         airtouchConnector.sendRequest(GroupControlHandler.generateRequest(6,
-                new GroupControlRequestBuilder(0).power(GroupPower.POWER_ON).build()));
+                new GroupControlRequestBuilder(0).power(ZonePower.POWER_ON).build()));
 
         airtouchConnector.sendRequest(ConsoleVersionHandler.generateRequest(8));
         airtouchConnector.sendRequest(AirConditionerAbilityHandler.generateRequest(7, null));

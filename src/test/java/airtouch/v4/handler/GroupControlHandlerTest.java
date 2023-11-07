@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import airtouch.Request;
 import airtouch.v4.builder.GroupControlRequestBuilder;
-import airtouch.v4.constant.GroupControlConstants.GroupControl;
-import airtouch.v4.constant.GroupControlConstants.GroupPower;
+import airtouch.constant.ZoneControlConstants.ZoneControl;
+import airtouch.constant.ZoneControlConstants.ZonePower;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.model.GroupControlRequest;
 
@@ -16,7 +16,7 @@ public class GroupControlHandlerTest {
     @Test
     public void testGenerateRequestPowerOffSecondGroup() {
         GroupControlRequest groupControlRequest = new GroupControlRequestBuilder(1)
-                .power(GroupPower.POWER_OFF)
+                .power(ZonePower.POWER_OFF)
                 .build();
 
         Request<MessageConstants.Address> request = GroupControlHandler.generateRequest(1, groupControlRequest);
@@ -26,7 +26,7 @@ public class GroupControlHandlerTest {
     @Test
     public void testGenerateRequestPowerOffSecondGroupWithFluentBuilder() {
 
-        GroupControlRequest groupControlRequest = GroupControlHandler.requestBuilder(1).power(GroupPower.POWER_OFF).build();
+        GroupControlRequest groupControlRequest = GroupControlHandler.requestBuilder(1).power(ZonePower.POWER_OFF).build();
 
         Request<MessageConstants.Address> request = GroupControlHandler.generateRequest(1, groupControlRequest);
         assertEquals("555580b0012a000401020000da59".toUpperCase(), request.getHexString());
@@ -35,7 +35,7 @@ public class GroupControlHandlerTest {
     @Test
     public void testGenerateRequestPercetageControlFirstGroup() {
         GroupControlRequest groupControlRequest = new GroupControlRequestBuilder(0)
-                .control(GroupControl.PERCENTAGE_CONTROL)
+                .control(ZoneControl.PERCENTAGE_CONTROL)
                 .build();
 
         Request<MessageConstants.Address> request = GroupControlHandler.generateRequest(1, groupControlRequest);

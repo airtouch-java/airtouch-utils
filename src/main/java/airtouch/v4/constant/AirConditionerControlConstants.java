@@ -1,7 +1,5 @@
 package airtouch.v4.constant;
 
-import java.util.Arrays;
-
 import airtouch.constant.AirtouchConstant;
 
 public class AirConditionerControlConstants {
@@ -29,7 +27,7 @@ public class AirConditionerControlConstants {
         }
     }
 
-    public enum Mode implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.Mode, Mode> {
+    public enum Mode implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.Mode> {
         //              ||||    Bits 8 to 5 of byte 2
         AUTO         (0b00000000, airtouch.constant.AirConditionerControlConstants.Mode.AUTO),
         HEAT         (0b00010000, airtouch.constant.AirConditionerControlConstants.Mode.HEAT),
@@ -54,14 +52,10 @@ public class AirConditionerControlConstants {
         public airtouch.constant.AirConditionerControlConstants.Mode getGeneric() {
             return generic;
         }
-
-        @Override
-        public Mode getDefaultValue() {
-            return Mode.NO_CHANGE;
-        }
+        
     }
 
-    public enum FanSpeed implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.FanSpeed, FanSpeed> {
+    public enum FanSpeed implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.FanSpeed> {
         //                  ||||    Bits 4 to 1 of byte 2
         AUTO         (0b00000000, airtouch.constant.AirConditionerControlConstants.FanSpeed.AUTO),
         QUIET        (0b00000010, airtouch.constant.AirConditionerControlConstants.FanSpeed.QUIET),
@@ -111,6 +105,7 @@ public class AirConditionerControlConstants {
         public airtouch.constant.AirConditionerControlConstants.SetpointControl getGeneric() {
             return generic;
         }
+        
     }
 
 }
