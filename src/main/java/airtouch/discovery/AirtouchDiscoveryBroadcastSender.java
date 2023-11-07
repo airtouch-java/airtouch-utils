@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -23,9 +24,6 @@ public class AirtouchDiscoveryBroadcastSender {
     private AirtouchDiscoveryBroadcastSender() {} // Prevent instantiation.
     private static final Logger log = LoggerFactory.getLogger(AirtouchDiscoveryBroadcastSender.class);
 
-
-    private static DatagramSocket socket = null;
-    
     public static void broadcastAll(AirtouchVersion airtouchVersion) throws SocketException {
         List<InetAddress> addresses = listAllBroadcastAddresses();
         AtomicBoolean success = new AtomicBoolean(false);
@@ -39,17 +37,17 @@ public class AirtouchDiscoveryBroadcastSender {
             }
         });
         if (!success.get()) {
-            exceptions.forEach((i,e) -> {
-                log.warn("Failed to send discovery message to '{}:{}'. {}", 
-                        i.getHostAddress(), 
+            exceptions.forEach((i,e) ->
+                log.warn("Failed to send discovery message to '{}:{}'. {}",
+                        i.getHostAddress(),
                         airtouchVersion.getDiscoveryPort(),
-                        e.getMessage());
-            });
+                        e.getMessage())
+            );
         }
     }
 
     public static void broadcast(String broadcastMessage, InetAddress address, int port) throws IOException {
-        socket = new DatagramSocket();
+        DatagramSocket socket = new DatagramSocket();
         socket.setBroadcast(true);
 
         byte[] buffer = broadcastMessage.getBytes();
@@ -58,10 +56,10 @@ public class AirtouchDiscoveryBroadcastSender {
         socket.send(packet);
         socket.close();
     }
-    
+
     public static List<InetAddress> listAllBroadcastAddresses() throws SocketException {
         List<InetAddress> broadcastList = new ArrayList<>();
-        Enumeration<NetworkInterface> interfaces 
+        Enumeration<NetworkInterface> interfaces
           = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface networkInterface = interfaces.nextElement();
@@ -70,8 +68,8 @@ public class AirtouchDiscoveryBroadcastSender {
                 continue;
             }
 
-            networkInterface.getInterfaceAddresses().stream() 
-              .map(a -> a.getBroadcast())
+            networkInterface.getInterfaceAddresses().stream()
+              .map(InterfaceAddress::getBroadcast)
               .filter(Objects::nonNull)
               .forEach(broadcastList::add);
         }

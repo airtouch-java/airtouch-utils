@@ -8,7 +8,7 @@ public class ResponseList<R> extends ArrayList<R> implements Response {
 
     private static final long serialVersionUID = -8195951265313899256L;
 
-    private ResponseMessageType messageType;
+    private transient ResponseMessageType messageType;
     private int messageId;
 
     public ResponseList (ResponseMessageType messageType, int messageId, List<R> responses ) {

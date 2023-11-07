@@ -70,7 +70,7 @@ public class CRC16Modbus implements Checksum {
         long crc = (int) this.getValue();
         byte[] byteStr = new byte[2];
         byteStr[0] = (byte) ((crc & 0x0000ff00) >>> 8);
-        byteStr[1] = (byte) ((crc & 0x000000ff));
+        byteStr[1] = (byte) (crc & 0x000000ff);
         return byteStr;
     }
 
@@ -82,7 +82,7 @@ public class CRC16Modbus implements Checksum {
         }
         System.out.println(Integer.toHexString((int) crc.getValue()));
         byte[] byteStr = new byte[2];
-        byteStr[0] = (byte) ((crc.getValue() & 0x000000ff));
+        byteStr[0] = (byte) (crc.getValue() & 0x000000ff);
         byteStr[1] = (byte) ((crc.getValue() & 0x0000ff00) >>> 8);
 
         System.out.printf("%02X%02X\n", byteStr[0], byteStr[1]);

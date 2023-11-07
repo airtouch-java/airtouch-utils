@@ -7,7 +7,7 @@ import java.util.List;
 import airtouch.Response;
 import airtouch.model.ZoneStatusResponse;
 import airtouch.utils.HexString;
-import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.MessageType;
 
 public class MessageHandlerTest {
 

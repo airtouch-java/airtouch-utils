@@ -8,6 +8,8 @@ import airtouch.utils.ByteUtil;
 
 public abstract class AbstractHandler {
 
+    protected AbstractHandler() {}
+
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
      * Throws {@link IllegalArgumentException} if it does.
@@ -23,7 +25,7 @@ public abstract class AbstractHandler {
             throw new IllegalArgumentException("Found header in message data. Please only send validated message data block, not full message.");
         }
     }
-    
+
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
      * Throws {@link IllegalArgumentException} if it does not.
@@ -38,7 +40,7 @@ public abstract class AbstractHandler {
             throw new IllegalArgumentException("Header not found in message data. Please use full message.");
         }
     }
-    
+
 
     /**
      * Determines if the dataBlock's first two bytes match the valueToMatch value.
@@ -58,9 +60,9 @@ public abstract class AbstractHandler {
     private static boolean checkMessageTypeMatchesFirstTwoBytes(int valueToMatch, byte[] airTouchDataBlock) {
         long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 2);
         return firstTwoBytes == valueToMatch;
-        
+
     }
-    
+
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
      * <p>
@@ -73,26 +75,26 @@ public abstract class AbstractHandler {
         long firstFourBytes = ByteUtil.toLong(airTouchDataBlock, 0, 4);
         return firstFourBytes == MessageConstants.HEADER;
     }
-    
+
     protected static boolean verifySubTypeData(SubMessageMetaData subMessageMetaData, byte[] subMessageDataBlock) {
         if (subMessageDataBlock.length % subMessageMetaData.getRepeatDataCount() == 0) {
             return true;
         }
-        throw new IllegalArgumentException(String.format("subMessageDataBlock is not a multiple of %s bytes. Length is: %s", 
+        throw new IllegalArgumentException(String.format("subMessageDataBlock is not a multiple of %s bytes. Length is: %s",
                 subMessageMetaData.getEachRepeatDataLength(), subMessageDataBlock.length));
 
     }
 
-	protected static byte[] stripNulls(byte[] allBytesIncludingNulls) {
-	    int length = allBytesIncludingNulls.length;
-	    for (int i = 0; i < allBytesIncludingNulls.length; i++) {
-	        byte b = allBytesIncludingNulls[i];
-	        if(b == 0x00) {
-	            length = i;
-	            break;
-	        }
-	    }
-	    return Arrays.copyOfRange(allBytesIncludingNulls, 0, length);
-	}
+    protected static byte[] stripNulls(byte[] allBytesIncludingNulls) {
+        int length = allBytesIncludingNulls.length;
+        for (int i = 0; i < allBytesIncludingNulls.length; i++) {
+            byte b = allBytesIncludingNulls[i];
+            if(b == 0x00) {
+                length = i;
+                break;
+            }
+        }
+        return Arrays.copyOfRange(allBytesIncludingNulls, 0, length);
+    }
 
 }

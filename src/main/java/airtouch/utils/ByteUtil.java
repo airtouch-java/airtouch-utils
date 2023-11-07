@@ -1,6 +1,7 @@
 package airtouch.utils;
 
 public class ByteUtil {
+    private ByteUtil() {}
     /* byte[] <==> scalar */
 
         /**

@@ -1,7 +1,7 @@
 package airtouch.utils;
 import java.util.Stack;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial","java:S2160"}) // Ignore sonar warning. Nothing in this subclass will change the result of equals.
 public class SizedStack<T> extends Stack<T> {
     private int maxSize;
 

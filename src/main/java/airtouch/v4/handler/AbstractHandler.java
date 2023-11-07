@@ -8,6 +8,8 @@ import airtouch.utils.ByteUtil;
 
 public abstract class AbstractHandler {
 
+    protected AbstractHandler() {}
+
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
      * Throws {@link IllegalArgumentException} if it does.

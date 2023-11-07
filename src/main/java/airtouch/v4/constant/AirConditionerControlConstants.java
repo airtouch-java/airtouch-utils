@@ -4,26 +4,28 @@ import airtouch.constant.AirtouchConstant;
 
 public class AirConditionerControlConstants {
 
-    public enum AcPower {
+    public enum AcPower implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.AcPower> {
         //                      ||     Bits 8 to 7 of byte 1
-        NO_CHANGE            (0b00000000),  // 00
-        NEXT_POWER_STATE     (0b01000000),  // 01
-        POWER_OFF            (0b10000000),  // 10
-        POWER_ON             (0b11000000);  // 11
+        NO_CHANGE            (0b00000000, airtouch.constant.AirConditionerControlConstants.AcPower.NO_CHANGE),  // 00
+        NEXT_POWER_STATE     (0b01000000, airtouch.constant.AirConditionerControlConstants.AcPower.NEXT_POWER_STATE),  // 01
+        POWER_OFF            (0b10000000, airtouch.constant.AirConditionerControlConstants.AcPower.POWER_OFF),  // 10
+        POWER_ON             (0b11000000, airtouch.constant.AirConditionerControlConstants.AcPower.POWER_ON);  // 11
 
         private int bits;
+        private airtouch.constant.AirConditionerControlConstants.AcPower generic;
 
-        AcPower(int bits) {
+        AcPower(int bits, airtouch.constant.AirConditionerControlConstants.AcPower generic) {
             this.bits = bits;
+            this.generic = generic;
         }
 
         public int getBits() {
             return bits;
         }
 
-        AcPower fromGeneric(airtouch.constant.AirConditionerControlConstants.AcPower noChange) {
-            // TODO Auto-generated method stub
-            return null;
+        @Override
+        public airtouch.constant.AirConditionerControlConstants.AcPower getGeneric() {
+            return this.generic;
         }
     }
 
@@ -52,7 +54,7 @@ public class AirConditionerControlConstants {
         public airtouch.constant.AirConditionerControlConstants.Mode getGeneric() {
             return generic;
         }
-        
+
     }
 
     public enum FanSpeed implements AirtouchConstant<airtouch.constant.AirConditionerControlConstants.FanSpeed> {
@@ -105,7 +107,7 @@ public class AirConditionerControlConstants {
         public airtouch.constant.AirConditionerControlConstants.SetpointControl getGeneric() {
             return generic;
         }
-        
+
     }
 
 }

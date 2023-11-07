@@ -53,7 +53,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         | Byte4    |        | Data length                 | This data shows the count of following bytes belong to
                                                           | the ability of this AC
         | Byte5-20 |        | AC Name                     | 24 bytes in total. If less than 24 bytes, end with 0.
-        | Byte21   |        | Start group number          | TODO: Need to figure out what this is.
+        | Byte21   |        | Start Zone number           | First zone on this AC unit
         | Byte22   |        | Zone count
         | Byte23   | Bit8-6 | Not used
                    | Bit5   | Cool mode                   | 1: supported, 0: not supported
@@ -170,7 +170,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         // if the modeBit still equals the bitmask, then the bit we care about is a '1'
         if (modeBit == bitmask) {
             acAbility.addSupportedMode(acMode);
-        };
+        }
     }
     private static void addIfFanSpeedIsSupported(AirConditionerAbilityResponse acAbility, byte byte24, int bitmask, FanSpeed fanSpeed) {
         // zero everything except the bit from the bit mask.
@@ -178,7 +178,7 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         // if the fanSpeedBit still equals the bitmask, then the bit we care about is a '1'
         if (fanSpeedBit == bitmask) {
             acAbility.addSupportedFanSpeed(fanSpeed);
-        };
+        }
     }
 
     private static int resolveAcNumber(byte byte1) {

@@ -12,7 +12,7 @@ public class Airtouch4ConnectorThreadFactory implements AirtouchConnectorThreadF
 
     @Override
     public AirtouchConnectorThread<Address> create(InputStream input, ResponseCallback responseCallback) {
-        return new Airtouch4ConnectorThread<MessageConstants.Address>(input, responseCallback);
+        return new Airtouch4ConnectorThread<>(input, responseCallback);
     }
 
 }

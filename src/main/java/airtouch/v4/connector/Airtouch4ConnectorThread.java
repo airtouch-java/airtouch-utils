@@ -28,7 +28,7 @@ public class Airtouch4ConnectorThread<T> extends Thread implements Runnable, Air
     private static final String IGNORING_UNKNOWN_MESSAGE = "Ignoring unknown message: '{}'";
     private static final String DEFAULT_THREAD_NAME = AirtouchConnectorThread.class.getSimpleName();
 
-    private final Logger log = LoggerFactory.getLogger(AirtouchConnectorThread.class);
+    private final Logger log = LoggerFactory.getLogger(Airtouch4ConnectorThread.class);
 
     private boolean stopping;
     private final InputStream input;
