@@ -96,6 +96,10 @@ public class MessageConstants {
                 return airtouch.MessageType.CONTROL_OR_STATUS;
             case EXTENDED:
                 return airtouch.MessageType.EXTENDED;
+            case AC_STATUS:
+                return airtouch.MessageType.AC_STATUS;
+            case ZONE_STATUS:
+                return airtouch.MessageType.ZONE_STATUS;
             default:
                 return airtouch.MessageType.UNKNOWN;
             }

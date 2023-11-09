@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import airtouch.Response;
 import airtouch.model.ZoneStatusResponse;
 import airtouch.utils.HexString;
@@ -11,7 +13,7 @@ import airtouch.MessageType;
 
 public class MessageHandlerTest {
 
-    //@Test
+    @Test
     public void test() {
         // This data is copied from AirTouch5 protocol doc page 9 (labeled 6).
         // 555555AA B080 01 C0 0018 21000000000800014080968002E700000164FF0007FF0000 491F
