@@ -47,14 +47,12 @@ public class AirtouchDiscoveryBroadcastSender {
     }
 
     public static void broadcast(String broadcastMessage, InetAddress address, int port) throws IOException {
-        DatagramSocket socket = new DatagramSocket();
-        socket.setBroadcast(true);
-
-        byte[] buffer = broadcastMessage.getBytes();
-
-        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
-        socket.send(packet);
-        socket.close();
+        try (DatagramSocket socket = new DatagramSocket()) {
+            socket.setBroadcast(true);
+            byte[] buffer = broadcastMessage.getBytes();
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
+            socket.send(packet);
+        }
     }
 
     public static List<InetAddress> listAllBroadcastAddresses() throws SocketException {
