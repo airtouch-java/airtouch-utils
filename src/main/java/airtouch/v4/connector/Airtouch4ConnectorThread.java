@@ -21,7 +21,7 @@ import airtouch.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
 
-public class Airtouch4ConnectorThread<T> extends Thread implements Runnable, AirtouchConnectorThread<T> {
+public class Airtouch4ConnectorThread extends Thread implements Runnable, AirtouchConnectorThread {
 
     private static final String AIRTOUCH_MESSAGE_HAS_BAD_CRC = "Airtouch message has bad CRC: '{}'";
     private static final String IGNORING_ILLEGAL_MESSAGE = "Ignoring illegal message: '{}'";

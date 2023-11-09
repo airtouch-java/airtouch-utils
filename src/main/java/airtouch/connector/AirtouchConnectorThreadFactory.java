@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import airtouch.ResponseCallback;
 
-public interface AirtouchConnectorThreadFactory<T> {
+public interface AirtouchConnectorThreadFactory {
 
-    AirtouchConnectorThread<T> create(InputStream input, ResponseCallback responseCallback);
+    AirtouchConnectorThread create(InputStream input, ResponseCallback responseCallback);
 }

@@ -5,14 +5,12 @@ import java.io.InputStream;
 import airtouch.ResponseCallback;
 import airtouch.connector.AirtouchConnectorThread;
 import airtouch.connector.AirtouchConnectorThreadFactory;
-import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.MessageConstants.Address;
 
-public class Airtouch5ConnectorThreadFactory implements AirtouchConnectorThreadFactory<MessageConstants.Address> {
+public class Airtouch5ConnectorThreadFactory implements AirtouchConnectorThreadFactory {
 
     @Override
-    public AirtouchConnectorThread<Address> create(InputStream input, ResponseCallback responseCallback) {
-        return new Airtouch5ConnectorThread<>(input, responseCallback);
+    public AirtouchConnectorThread create(InputStream input, ResponseCallback responseCallback) {
+        return new Airtouch5ConnectorThread(input, responseCallback);
     }
 
 }

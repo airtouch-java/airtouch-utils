@@ -15,16 +15,15 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import airtouch.MessageType;
 import airtouch.Response;
 import airtouch.ResponseCallback;
 import airtouch.connector.AirtouchConnector;
 import airtouch.connector.AirtouchConnectorThreadFactory;
-import airtouch.v4.builder.AirConditionerControlRequestBuilder;
-import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.constant.AirConditionerControlConstants.AcPower;
 import airtouch.constant.ZoneControlConstants.ZonePower;
-import airtouch.v4.constant.MessageConstants;
-import airtouch.MessageType;
+import airtouch.v4.builder.AirConditionerControlRequestBuilder;
+import airtouch.v4.builder.GroupControlRequestBuilder;
 import airtouch.v4.handler.AirConditionerAbilityHandler;
 import airtouch.v4.handler.AirConditionerControlHandler;
 import airtouch.v4.handler.AirConditionerStatusHandler;
@@ -40,14 +39,15 @@ public class AirtouchConnectorIT {
     Map<Integer, Response> responses = new HashMap<>();
 
     @Test
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void test() throws IOException {
 
         AtomicInteger counter = new AtomicInteger(0);
 
         String hostName = System.getenv("AIRTOUCH_HOST");
         int portNumber = 9004;
-        
-        AirtouchConnectorThreadFactory<MessageConstants.Address> threadFactory = new Airtouch4ConnectorThreadFactory();
+
+        AirtouchConnectorThreadFactory threadFactory = new Airtouch4ConnectorThreadFactory();
 
         AirtouchConnector airtouchConnector = new AirtouchConnector(threadFactory, hostName, portNumber, new ResponseCallback() {
             @Override

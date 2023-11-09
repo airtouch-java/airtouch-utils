@@ -24,10 +24,10 @@ public class AirtouchConnector<T> {
     private final ResponseCallback responseCallback;
     private final String hostName;
     private final int portNumber;
-    private AirtouchConnectorThread<T> thread;
-    private AirtouchConnectorThreadFactory<T> threadFactory;
+    private AirtouchConnectorThread thread;
+    private AirtouchConnectorThreadFactory threadFactory;
 
-    public AirtouchConnector(final AirtouchConnectorThreadFactory<T> threadFactory, final String hostName, final int portNumber, final ResponseCallback responseCallback) {
+    public AirtouchConnector(final AirtouchConnectorThreadFactory threadFactory, final String hostName, final int portNumber, final ResponseCallback responseCallback) {
         if (hostName == null || hostName.trim().equals("")) {
             throw new AirtouchMessagingException("hostName is blank. Please pass in a valid hostName when creating an AirtouchConnector instance.");
         }

@@ -1,6 +1,6 @@
 package airtouch.connector;
 
-public interface AirtouchConnectorThread<T> {
+public interface AirtouchConnectorThread {
 
     void start();
     void shutdown();
