@@ -4,9 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.model.ConsoleVersionResponse;
@@ -21,8 +18,6 @@ import airtouch.v5.constant.MessageConstants.MessageType;
  * Is invoked when a message from the Airtouch4 has been identified as an AirConditioner ability message.
  */
 public class ConsoleVersionHandler extends AbstractHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(ConsoleVersionHandler.class);
 
     public static Request<MessageConstants.Address> generateRequest(int messageId) {
 

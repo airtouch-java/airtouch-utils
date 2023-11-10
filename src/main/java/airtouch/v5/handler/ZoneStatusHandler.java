@@ -84,7 +84,7 @@ public class ZoneStatusHandler extends AbstractHandler {
     }
 
     private static Integer determineCurrentTemperature(byte byte5, byte byte6) {
-        if (-1 == byte5) {  // TODO: Need to confirm that 0xFF == -1
+        if (0xFF == byte5) {  // TODO: Need to confirm that 0xFF == -1
             return null; // Current Temp is not available.
         }
         // Combine byte5, and byte6

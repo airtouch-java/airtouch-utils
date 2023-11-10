@@ -14,7 +14,7 @@ import org.junit.Test;
 import airtouch.AirtouchVersion;
 import airtouch.discovery.AirtouchDiscoveryBroadcastResponseCallback.AirtouchDiscoveryBroadcastResponse;
 
-public class AirtouchBroadcastListenerThreadTest {
+public class AirtouchBroadcastListenerThreadIT {
 
     //@Test // for some reason, running these two tests fails. It might be a port binding issue.
     public void testAirTouch4() throws IOException {
@@ -43,7 +43,7 @@ public class AirtouchBroadcastListenerThreadTest {
         assertEquals(AirtouchVersion.AIRTOUCH4, response.getAirtouchVersion());
     }
 
-    //@Test // for some reason, running these two tests fails. It might be a port binding issue.
+    @Test // for some reason, running these two tests fails. It might be a port binding issue.
     public void testAirTouch5() throws IOException {
         MockBroadcastResponseCallback callback = new MockBroadcastResponseCallback();
         AirtouchDiscoveryBroadcastListenerThread listenerThread = new AirtouchDiscoveryBroadcastListenerThread(AirtouchVersion.AIRTOUCH5, callback);

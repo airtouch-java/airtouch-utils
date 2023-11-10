@@ -64,7 +64,7 @@ public abstract class AbstractHandler {
     }
 
     /**
-     * Determines if the dataBlock still contains the first two HEADER bytes.
+     * Determines if the dataBlock still contains the first four HEADER bytes.
      * <p>
      * Return true if the byte array passed contains all the data bytes.
      *

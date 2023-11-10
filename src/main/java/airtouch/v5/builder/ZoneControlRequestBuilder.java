@@ -109,7 +109,7 @@ public class ZoneControlRequestBuilder {
             if (ZoneSetting.SET_OPEN_PERCENTAGE.equals(this.zoneSetting)) {
                 request.setSettingValue(this.settingValue);
             } else if (ZoneSetting.SET_TARGET_SETPOINT.equals(this.zoneSetting)) {
-                request.setSettingValue((this.settingValue  * 10) - 100); // Convert as per page 8 of v5 docs.);
+                request.setSettingValue((this.settingValue  * 10) - 100);    // Convert as per page 8 of Airtouch V5 docs.
             }
         } else {
             request.setZoneSetting(this.zoneSetting);
