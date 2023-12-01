@@ -52,7 +52,7 @@ public class AirtouchConnector<T> {
             this.thread = this.threadFactory.create(input, responseCallback);
             this.thread.start();
         } catch (IOException e) {
-            throw new AirtouchMessagingException("Failed to connect to Airtouch", e);
+            throw new AirtouchMessagingException(String.format("Failed to connect to Airtouch at '%s:%s'", this.hostName, this.portNumber), e);
         }
     }
 
