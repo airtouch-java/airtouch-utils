@@ -1,10 +1,10 @@
 package airtouch.v5.builder;
 
 import airtouch.Request;
+import airtouch.constant.ZoneControlConstants.ZoneControl;
+import airtouch.constant.ZoneControlConstants.ZonePower;
+import airtouch.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
-import airtouch.v5.constant.ZoneControlConstants.ZonePower;
-import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.v5.handler.ZoneControlHandler;
 import airtouch.v5.model.ZoneControlRequest;
 
@@ -98,36 +98,48 @@ public class ZoneControlRequestBuilder {
         request.setZoneNumber(this.zoneNumber);
 
         if (this.zoneSetting == null) {
-            request.setZoneSetting(ZoneSetting.NO_CHANGE);
+            request.setZoneSetting(airtouch.v5.constant.ZoneControlConstants.ZoneSetting.NO_CHANGE);
         } else if (ZoneSetting.SET_OPEN_PERCENTAGE.equals(this.zoneSetting)
                 || ZoneSetting.SET_TARGET_SETPOINT.equals(this.zoneSetting)){
             if (this.settingValue == null) {
                 throw new IllegalArgumentException(
                         String.format("setting value must be defined when ZoneSettings is %s", this.zoneSetting));
             }
-            request.setZoneSetting(this.zoneSetting);
+            request.setZoneSetting(toZoneSettingSpecific(this.zoneSetting));
             if (ZoneSetting.SET_OPEN_PERCENTAGE.equals(this.zoneSetting)) {
                 request.setSettingValue(this.settingValue);
             } else if (ZoneSetting.SET_TARGET_SETPOINT.equals(this.zoneSetting)) {
                 request.setSettingValue((this.settingValue  * 10) - 100);    // Convert as per page 8 of Airtouch V5 docs.
             }
         } else {
-            request.setZoneSetting(this.zoneSetting);
+            request.setZoneSetting(toZoneSettingSpecific(this.zoneSetting));
             request.setSettingValue(0);
         }
         if (this.zoneControl == null) {
-            request.setZoneControl(ZoneControl.NO_CHANGE);
+            request.setZoneControl(toZoneControlSpecific(ZoneControl.NO_CHANGE));
         } else {
-            request.setZoneControl(this.zoneControl);
+            request.setZoneControl(toZoneControlSpecific(this.zoneControl));
         }
 
         if (this.zonePower == null) {
-            request.setZonePower(ZonePower.NO_CHANGE);
+            request.setZonePower(toZonePowerSpecific(ZonePower.NO_CHANGE));
         } else {
-            request.setZonePower(this.zonePower);
+            request.setZonePower(toZonePowerSpecific(this.zonePower));
         }
 
         return request;
+    }
+
+    private airtouch.v5.constant.ZoneControlConstants.ZonePower toZonePowerSpecific(ZonePower zonePower) {
+        return airtouch.v5.constant.ZoneControlConstants.ZonePower.getSpecific(zonePower);
+    }
+
+    private airtouch.v5.constant.ZoneControlConstants.ZoneControl toZoneControlSpecific(ZoneControl zoneControl) {
+        return airtouch.v5.constant.ZoneControlConstants.ZoneControl.getSpecific(zoneControl);
+    }
+
+    private airtouch.v5.constant.ZoneControlConstants.ZoneSetting toZoneSettingSpecific(ZoneSetting zoneSetting) {
+        return airtouch.v5.constant.ZoneControlConstants.ZoneSetting.getSpecific(zoneSetting);
     }
 
     public Request<MessageConstants.Address> build(int messageId) {

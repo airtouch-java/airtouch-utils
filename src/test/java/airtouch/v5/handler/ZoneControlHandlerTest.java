@@ -5,12 +5,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import airtouch.Request;
+import airtouch.constant.ZoneControlConstants.ZoneControl;
+import airtouch.constant.ZoneControlConstants.ZonePower;
+import airtouch.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.utils.HexString;
 import airtouch.v5.builder.ZoneControlRequestBuilder;
 import airtouch.v5.constant.MessageConstants;
-import airtouch.v5.constant.ZoneControlConstants.ZoneControl;
-import airtouch.v5.constant.ZoneControlConstants.ZonePower;
-import airtouch.v5.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.v5.model.ZoneControlRequest;
 
 public class ZoneControlHandlerTest {
