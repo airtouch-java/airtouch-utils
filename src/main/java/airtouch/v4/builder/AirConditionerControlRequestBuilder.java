@@ -5,6 +5,7 @@ import airtouch.constant.AirConditionerControlConstants.AcPower;
 import airtouch.constant.AirConditionerControlConstants.FanSpeed;
 import airtouch.constant.AirConditionerControlConstants.Mode;
 import airtouch.constant.AirConditionerControlConstants.SetpointControl;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.handler.AirConditionerControlHandler;
 import airtouch.v4.model.AirConditionerControlRequest;
 
@@ -157,8 +158,7 @@ public class AirConditionerControlRequestBuilder {
             return request;
         }
 
-        @SuppressWarnings("rawtypes")
-        public Request build(int messageId) {
+        public Request<MessageConstants.Address> build(int messageId) {
             return AirConditionerControlHandler.generateRequest(messageId, build());
         }
     }

@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import airtouch.utils.HexString;
 import airtouch.v5.builder.AirConditionerControlRequestBuilder;
-import airtouch.v5.constant.AirConditionerControlConstants.AcPower;
-import airtouch.v5.constant.AirConditionerControlConstants.Mode;
-import airtouch.v5.constant.AirConditionerControlConstants.SetpointControl;
+import airtouch.constant.AirConditionerControlConstants.AcPower;
+import airtouch.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants.SetpointControl;
 
 public class AirConditionerControlRequestTest {
 

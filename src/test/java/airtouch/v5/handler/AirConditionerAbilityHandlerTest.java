@@ -10,8 +10,8 @@ import airtouch.Request;
 import airtouch.ResponseList;
 import airtouch.model.AirConditionerAbilityResponse;
 import airtouch.utils.HexString;
-import airtouch.v5.constant.AirConditionerControlConstants.FanSpeed;
-import airtouch.v5.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants.FanSpeed;
+import airtouch.constant.AirConditionerControlConstants.Mode;
 import airtouch.v5.constant.MessageConstants;
 
 public class AirConditionerAbilityHandlerTest {

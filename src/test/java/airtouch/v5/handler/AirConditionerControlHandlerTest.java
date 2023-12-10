@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import airtouch.Request;
-import airtouch.v5.constant.AirConditionerControlConstants.AcPower;
-import airtouch.v5.constant.AirConditionerControlConstants.Mode;
-import airtouch.v5.constant.AirConditionerControlConstants.SetpointControl;
+import airtouch.constant.AirConditionerControlConstants.AcPower;
+import airtouch.constant.AirConditionerControlConstants.Mode;
+import airtouch.constant.AirConditionerControlConstants.SetpointControl;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.model.AirConditionerControlRequest;
 

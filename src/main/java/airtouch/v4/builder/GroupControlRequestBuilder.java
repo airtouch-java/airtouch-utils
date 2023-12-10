@@ -7,6 +7,7 @@ import airtouch.constant.ZoneControlConstants.ZoneSetting;
 import airtouch.v4.constant.GroupControlConstants.GroupControl;
 import airtouch.v4.constant.GroupControlConstants.GroupPower;
 import airtouch.v4.constant.GroupControlConstants.GroupSetting;
+import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.handler.GroupControlHandler;
 import airtouch.v4.model.GroupControlRequest;
 
@@ -129,8 +130,7 @@ public class GroupControlRequestBuilder {
         return request;
     }
 
-    @SuppressWarnings("rawtypes")
-    public Request build(int messageId) {
+    public Request<MessageConstants.Address> build(int messageId) {
         return GroupControlHandler.generateRequest(messageId, build());
     }
 }
