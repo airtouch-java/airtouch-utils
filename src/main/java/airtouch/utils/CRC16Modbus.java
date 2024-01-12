@@ -2,7 +2,7 @@ package airtouch.utils;
 
 import java.util.zip.Checksum;
 
-/**
+/*
  * User: punksa
  * Date: 13-10-11
  * Time: 下午10:33

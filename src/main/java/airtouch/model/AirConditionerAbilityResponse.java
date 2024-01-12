@@ -94,7 +94,6 @@ public class AirConditionerAbilityResponse {
     }
     /**
      * For Airtouch5
-     * @return value
      */
     public void setMinCoolSetPoint(int minCoolSetPoint) {
         this.minCoolSetPoint = minCoolSetPoint;

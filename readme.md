@@ -31,11 +31,18 @@ You must create an instance of the correct class for dealing with the version of
 Connect to the Airtouch to send messages. Message responses are sent asynchronously from the Airtouch in response to a status request, or when an item changes state in the AirTouch (eg, temperature changes, power on/off, damper percentage changes).
 
 ```java
-    AirtouchConnector airtouchConnector = new AirtouchConnector(this.hostName, this.portNumber, new ResponseCallback() {
-      @SuppressWarnings("rawtypes")
-      public void handleResponse(Response response) {
-        // Write some code here to handle the response received from AirTouch
-      }
+    import airtouch.v4.constant.MessageConstants;
+    ...
+    
+    // AirtouchConnector is generic, so we use a ThreadFactory to create the relevant thread (Airtouch4 or 5)
+    AirtouchConnectorThreadFactory threadFactory = new Airtouch4ConnectorThreadFactory();
+    
+    // MessageConstants.Address is the type of address header. These are different for Airtouch4 and 5
+    // so we need to pass in the correct type for our Airtouch version. 
+    AirtouchConnector<MessageConstants.Address> airtouchConnector = new AirtouchConnector<>(threadFactory, this.hostName, this.portNumber, new ResponseCallback() {
+        public void handleResponse(Response response) {
+            // Write some code here to handle the response received from AirTouch
+        }
     });
     airtouchConnector.start();
 ```
@@ -57,11 +64,14 @@ Note: A control request will generate a status response. Therefore, the control 
     // For the GroupStatusHandler, you pass in a group index (zero based) or null to request the status for all groups.
     airtouchConnector.sendRequest(GroupStatusHandler.generateRequest(nextRequestId, null));
 ```
-Shortly after this is invoked, AirTouch will send a response to the connected TCP port. This will be handled by the listener and then the relevant Status Handler invoked to parse the message. Once successfully parsed, `ResponseCallback.handleResponse(Response response)` to be called for your code to handle the response. In the above you would expect the message to be a Zone (aka Group) status update.
+Shortly after this is invoked, AirTouch will send a response to the connected TCP port. This will be handled by the listener and then the relevant Status Handler invoked to parse the message. Once successfully parsed, `ResponseCallback.handleResponse(Response response)` will be called for your code to handle the response. In the above you would expect the message to be a Zone (aka Group) status update.
 
 Control messages (to change a state in the AirTouch) are similar. A control message is sent, and then shortly after this is invoked, AirTouch will send a response to the connected TCP port. The response will be a status message showing the updated status of the changed object. For example, a Zone control message will generate an updated Zone Status response.
 
 ```java
+        // Import the correctly versioned handler for your AirTouch.
+        import airtouch.v4.handler.AirConditionerControlHandler;
+        
         // Create control request to turn off second Air Conditioning unit on AirTouch (zero based index)
         AirConditionerControlRequest acControlRequest = AirConditionerControlHandler.requestBuilder()
                 .acNumber(1)

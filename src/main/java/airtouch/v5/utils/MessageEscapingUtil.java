@@ -20,11 +20,11 @@ public class MessageEscapingUtil {
      * are the header and are not evaluated by this method.
      * The checksum is not expected to be valid after the extra bytes have been added.</b><br>
      *
-     * <code><pre>
+     * <pre><code>
      * Redundant bytes in message (copied from docs)
      * To prevent the message from containing the same data as header, a 00 is inserted after
      * every three consecutive 0x55s in the message. The inserted 00 is redundant bytes.
-     * </pre></code>
+     * </code></pre>
      *
      * @param airtouchMessage - byte[] of the message destined for the Airtouch. Must include header.
      * @return a new byte[] array containing the input but with 555555 converted to 55555500 (except for the header)
@@ -64,11 +64,11 @@ public class MessageEscapingUtil {
      * are the header and are not evaluated by this method.
      * The checksum is not expected to be valid until the redundant bytes have been removed.</b><br>
      *
-     * <code><pre>
+     * <pre><code>
      * Redundant bytes in message (copied from docs)
      * To prevent the message from containing the same data as header, a 00 is inserted after
      * every three consecutive 0x55s in the message. The inserted 00 is redundant bytes.
-     * </pre></code>
+     * </code></pre>
      *
      * @param rawAirtouchMessage - byte[] of the message from the Airtouch. Must include header.
      * @return a new byte[] array containing the input but with 55555500 converted to 555555

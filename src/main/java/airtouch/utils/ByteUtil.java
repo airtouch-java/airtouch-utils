@@ -4,7 +4,7 @@ public class ByteUtil {
     private ByteUtil() {}
     /* byte[] <==> scalar */
 
-        /**
+        /*
          * The <code>to{Long|Int|Short|Byte}</code> family of methods
          * convert a byte array to a scalar
          *
@@ -13,7 +13,7 @@ public class ByteUtil {
          * @param	size	how many bytes
          * @return		{a long|an int|a short|a byte}
          *
-         * */
+         */
         public static final long toLong(byte[] b) {
             return toLong(b,0,b.length);
         }
@@ -43,7 +43,7 @@ public class ByteUtil {
             return (bh&0xff) << 8 | (bl&0xff);
         }
 
-        /**
+        /*
          * The <code>getBytes</code> family of methods
          * convert a scalar to a byte array
          *
@@ -52,7 +52,7 @@ public class ByteUtil {
          * @param	size	how many bytes
          * @return		the byte array
          *
-         * */
+         */
         public static final byte[] getBytes(long l,int size) {
             byte[] b = new byte[size];
             getBytes(l,b,0,size);

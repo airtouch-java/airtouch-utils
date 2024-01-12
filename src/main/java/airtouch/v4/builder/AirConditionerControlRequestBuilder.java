@@ -104,7 +104,7 @@ public class AirConditionerControlRequestBuilder {
 
         /**
          * Method to set the setpoint value.
-         * Has no effect unless {@link #setpointControl(SetpointControl.SET_TO_VALUE)} is
+         * Has no effect unless <code>AirConditionerControlRequestBuilder#setpointControl(SetpointControl.SET_TO_VALUE)</code> is
          * also called.
          * @param setPointValue
          * @return {@link AirConditionerControlRequestBuilder} to support fluent builder pattern.

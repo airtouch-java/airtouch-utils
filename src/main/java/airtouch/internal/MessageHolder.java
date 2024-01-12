@@ -32,14 +32,14 @@ public class MessageHolder {
     /**
      * Create a {@link MessageHolder} instance using the bytes received and with the expected
      * dataLength.
-     * Note: dataLength is determined from bytes 7 & 8 of the Airtouch4 message.
+     * Note: dataLength is determined from bytes 7 &amp; 8 of the Airtouch4 message.
      * <p>
      * Use {@link MessageHolder#putByte(byte)} to add further bytes to this message.<br>
      * Call {@link MessageHolder#isFinished()} to determine if the number of bytes received
      * matched the expected message size (including header and checksum).
      *
      * @param bytes - The bytes received so far.
-     * @param dataLength - The size of the data component of the message. Determined from bytes 7 & 8 of the Airtouch4 message
+     * @param dataLength - The size of the data component of the message. Determined from bytes 7 &amp; 8 of the Airtouch4 message
      * @return
      */
     public static MessageHolder initialiseWithData(Stack<Byte> bytes, int dataLength) {
@@ -53,7 +53,7 @@ public class MessageHolder {
     /**
      * Initialise the MessageHolder with a buffer large enough to start receiving a message.
      * This is typically called to create a new MessageHolder when starting to receive a new
-     * message. Once bytes 7 & 8 have been received, call {@link MessageHolder#initialiseWithData(Stack, int)}
+     * message. Once bytes 7 &amp; 8 have been received, call {@link MessageHolder#initialiseWithData(Stack, int)}
      * to create a new MessageHolder with the expected dataLength.
      *
      * @return A new MesssageHolder instance with a default size buffer.

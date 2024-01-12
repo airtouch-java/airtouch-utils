@@ -14,16 +14,16 @@ import airtouch.v5.model.AirConditionerControlRequest;
  * Handler for creating AirConditioner control messages<p>
  *
  * Example code to generate the control message to control the AC unit.<p>
- * Use {@link AirConditionerControlHandler.AirConditionerControlRequestBuilder#build()} to create a {@link AirConditionerControlRequest}
+ * Use {@link AirConditionerControlRequestBuilder#build()} to create a {@link AirConditionerControlRequest}
  * with useful default values.
  *
- * <code><pre>
+ * <pre><code>
  * AirConditionerControlRequest acControlRequest = AirConditionerControlHandler
  *      .requestBuilder()
  *          .acNumber(AC_NUMBER)
  *          .build();
  * Request request = AirConditionerControlHandler.generateRequest(MESSAGE_ID, acControlRequest);
- * </pre></code>
+ * </code></pre>
  */
 public class AirConditionerControlHandler extends AbstractControlHandler {
 
