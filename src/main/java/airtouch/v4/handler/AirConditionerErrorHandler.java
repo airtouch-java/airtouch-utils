@@ -4,24 +4,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import airtouch.Request;
 import airtouch.ResponseList;
+import airtouch.model.AirConditionerErrorResponse;
 import airtouch.v4.AirTouchRequest;
 import airtouch.v4.constant.MessageConstants;
 import airtouch.v4.constant.MessageConstants.Address;
 import airtouch.v4.constant.MessageConstants.MessageType;
-import airtouch.model.AirConditionerErrorResponse;
 
 /**
  * Handler for AirConditioner Error responses<p>
  * Is invoked when a message from the Airtouch4 has been identified as an AirConditioner error message.
  */
 public class AirConditionerErrorHandler extends AbstractHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(AirConditionerErrorHandler.class);
 
     public static Request<MessageConstants.Address> generateRequest(int messageId, int acNumber) {
 
