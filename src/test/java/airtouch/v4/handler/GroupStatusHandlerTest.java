@@ -32,4 +32,16 @@ public class GroupStatusHandlerTest {
         assertEquals(2, response.size());
     }
 
+    @Test
+    public void testHandleReadlGroupStatusResponse() {
+        // hexresponse=5555B0803C2B0018408A178A5B27018A17805CC7428018805C47039417805E47B108
+        // [messageId=60, type=GROUP_STATUS, dataLength=24, hexData=408A178A5B27018A17805CC7428018805C47039417805E47]
+        String dataBlockHexString = "408A178A5B27018A17805CC7428018805C47039417805E47";
+        byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
+
+        ResponseList<ZoneStatusResponse> response = GroupStatusHandler.handle(0, dataBlockBytes);
+        assertEquals(4, response.size());
+
+    }
+
 }

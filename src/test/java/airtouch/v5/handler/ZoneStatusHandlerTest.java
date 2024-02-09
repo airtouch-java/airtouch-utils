@@ -40,11 +40,16 @@ public class ZoneStatusHandlerTest {
         assertEquals(PowerState.ON, response1.getPowerstate());
         assertEquals(0, response1.getZoneNumber());
         assertEquals(0, response1.getOpenPercentage());
+        assertEquals(25, response1.getTargetSetpoint());
+        assertEquals(true, response1.hasSensor());
+        assertEquals(Double.valueOf(24.3), response1.getCurrentTemperature());
+
 
         ZoneStatusResponse response2 = responses.get(1);
         assertEquals(PowerState.OFF, response2.getPowerstate());
         assertEquals(1, response2.getZoneNumber());
         assertEquals(100, response2.getOpenPercentage());
+        assertEquals(false, response2.hasSensor());
     }
 
 }

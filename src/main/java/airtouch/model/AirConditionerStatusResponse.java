@@ -15,7 +15,7 @@ public class AirConditionerStatusResponse {
     private boolean spill;
     private boolean acTimer;
     private int targetSetpoint;
-    private Integer currentTemperature;
+    private Double currentTemperature;
     private int errorCode;
 
 
@@ -77,10 +77,10 @@ public class AirConditionerStatusResponse {
         this.targetSetpoint = targetSetpoint;
     }
 
-    public Integer getCurrentTemperature() {
+    public Double getCurrentTemperature() {
         return currentTemperature;
     }
-    public void setCurrentTemperature(Integer currentTemperature) {
+    public void setCurrentTemperature(Double currentTemperature) {
         this.currentTemperature = currentTemperature;
     }
 

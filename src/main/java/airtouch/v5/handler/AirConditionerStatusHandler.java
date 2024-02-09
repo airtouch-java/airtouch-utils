@@ -112,7 +112,7 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         return isAcTimer == 1;
     }
 
-    private static Integer determineCurrentTemperature(byte byte5, byte byte6) {
+    private static Double determineCurrentTemperature(byte byte5, byte byte6) {
         if (-1 == byte5) {
             return null; // Current Temp is not available.
         }
@@ -122,7 +122,7 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         temperatureLower3bits = temperatureLower3bits>>> 5;
         int temperature = temperatureUpper8bits | temperatureLower3bits;
         // Get value from byte, subtract 500 and then divide by 10.
-        return (temperature-500)/10;
+        return (temperature-500d)/10;
     }
 
     private static Integer determineErrorCode(byte byte5, byte byte6) {

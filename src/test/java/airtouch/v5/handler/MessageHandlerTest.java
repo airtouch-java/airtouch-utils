@@ -2,18 +2,14 @@ package airtouch.v5.handler;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
 import org.junit.Test;
 
-import airtouch.Response;
-import airtouch.model.ZoneStatusResponse;
-import airtouch.utils.HexString;
 import airtouch.MessageType;
+import airtouch.Response;
+import airtouch.utils.HexString;
 
 public class MessageHandlerTest {
 
-    @SuppressWarnings("unchecked")
     @Test
     public void test() {
         // This data is copied from AirTouch5 protocol doc page 9 (labeled 6).
@@ -24,7 +20,6 @@ public class MessageHandlerTest {
         MessageHandler messageHandler = new MessageHandler();
         Response response = messageHandler.handle(messsageBytes);
         assertEquals(MessageType.ZONE_STATUS, response.getMessageType());
-        List<ZoneStatusResponse> r = response.getData();
     }
 
 }

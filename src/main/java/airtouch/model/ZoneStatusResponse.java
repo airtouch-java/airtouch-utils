@@ -14,7 +14,7 @@ public class ZoneStatusResponse {
     private boolean turboSupported;
     private int targetSetpoint;
     private boolean hasSensor;
-    private Integer currentTemperature;
+    private Double currentTemperature;
     private boolean spill;
 
     public MessageType getMessageType() {
@@ -76,10 +76,10 @@ public class ZoneStatusResponse {
         this.hasSensor = hasSensor;
     }
 
-    public Integer getCurrentTemperature() {
+    public Double getCurrentTemperature() {
         return currentTemperature;
     }
-    public void setCurrentTemperature(Integer currentTemperature) {
+    public void setCurrentTemperature(Double currentTemperature) {
         this.currentTemperature = currentTemperature;
     }
 

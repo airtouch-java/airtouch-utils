@@ -83,14 +83,14 @@ public class ZoneStatusHandler extends AbstractHandler {
         return isSpill == 1;
     }
 
-    private static Integer determineCurrentTemperature(byte byte5, byte byte6) {
+    private static Double determineCurrentTemperature(byte byte5, byte byte6) {
         if (0xFF == byte5) {  // TODO: Need to confirm that 0xFF == -1
             return null; // Current Temp is not available.
         }
         // Combine byte5, and byte6
         int temperature = ByteUtil.toInt(byte5, byte6);
         // Get value from byte, subtract 500 and then divide by 10.
-        return (temperature-500)/10;
+        return (temperature-500d)/10;
     }
 
     private static boolean determineHasTemperatureSensor(byte byte4) {

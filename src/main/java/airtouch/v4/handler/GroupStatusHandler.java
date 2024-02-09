@@ -81,7 +81,7 @@ public class GroupStatusHandler extends AbstractHandler {
         return isSpill == 1;
     }
 
-    private static Integer determineCurrentTemperature(byte byte5, byte byte6) {
+    private static Double determineCurrentTemperature(byte byte5, byte byte6) {
         if (-1 == byte5) {  // TODO: Need to confirm that 0xFF == -1
             return null; // Current Temp is not available.
         }
@@ -91,7 +91,7 @@ public class GroupStatusHandler extends AbstractHandler {
         temperatureLower3bits = temperatureLower3bits>>> 5;
         int temperature = temperatureUpper8bits | temperatureLower3bits;
         // Get value from byte, subtract 500 and then divide by 10.
-        return (temperature-500)/10;
+        return (temperature-500d)/10;
     }
 
     private static boolean determineHasTemperatureSensor(byte byte4) {
