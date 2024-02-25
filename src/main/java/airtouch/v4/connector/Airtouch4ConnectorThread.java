@@ -120,7 +120,7 @@ public class Airtouch4ConnectorThread extends Thread implements Runnable, Airtou
         try {
             Response response = messageHandler.handle(messageHolder.getBytes());
             if (log.isDebugEnabled()) {
-                log.debug("Received response: '{}'. Sending to ", response);
+                log.debug("Received response: '{}'.", response);
             }
             responseCallback.handleResponse(response);
         } catch (UnknownAirtouchResponseException ex) {

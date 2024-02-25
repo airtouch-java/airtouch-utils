@@ -41,7 +41,7 @@ public class MessageHandler extends AbstractHandler {
         // We can use this to match the request we sent with the response we received if we want.
         // It's also possible to get an unsolicited response from the Airtouch5 when a state changes.
         // If that happens won't have a matching messageId.
-        int messageId = airTouchMessage[6];
+        int messageId = airTouchMessage[6] & 0xFF; // AND with 0xFF, which converts byte to unsigned int.
 
         // Determine the type of response we have received.
         MessageType messageType =  MessageType.getFromByte((airTouchMessage[7] & 0xFF));
