@@ -10,4 +10,5 @@ public interface Request<A> {
     int getMessageId();
 
     A getAddress();
+    String getTypeForLog();
 }

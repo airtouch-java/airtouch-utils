@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import airtouch.Response;
+import airtouch.exception.IllegalAirtouchResponseException;
+import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
@@ -23,6 +25,11 @@ public class MessageHandler extends AbstractHandler {
 
         if (log.isDebugEnabled()) {
             log.debug("Handling Airtouch response message: hexresponse={}", HexString.fromBytes(airTouchMessageEscaped));
+        }
+        
+        //
+        if (checkForKnownBadMessage(airTouchMessageEscaped)) {
+            throw new IllegalAirtouchResponseException("Found known bad message with header 555555AB");
         }
         // Check that we are handling a message with the correct header.
         // Throws IllegalArgumentException if not valid.
@@ -74,6 +81,7 @@ public class MessageHandler extends AbstractHandler {
         // Extended messages (since console version 1.0.5) have the actual message type as the first
         // byte of the data, so handle those with their own Handler.
         case EXTENDED:
+            log.debug("EXTENDED");
             return ExtendedMessageHandler.handle(messageId, data);
 
         // If we don't know how to handle the message, throw UnsupportedOperationException.
@@ -81,6 +89,11 @@ public class MessageHandler extends AbstractHandler {
             throw new UnsupportedOperationException(String.format("No Handler available for type '%s'", messageType.toString()));
         }
 
+    }
+
+    private boolean checkForKnownBadMessage(byte[] airTouchMessageEscaped) {
+        long firstFourBytes = ByteUtil.toLong(airTouchMessageEscaped, 0, 4);
+        return firstFourBytes == MessageConstants.KNOWN_BAD_HEADER;
     }
 
     private Response handleControlOrStatus(SubMessageMetaData subMessageMetaData, int messageId, byte[] data) {
@@ -109,9 +122,9 @@ public class MessageHandler extends AbstractHandler {
         return subMessageMetaData;
     }
 
-    private long calculateChecksum(byte[] airTouchDataBlock, int from, int to) {
+    private long calculateChecksum(byte[] airTouchDataBlock, int from, int length) {
         CRC16Modbus crc16 = new CRC16Modbus();
-        crc16.update(airTouchDataBlock, from, to);
+        crc16.update(airTouchDataBlock, from, length);
         return crc16.getValue();
     }
 

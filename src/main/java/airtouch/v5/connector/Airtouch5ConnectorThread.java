@@ -97,7 +97,11 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
                 // the message and then re-initialise the buffer to handle the next
                 // set of bytes received.
                 if (messageHolder.isFinished()) {
-                    handleFinishedMessage(messageHandler, messageHolder);
+                    try {
+                        handleFinishedMessage(messageHandler, messageHolder);
+                    } catch (IllegalArgumentException ex) {
+                        log.warn("Could not handle finished message ", ex);
+                    }
                     if (log.isTraceEnabled()) {
                         log.trace("Initalising MessageHolder to empty");
                     }

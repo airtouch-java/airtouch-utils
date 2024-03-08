@@ -15,5 +15,5 @@ public class AbstractHandlerTest {
         byte[] responseBytes = HexString.toByteArray(responseHexString);
         AbstractHandler.checkHeaderIsRemoved(responseBytes);
     }
-
+    
 }

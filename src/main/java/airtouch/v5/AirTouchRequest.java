@@ -18,6 +18,7 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
     private Address address;
     private int messageId;
     private MessageType messageType;
+    private ControlOrStatusMessageSubType subType = null;
 
     public AirTouchRequest(Address address, int messageId, MessageType messageType, byte[] data) {
         this.address = address;
@@ -36,6 +37,7 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;
+        this.subType = subType;
         this.buffer.put(ByteUtil.getBytes(MessageConstants.HEADER, 4));
         this.buffer.put(address.getBytes());
         this.buffer.put(ByteUtil.getBytes(messageId, 1));
@@ -82,6 +84,13 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
 
     public static byte b(int i) {
         return (byte) (i & 0xFF);
+    }
+
+    @Override
+    public String getTypeForLog() {
+        return this.subType == null 
+                ? this.messageType.toString() 
+                : this.messageType.toString() + "." + this.subType.toString();
     }
 
 }

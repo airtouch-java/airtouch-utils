@@ -82,9 +82,9 @@ public class MessageHandler extends AbstractHandler {
 
     }
 
-    private long calculateChecksum(byte[] airTouchDataBlock, int from, int to) {
+    private long calculateChecksum(byte[] airTouchDataBlock, int from, int length) {
         CRC16Modbus crc16 = new CRC16Modbus();
-        crc16.update(airTouchDataBlock, from, to);
+        crc16.update(airTouchDataBlock, from, length);
         return crc16.getValue();
     }
 

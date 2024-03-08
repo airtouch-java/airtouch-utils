@@ -7,6 +7,7 @@ import airtouch.utils.HexString;
 public class MessageConstants {
 
     public static final int HEADER = 0x555555AA;
+    public static final int KNOWN_BAD_HEADER = 0x555555AB;
 
     public enum Address implements ResponseMessageType {
         STANDARD_SEND(0x80b0),

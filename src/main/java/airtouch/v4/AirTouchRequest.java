@@ -64,4 +64,9 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
         return (byte) (i & 0xFF);
     }
 
+    @Override
+    public String getTypeForLog() {
+        return this.messageType.toString();
+    }
+
 }
