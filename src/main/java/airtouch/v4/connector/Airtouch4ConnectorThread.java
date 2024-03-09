@@ -9,24 +9,24 @@ import org.slf4j.LoggerFactory;
 
 import airtouch.Response;
 import airtouch.ResponseCallback;
+import airtouch.connector.AirtouchConnectorThread;
 import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
-import airtouch.connector.AirtouchConnectorThread;
-import airtouch.v4.constant.MessageConstants;
-import airtouch.v4.constant.MessageConstants.Address;
-import airtouch.v4.handler.MessageHandler;
 import airtouch.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
+import airtouch.v4.constant.MessageConstants;
+import airtouch.v4.constant.MessageConstants.Address;
+import airtouch.v4.handler.MessageHandler;
 
 public class Airtouch4ConnectorThread extends Thread implements Runnable, AirtouchConnectorThread {
 
     private static final String AIRTOUCH_MESSAGE_HAS_BAD_CRC = "Airtouch message has bad CRC: '{}'";
     private static final String IGNORING_ILLEGAL_MESSAGE = "Ignoring illegal message: '{}'";
     private static final String IGNORING_UNKNOWN_MESSAGE = "Ignoring unknown message: '{}'";
-    private static final String DEFAULT_THREAD_NAME = AirtouchConnectorThread.class.getSimpleName();
+    private static final String DEFAULT_THREAD_NAME = Airtouch4ConnectorThread.class.getSimpleName();
 
     private final Logger log = LoggerFactory.getLogger(Airtouch4ConnectorThread.class);
 

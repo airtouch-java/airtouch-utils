@@ -14,12 +14,12 @@ import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
+import airtouch.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.handler.MessageHandler;
-import airtouch.internal.MessageHolder;
 
 public class Airtouch5ConnectorThread extends Thread implements Runnable, AirtouchConnectorThread {
 
@@ -47,10 +47,12 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
         this.responseCallback = responseCallback;
     }
 
+    @Override
     public void shutdown() {
         this.stopping = true;
     }
 
+    @Override
     public boolean isRunning() {
         return !this.stopping;
     }
@@ -122,7 +124,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
         try {
             Response response = messageHandler.handle(messageHolder.getBytes());
             if (log.isDebugEnabled()) {
-                log.debug("Received response: '{}'. Sending to ", response);
+                log.debug("Received response: '{}'.", response);
             }
             responseCallback.handleResponse(response);
         } catch (UnknownAirtouchResponseException ex) {
