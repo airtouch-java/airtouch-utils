@@ -23,7 +23,7 @@ public class ConsoleVersionHandler extends AbstractHandler {
 
         // data array for Console Version request - 0xff 0x30.
         byte[] data = { (byte) 0xff, (byte) 0x30 };
-        return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+        return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, ExtendedMessageType.CONSOLE_VERSION, data);
     }
 
     /*

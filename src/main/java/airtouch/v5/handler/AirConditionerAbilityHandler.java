@@ -33,11 +33,11 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
         if (acNumber == null) { // No acNumber number, so ask for all ACs.
             // data array for AC Ability Name request - 0xff 0x11.
             byte[] data = { (byte) 0xff, (byte) 0x11 };
-            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, ExtendedMessageType.AC_ABILITY, data);
         } else {
             // data array for AC Ability request - 0xff 0x11 + AC number (1 byte).
             byte[] data = { (byte) 0xff, (byte) 0x11, (byte) (acNumber & 0xFF) };
-            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, ExtendedMessageType.AC_ABILITY, data);
         }
     }
 

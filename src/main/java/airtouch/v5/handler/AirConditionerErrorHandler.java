@@ -13,6 +13,7 @@ import airtouch.model.AirConditionerErrorResponse;
 import airtouch.v5.AirTouchRequest;
 import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
+import airtouch.v5.constant.MessageConstants.ExtendedMessageType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 
 /**
@@ -27,7 +28,7 @@ public class AirConditionerErrorHandler extends AbstractHandler {
 
         // data array for Error request - 0xff 0x10 .
         byte[] data = { (byte) 0xff, (byte) 0x10, (byte) (acNumber & 0xFF)} ;
-        return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+        return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, ExtendedMessageType.AC_ERROR, data);
     }
 
     /*

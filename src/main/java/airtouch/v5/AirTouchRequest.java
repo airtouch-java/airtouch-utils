@@ -7,6 +7,7 @@ import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
 import airtouch.v5.utils.MessageEscapingUtil;
+import airtouch.LoggableSubType;
 import airtouch.Request;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.CRC16Modbus;
@@ -18,9 +19,9 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
     private Address address;
     private int messageId;
     private MessageType messageType;
-    private ControlOrStatusMessageSubType subType = null;
+    private LoggableSubType subType = null;
 
-    public AirTouchRequest(Address address, int messageId, MessageType messageType, byte[] data) {
+    public AirTouchRequest(Address address, int messageId, MessageType messageType, LoggableSubType loggableSubType, byte[] data) {
         this.address = address;
         this.messageId = messageId;
         this.messageType = messageType;
@@ -33,6 +34,14 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
         this.buffer.put(calculateCheckSum());
     }
 
+    /**
+     * Creates an AirTouch request for {@link ControlOrStatusMessageSubType}.<br>
+     * These types have extra padded values of 0x00 in the message.
+     * @param address
+     * @param messageId
+     * @param messageType
+     * @param subType 
+     */
     public AirTouchRequest(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType) {
         this.address = address;
         this.messageId = messageId;

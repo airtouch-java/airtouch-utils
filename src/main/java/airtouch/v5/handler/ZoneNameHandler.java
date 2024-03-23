@@ -25,11 +25,11 @@ public class ZoneNameHandler extends AbstractHandler {
         if (zoneNumber == null) { // No zone number, so ask for all zones.
             // data array for Zone Name request - 0xff 0x13.
             byte[] data = HexString.toByteArray("ff13");
-            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, ExtendedMessageType.ZONE_NAME, data);
         } else {
             // data array for Zone Name request - 0xff 0x13 + zone number (1 byte).
             byte[] data = { (byte) 0xff, (byte) 0x13, (byte) (zoneNumber & 0xFF) };
-            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, data);
+            return new AirTouchRequest(Address.EXTENDED_SEND, messageId, MessageType.EXTENDED, ExtendedMessageType.ZONE_NAME, data);
         }
     }
 

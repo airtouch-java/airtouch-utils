@@ -1,5 +1,6 @@
 package airtouch.v5.constant;
 
+import airtouch.LoggableSubType;
 import airtouch.ResponseMessageType;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;
@@ -119,7 +120,7 @@ public class MessageConstants {
         }
     }
 
-    public enum ControlOrStatusMessageSubType {
+    public enum ControlOrStatusMessageSubType implements LoggableSubType {
         ZONE_CONTROL(0x20),
         ZONE_STATUS(0x21),
         AC_CONTROL(0x22),
@@ -152,7 +153,7 @@ public class MessageConstants {
         }
     }
 
-    public enum ExtendedMessageType implements ResponseMessageType {
+    public enum ExtendedMessageType implements ResponseMessageType, LoggableSubType {
         AC_ERROR(0xFF10),
         AC_ABILITY(0xFF11),
         ZONE_NAME(0xFF13),

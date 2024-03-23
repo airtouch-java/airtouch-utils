@@ -32,7 +32,7 @@ public class AirConditionerControlHandler extends AbstractControlHandler {
     public static Request<MessageConstants.Address> generateRequest(int messageId, AirConditionerControlRequest... acControlRequest) {
 
         ByteBuffer byteBuffer = assembleRequest(MessageConstants.ControlOrStatusMessageSubType.AC_CONTROL.getBytes(), acControlRequest);
-        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, byteBuffer.array());
+        return new AirTouchRequest(Address.STANDARD_SEND, messageId, MessageType.CONTROL_OR_STATUS, MessageConstants.ControlOrStatusMessageSubType.AC_CONTROL, byteBuffer.array());
     }
 
     public static AirConditionerControlRequestBuilder requestBuilder() {

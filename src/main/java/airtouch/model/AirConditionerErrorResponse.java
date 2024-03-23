@@ -25,4 +25,10 @@ public class AirConditionerErrorResponse {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+    
+    @Override
+    public String toString() {
+        return "AirConditionerErrorResponse [acNumber=" + acNumber + ", isErrored=" + isErrored + ", errorMessage="
+                + errorMessage + "]";
+    }
 }

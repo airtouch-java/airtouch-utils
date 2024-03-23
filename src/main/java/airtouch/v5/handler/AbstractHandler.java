@@ -11,7 +11,7 @@ public abstract class AbstractHandler {
     protected AbstractHandler() {}
 
     /**
-     * Determines if the dataBlock still contains the first two HEADER bytes.
+     * Determines if the dataBlock still contains the first four HEADER bytes.
      * Throws {@link IllegalArgumentException} if it does.
      * <p>
      * The byte array passed to a handler should only contain the data bytes.
@@ -27,7 +27,7 @@ public abstract class AbstractHandler {
     }
 
     /**
-     * Determines if the dataBlock still contains the first two HEADER bytes.
+     * Determines if the dataBlock still contains the first four HEADER bytes.
      * Throws {@link IllegalArgumentException} if it does not.
      * <p>
      * The byte array passed should contain all the data bytes.
