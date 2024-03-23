@@ -8,6 +8,17 @@ import airtouch.utils.HexString;
 public class MessageConstants {
 
     public static final int HEADER = 0x5555;
+    /**
+     * Full size of all the expected header fields.
+     * 
+     * Header (2 bytes)
+     * Address (2 bytes)
+     * Message id (1 byte)
+     * Message type (1 byte)
+     * Data length (2 bytes)
+     */
+    public static final int MESSAGE_HEADER_BYTES_LENGTH = 8;
+    
 
     public enum Address implements ResponseMessageType  {
         STANDARD_SEND(0x80b0),

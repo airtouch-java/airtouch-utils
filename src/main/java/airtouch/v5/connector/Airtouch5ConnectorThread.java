@@ -62,7 +62,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
 
         int character;
 
-        SizedStack<Byte> bytes = new SizedStack<>(8);
+        SizedStack<Byte> bytes = new SizedStack<>(MessageConstants.MESSAGE_HEADER_BYTES_LENGTH);
 
         MessageHandler messageHandler = new MessageHandler();
         MessageHolder messageHolder = MessageHolder.initialiseEmpty();
@@ -84,6 +84,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
                 // size.
                 if (messageStarted(bytes)) {
                     messageHolder = MessageHolder.initialiseWithData(
+                            MessageConstants.MESSAGE_HEADER_BYTES_LENGTH,
                             bytes,
                             ByteUtil.toInt(bytes.get(6), bytes.get(7))
                         );
@@ -147,10 +148,10 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
 
     private boolean messageStarted(SizedStack<Byte> bytes) {
         try {
-            if (bytes.size() < 8) return false;
-            if (ByteUtil.toInt(bytes.get(0), bytes.get(1)) != MessageConstants.HEADER) return false;
-            Address address = Address.getFromBytes(ByteUtil.toInt(bytes.get(2), bytes.get(3)));
-            return ByteUtil.toInt(bytes.get(0), bytes.get(1)) == MessageConstants.HEADER
+            if (bytes.size() < MessageConstants.MESSAGE_HEADER_BYTES_LENGTH) return false;
+            if (ByteUtil.toInt(bytes.get(0), bytes.get(1), bytes.get(2), bytes.get(3)) != MessageConstants.HEADER) return false;
+            Address address = Address.getFromBytes(ByteUtil.toInt(bytes.get(4), bytes.get(5)));
+            return ByteUtil.toInt(bytes.get(0), bytes.get(1), bytes.get(2), bytes.get(3)) == MessageConstants.HEADER
                     && (address.equals(Address.STANDARD_RECEIVE) || address.equals(Address.EXTENDED_RECEIVE));
         } catch (UnknownAirtouchResponseException ex) {
             log.info(IGNORING_UNKNOWN_MESSAGE, ex.getMessage());

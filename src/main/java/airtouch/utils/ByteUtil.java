@@ -42,6 +42,10 @@ public class ByteUtil {
         public static final int toInt(byte bh, byte bl) {
             return (bh&0xff) << 8 | (bl&0xff);
         }
+        
+        public static final int toInt(byte bh ,byte bmh, byte bml, byte bl) {
+            return (bh&0xff)<<24 | (bmh&0xff)<<16 | (bml&0xff)<<8 | (bl&0xff);
+        }
 
         /*
          * The <code>getBytes</code> family of methods

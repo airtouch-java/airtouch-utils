@@ -12,13 +12,14 @@ import java.util.Stack;
 public class MessageHolder {
 
     private static final int CHECKSUM_BYTES_LENGTH = 2;
-    private static final int MESSAGE_HEADER_BYTES_LENGTH = 8;
-    private static final int DEFAULT_BUFFER_SIZE = 255;
+    private static final int DEFAULT_BUFFER_SIZE = 2550;
     private int byteCount = 0;
     private int dataLength = 0;
     private ByteBuffer byteBuffer;
+    private int headerByteCount = 8;
 
-    private MessageHolder(int byteCount, int dataLength, int bufferSize) {
+    private MessageHolder(int headerByteCount, int byteCount, int dataLength, int bufferSize) {
+        this.headerByteCount  = headerByteCount;
         this.byteCount = byteCount;
         this.dataLength = dataLength;
         this.byteBuffer = ByteBuffer.allocate(bufferSize);
@@ -42,9 +43,9 @@ public class MessageHolder {
      * @param dataLength - The size of the data component of the message. Determined from bytes 7 &amp; 8 of the Airtouch4 message
      * @return
      */
-    public static MessageHolder initialiseWithData(Stack<Byte> bytes, int dataLength) {
-        MessageHolder messageHolder = new MessageHolder(MESSAGE_HEADER_BYTES_LENGTH, dataLength, MESSAGE_HEADER_BYTES_LENGTH + dataLength + CHECKSUM_BYTES_LENGTH);
-        for (int i = 0; i < MESSAGE_HEADER_BYTES_LENGTH; i++) {
+    public static MessageHolder initialiseWithData(int headerByteCount, Stack<Byte> bytes, int dataLength) {
+        MessageHolder messageHolder = new MessageHolder(headerByteCount, headerByteCount, dataLength, headerByteCount + dataLength + CHECKSUM_BYTES_LENGTH);
+        for (int i = 0; i < headerByteCount; i++) {
             messageHolder.byteBuffer.put(bytes.get(i));
         }
         return messageHolder;
@@ -59,7 +60,7 @@ public class MessageHolder {
      * @return A new MesssageHolder instance with a default size buffer.
      */
     public static MessageHolder initialiseEmpty() {
-        return new MessageHolder(0, 0, DEFAULT_BUFFER_SIZE);
+        return new MessageHolder(0, 0, 0, DEFAULT_BUFFER_SIZE);
     }
 
     /**
@@ -72,7 +73,7 @@ public class MessageHolder {
      * @return Whether all expected bytes have been read for this message.
      */
     public boolean isFinished() {
-        return this.byteCount == MESSAGE_HEADER_BYTES_LENGTH + dataLength + CHECKSUM_BYTES_LENGTH;
+        return this.byteCount == this.headerByteCount + dataLength + CHECKSUM_BYTES_LENGTH;
     }
 
     public void incrementByteCount() {
