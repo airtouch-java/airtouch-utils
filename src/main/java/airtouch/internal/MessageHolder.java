@@ -59,8 +59,8 @@ public class MessageHolder {
      *
      * @return A new MesssageHolder instance with a default size buffer.
      */
-    public static MessageHolder initialiseEmpty() {
-        return new MessageHolder(0, 0, 0, DEFAULT_BUFFER_SIZE);
+    public static MessageHolder initialiseEmpty(int headerByteCount) {
+        return new MessageHolder(headerByteCount, 0, 0, DEFAULT_BUFFER_SIZE);
     }
 
     /**

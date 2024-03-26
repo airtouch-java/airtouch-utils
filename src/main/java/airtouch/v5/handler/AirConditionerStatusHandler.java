@@ -75,7 +75,7 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
         for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {
-            int acOffset = i * 8;
+            int acOffset = i * 10;
             AirConditionerStatusResponse acStatus = new AirConditionerStatusResponse();
             acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]).getGeneric());
             acStatus.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
@@ -136,7 +136,7 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
     }
 
     private static int resolveAcNumber(byte byte1) {
-        // bitmask the first two bits, since we used them for the PowerState
+        // bitmask the first four bits, since we used them for the PowerState
         int acNumber = byte1 & 0b00111111;
         // Return the rest of the bits if they're within our expected range.
         if (acNumber >= 0 && acNumber <= 3) {
@@ -146,12 +146,12 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
     }
 
     private static int getAcCount(byte[] airTouchDataBlock) {
-        // Our data payload is 8 bytes per unit.
-        // Check that our payload is a multiple of 8 bytes.
-        if (airTouchDataBlock.length % 8 == 0) {
-            return airTouchDataBlock.length / 8;
+        // Our data payload is 10 bytes per unit.
+        // Check that our payload is a multiple of 10 bytes.
+        if (airTouchDataBlock.length % 10 == 0) {
+            return airTouchDataBlock.length / 10;
         }
-        throw new IllegalArgumentException("AcStatus messageBlock is not a multiple of 8 bytes");
+        throw new IllegalArgumentException("AcStatus messageBlock is not a multiple of 10 bytes");
 
     }
 

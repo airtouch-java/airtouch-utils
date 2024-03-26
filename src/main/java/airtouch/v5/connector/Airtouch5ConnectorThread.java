@@ -65,7 +65,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
         SizedStack<Byte> bytes = new SizedStack<>(MessageConstants.MESSAGE_HEADER_BYTES_LENGTH);
 
         MessageHandler messageHandler = new MessageHandler();
-        MessageHolder messageHolder = MessageHolder.initialiseEmpty();
+        MessageHolder messageHolder = MessageHolder.initialiseEmpty(MessageConstants.MESSAGE_HEADER_BYTES_LENGTH);
 
         try {
             while (!stopping &&  (character = input.read()) != -1) {
@@ -86,7 +86,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
                     messageHolder = MessageHolder.initialiseWithData(
                             MessageConstants.MESSAGE_HEADER_BYTES_LENGTH,
                             bytes,
-                            ByteUtil.toInt(bytes.get(6), bytes.get(7))
+                            ByteUtil.toInt(bytes.get(8), bytes.get(9))
                         );
                 } else {
                     // Otherwise, just store our byte and increment the counter.
@@ -108,7 +108,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
                     if (log.isTraceEnabled()) {
                         log.trace("Initalising MessageHolder to empty");
                     }
-                    messageHolder = MessageHolder.initialiseEmpty();
+                    messageHolder = MessageHolder.initialiseEmpty(MessageConstants.MESSAGE_HEADER_BYTES_LENGTH);
                 }
             }
         } catch (SocketException e) {
