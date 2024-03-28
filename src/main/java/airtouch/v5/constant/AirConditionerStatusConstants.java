@@ -5,9 +5,12 @@ import airtouch.constant.AirtouchConstant;
 public class AirConditionerStatusConstants {
 
     public enum PowerState implements AirtouchConstant<airtouch.constant.AirConditionerStatusConstants.PowerState> {
-        OFF(0x00, airtouch.constant.AirConditionerStatusConstants.PowerState.OFF),
-        ON(0x01, airtouch.constant.AirConditionerStatusConstants.PowerState.ON),
-        NOT_AVAILABLE(0x11, airtouch.constant.AirConditionerStatusConstants.PowerState.NOT_AVAILABLE);
+        OFF(0x0000, airtouch.constant.AirConditionerStatusConstants.PowerState.OFF),
+        ON(0x0001, airtouch.constant.AirConditionerStatusConstants.PowerState.ON),
+        AWAY_OFF(0x0010, airtouch.constant.AirConditionerStatusConstants.PowerState.AWAY_OFF),
+        AWAY_ON(0x0011, airtouch.constant.AirConditionerStatusConstants.PowerState.AWAY_ON),
+        SLEEP(0x0101, airtouch.constant.AirConditionerStatusConstants.PowerState.SLEEP),
+        NOT_AVAILABLE(0x1111, airtouch.constant.AirConditionerStatusConstants.PowerState.NOT_AVAILABLE);
 
         private int bytes;
         private airtouch.constant.AirConditionerStatusConstants.PowerState generic;
@@ -27,10 +30,10 @@ public class AirConditionerStatusConstants {
         public static PowerState getFromByte(byte byte1) {
             // PowerState is represented by bits 8 & 7 of Byte 1.
             // Apply a bit mask to zero out any bits we don't care about.
-            int bitmask = 0b11000000; // We want just the to MSBs
+            int bitmask = 0b11110000; // We want just the to MSBs
             int powerState = byte1 & bitmask;
-            // Shift the bits right by 6 so that our two MSBs become the LSBs.
-            powerState = powerState >> 6;
+            // Shift the bits right by 4 so that our four MSBs become the LSBs.
+            powerState = powerState >> 4;
             
             // Our two bits should now be right most.
             // Now they should equate to one of the states defined above.
@@ -38,6 +41,12 @@ public class AirConditionerStatusConstants {
                 return OFF;
             } else if (ON.getBytes() == powerState) {
                 return ON;
+            } else if (AWAY_OFF.getBytes() == powerState) {
+                return AWAY_OFF;
+            } else if (AWAY_ON.getBytes() == powerState) {
+                return AWAY_ON;
+            } else if (SLEEP.getBytes() == powerState) {
+                return SLEEP;
             } else {
                 return NOT_AVAILABLE;
             }
@@ -106,7 +115,7 @@ public class AirConditionerStatusConstants {
     public enum FanSpeed  implements AirtouchConstant<airtouch.constant.AirConditionerStatusConstants.FanSpeed> {
         
         AUTO         (0b0000, airtouch.constant.AirConditionerStatusConstants.FanSpeed.AUTO),
-        QUIET        (0b0010, airtouch.constant.AirConditionerStatusConstants.FanSpeed.QUIET),
+        QUIET        (0b0001, airtouch.constant.AirConditionerStatusConstants.FanSpeed.QUIET),
         LOW          (0b0010, airtouch.constant.AirConditionerStatusConstants.FanSpeed.LOW),
         MEDIUM       (0b0011, airtouch.constant.AirConditionerStatusConstants.FanSpeed.MEDIUM),
         HIGH         (0b0100, airtouch.constant.AirConditionerStatusConstants.FanSpeed.HIGH),

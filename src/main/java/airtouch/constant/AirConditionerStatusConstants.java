@@ -5,6 +5,12 @@ public class AirConditionerStatusConstants {
     public enum PowerState {
         OFF,
         ON,
+        /**Airtouch5 only*/
+        AWAY_OFF,
+        /**Airtouch5 only*/
+        AWAY_ON,
+        /**Airtouch5 only*/
+        SLEEP,
         NOT_AVAILABLE;
     }
 

@@ -32,8 +32,13 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
 
         Data block received from AirTouch (8 bytes). See docs page 8.
 
-        | Byte1 | Bit8-7 | AC power state | 00: Off, 01: On, 10/11: Not available
-        |       | Bit6-1 | AC number      | 0-3
+        | Byte1 | Bit8-5 | AC power state | 0000: Off, 10/11: Not available
+                                          | 0001: On
+                                          | 0010: Away(Off)
+                                          | 0011: Away(On)
+                                          | 0101: Sleep
+                                          | Other: Not available
+        |       | Bit4-1 | AC number      | 0-7
         | Byte2 | Bit8-5 | AC mode        | 0000: auto
                                           | 0001: heat
                                           | 0010: dry
@@ -81,9 +86,9 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
             acStatus.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
             acStatus.setMode(Mode.getFromByte(airTouchDataBlock[acOffset + 1]).getGeneric());
             acStatus.setFanSpeed(FanSpeed.getFromByte(airTouchDataBlock[acOffset + 1]).getGeneric());
-            acStatus.setSpill(determineSpill(airTouchDataBlock[acOffset + 2]));
-            acStatus.setAcTimer(determineAcTimer(airTouchDataBlock[acOffset + 2]));
             acStatus.setTargetSetpoint(determineTargetSetpoint(airTouchDataBlock[acOffset + 2]));
+            acStatus.setSpill(determineSpill(airTouchDataBlock[acOffset + 3]));
+            acStatus.setAcTimer(determineAcTimer(airTouchDataBlock[acOffset + 3]));
             acStatus.setCurrentTemperature(determineCurrentTemperature(
                     airTouchDataBlock[acOffset + 4],
                     airTouchDataBlock[acOffset + 5]));
@@ -116,12 +121,11 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         if (-1 == byte5) {
             return null; // Current Temp is not available.
         }
-        // Combine byte5, and the 3 MSBs from byte6
-        int temperatureUpper8bits = byte5 << 3;
-        int temperatureLower3bits = byte6 & 0b11100000;
-        temperatureLower3bits = temperatureLower3bits>>> 5;
-        int temperature = temperatureUpper8bits | temperatureLower3bits;
-        // Get value from byte, subtract 500 and then divide by 10.
+        // Combine byte5, and byte6
+        int temperatureUpper8bits = byte5 << 8;   // Move up 8 bits
+        int temperatureLower3bits = byte6 & 0xFF; // convert to int
+        int temperature = temperatureUpper8bits | temperatureLower3bits;   // OR together, so we have a 16bit value
+        // Get value from bytes, subtract 500 and then divide by 10.
         return (temperature-500d)/10;
     }
 
@@ -130,19 +134,19 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
     }
 
     private static int determineTargetSetpoint(byte byte3) {
-        // bitmask the first two bits, since we used them for the spill and acTimer
-        // Return the rest of the bits.
-        return byte3 & 0b00111111;
+        int temperature = byte3 & 0xFF; // convert to int
+        // Get value from byte, add 100 and then divide by 10.
+        return (temperature+100)/10;
     }
 
     private static int resolveAcNumber(byte byte1) {
         // bitmask the first four bits, since we used them for the PowerState
-        int acNumber = byte1 & 0b00111111;
+        int acNumber = byte1 & 0b00001111;
         // Return the rest of the bits if they're within our expected range.
-        if (acNumber >= 0 && acNumber <= 3) {
+        if (acNumber >= 0 && acNumber <= 7) {
             return acNumber;
         }
-        throw new IllegalArgumentException(String.format("AC number outside allowable range. Must be from 0 to 3. Found acNumber was '%s'", acNumber));
+        throw new IllegalArgumentException(String.format("AC number outside allowable range. Must be from 0 to 7. Found acNumber was '%s'", acNumber));
     }
 
     private static int getAcCount(byte[] airTouchDataBlock) {
