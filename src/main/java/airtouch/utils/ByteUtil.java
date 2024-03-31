@@ -1,10 +1,10 @@
 package airtouch.utils;
 
+/** byte[] <==> scalar */
 public class ByteUtil {
     private ByteUtil() {}
-    /* byte[] <==> scalar */
 
-        /*
+        /**
          * The <code>to{Long|Int|Short|Byte}</code> family of methods
          * convert a byte array to a scalar
          *
@@ -71,10 +71,13 @@ public class ByteUtil {
         public static final byte[] getBytes(short i) {
             return new byte[] { (byte)(i>>8), (byte)i };
         }
+        @SuppressWarnings("java:S1854")
         public static final void getBytes(short i,byte[] b,int offset) {
             b[offset++] = (byte)(i>>8);
             b[offset++] = (byte)i;
         }
+        
+        @SuppressWarnings("java:S1854")
         public static final void getBytes(int i,byte[] b,int offset) {
             b[offset++] = (byte)(i>>24);
             b[offset++] = (byte)(i>>16);
