@@ -26,7 +26,7 @@ public class ZoneNameHandlerTest {
 
     @Test
     public void testHandleZone1NameResponse() {
-        // This data is copied from AirTouch4 protocol doc page 17 (labeled 14).
+        // This data is copied from AirTouch5 protocol doc page 17 (labeled 14).
         // 555555aa b090 01 1f 000a ff13 00064c6976696e67 b62f
         //                               ^- data block -^
         // Just pass in the data block. The rest should have been

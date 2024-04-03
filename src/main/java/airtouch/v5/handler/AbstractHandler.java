@@ -85,6 +85,14 @@ public abstract class AbstractHandler {
 
     }
 
+    /**
+     * Strip out the trailing null (0x00) bytes in an Airtouch message. <br>
+     * Certain messages are padded with 0x00 where the field is 
+     * fixed length, but the content is variable. This method strips out all the trailing bytes 
+     * by copying the array and returning only the values up until the first 0x00.
+     * @param allBytesIncludingNulls
+     * @return a copy of the byte array truncated to the point at which the first 0x00 is found.
+     */
     protected static byte[] stripNulls(byte[] allBytesIncludingNulls) {
         int length = allBytesIncludingNulls.length;
         for (int i = 0; i < allBytesIncludingNulls.length; i++) {

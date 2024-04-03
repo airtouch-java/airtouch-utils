@@ -28,7 +28,7 @@ public class AirConditionerStatusConstants {
             return this.generic;
         }
         public static PowerState getFromByte(byte byte1) {
-            // PowerState is represented by bits 8 & 7 of Byte 1.
+            // PowerState is represented by bits 8 to 5 of Byte 1.
             // Apply a bit mask to zero out any bits we don't care about.
             int bitmask = 0b11110000; // We want just the to MSBs
             int powerState = byte1 & bitmask;

@@ -32,10 +32,10 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
 
         Data block received from AirTouch (8 bytes). See docs page 8.
 
-        | Byte1 | Bit8-5 | AC power state | 0000: Off, 10/11: Not available
+        | Byte1 | Bit8-5 | AC power state | 0000: Off
                                           | 0001: On
-                                          | 0010: Away(Off)
-                                          | 0011: Away(On)
+                                          | 0010: Away(Off) 
+                                          | 0011: Away(On) 
                                           | 0101: Sleep
                                           | Other: Not available
         |       | Bit4-1 | AC number      | 0-7
@@ -57,15 +57,21 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
                                           | 0110: turbo
                                           | Other: Not available
                                           |
+        | Byte3 |        | Target setpoint| Current target setpoint setting
         | Byte3 | Bit8   | Spill          | 1: Spill active, 0: Spill not active
                 | Bit7   | AC Timer       | 1: Timer set, 0: Timer not set
-                | Bit6-1 | Target setpoint| Current target setpoint setting
-        | Byte4 |                         | NOT USED
-        | Byte5 | Temperature             | Byte5=0xff, Not available
-        | Byte6 | Bit8-6 | (Total: 11Bits)| Current Temperature = (VALUE - 500)/10
-                | Bit5-1                  | NOT USED
+        | Byte4 | Bits8-5                 | NOT USED
+                | Bit4   | Turbo          | 1: Turbo active, 0: Turbo inactive
+                | Bit3   | Bypass         | 1: Bypass active, 0: Bypass inactive
+                | Bit2   | Spill          | 1: Spill active, 0: Spill inactive
+                | Bit1   | Timer status   | 1: Timer set, 0: Timer not set
+        | Byte5 |        | Temperature    | 0-2000: Temperature=(VALUE – 500)/10., Not available
+        | Byte6 |        |                | Outside ths range, Not available.
         | Byte7 |        | Error Code     | 0 means no error.
-        | Byte8          |                | Other codes mean there is an error about this AC.
+        | Byte8 |        |                | Other codes mean there is an error about this AC.
+        | Byte9 |                         | NOT USED
+        | Byte10|                         | NOT USED
+
 
     */
 
@@ -123,8 +129,8 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         }
         // Combine byte5, and byte6
         int temperatureUpper8bits = byte5 << 8;   // Move up 8 bits
-        int temperatureLower3bits = byte6 & 0xFF; // convert to int
-        int temperature = temperatureUpper8bits | temperatureLower3bits;   // OR together, so we have a 16bit value
+        int temperatureLower8bits = byte6 & 0xFF; // convert to int
+        int temperature = temperatureUpper8bits | temperatureLower8bits;   // OR together, so we have a 16bit value
         // Get value from bytes, subtract 500 and then divide by 10.
         return (temperature-500d)/10;
     }
@@ -134,9 +140,8 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
     }
 
     private static int determineTargetSetpoint(byte byte3) {
-        int temperature = byte3 & 0xFF; // convert to int
-        // Get value from byte, add 100 and then divide by 10.
-        return (temperature+100)/10;
+        int targetTemperature = (byte3 & 0xFF);
+        return (targetTemperature + 100)/10;
     }
 
     private static int resolveAcNumber(byte byte1) {

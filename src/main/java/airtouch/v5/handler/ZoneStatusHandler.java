@@ -23,10 +23,10 @@ public class ZoneStatusHandler extends AbstractHandler {
     }
 
     /*
-        Zone status message(0x2B)
+        Zone status message(0x21)
         ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Data block received from AirTouch (8 bytes). See docs page 5.
+        Data block received from AirTouch (8 bytes). See docs page 9 (labeled as page 6).
 
         | Byte1 | Bit8-7 | Zone power state  | 00: Off, 01: On, 11: Turbo
         |       | Bit6-1 | Zone number       | 0-15

@@ -36,23 +36,23 @@ public class AirConditionerStatusHandlerTest {
 
         assertEquals(2, responses.size());
         
-        AirConditionerStatusResponse r1 = responses.get(0);
-        assertEquals("First AC has wrong index", new Integer(0), r1.getAcNumber());
-        assertEquals( 22, (int)r1.getTargetSetpoint());
-        assertEquals( "CurrentTemperature unexpected value.", new Double(23.0), r1.getCurrentTemperature());
-        assertEquals( PowerState.ON, r1.getPowerstate());
-        assertEquals( Mode.HEAT, r1.getMode());
-        assertEquals( "FanSpeed unexpected value.", FanSpeed.LOW, r1.getFanSpeed());
-        assertEquals( 0, r1.getErrorCode());
+        AirConditionerStatusResponse acStatus01 = responses.get(0);
+        assertEquals("First AC has wrong index", new Integer(0), acStatus01.getAcNumber());
+        assertEquals("Unexpected target setpoint. ", 22, acStatus01.getTargetSetpoint());
+        assertEquals( "CurrentTemperature unexpected value.", new Double(23.0), acStatus01.getCurrentTemperature());
+        assertEquals( PowerState.ON, acStatus01.getPowerstate());
+        assertEquals( Mode.HEAT, acStatus01.getMode());
+        assertEquals( "FanSpeed unexpected value.", FanSpeed.LOW, acStatus01.getFanSpeed());
+        assertEquals("Unexpected error code.", 0, acStatus01.getErrorCode());
         
-        AirConditionerStatusResponse r2= responses.get(1);
-        assertEquals("Second AC has wrong index", new Integer(1), r2.getAcNumber());
-        assertEquals( 20, (int)r2.getTargetSetpoint());
-        assertEquals( new Double(24.0), r2.getCurrentTemperature());
-        assertEquals( PowerState.OFF, r2.getPowerstate());
-        assertEquals( Mode.COOL, r2.getMode());
-        assertEquals( FanSpeed.LOW, r2.getFanSpeed());
-        assertEquals( 0, r2.getErrorCode());
+        AirConditionerStatusResponse acStatus02= responses.get(1);
+        assertEquals("Second AC has wrong index", new Integer(1), acStatus02.getAcNumber());
+        assertEquals("Unexpected target setpoint. ", 20, (int)acStatus02.getTargetSetpoint());
+        assertEquals("Unexpected temperature. ", new Double(24.0), acStatus02.getCurrentTemperature());
+        assertEquals( PowerState.OFF, acStatus02.getPowerstate());
+        assertEquals( Mode.COOL, acStatus02.getMode());
+        assertEquals( FanSpeed.LOW, acStatus02.getFanSpeed());
+        assertEquals("Unexpected error code.", 0, acStatus02.getErrorCode());
 
     }
 
