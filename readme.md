@@ -20,7 +20,7 @@ This library `airtouch-utils` connects to the AirTouch service (over TCP) runnin
     - Console information (Console version, update available)
 - Handlers to generate control (update) requests and handle responses for the following:
     - Air Conditioner (Power, Mode, Fan Speed, Setpoint)
-    - Zone (Temp. Setpoint, Damper Percentage, Control Mode - damper vs temperature
+    - Zone (Temp. Setpoint, Damper Percentage, Control Mode - damper vs temperature)
 
 ### Using the `airtouch-utils` library
 
