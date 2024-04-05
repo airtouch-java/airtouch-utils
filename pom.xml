@@ -6,7 +6,7 @@
 
   <groupId>io.github.airtouch-java</groupId>
   <artifactId>airtouch-utils</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.0</version>
 
   <name>airtouch-utils</name>
   <url>https://github.com/airtouch-java/airtouch-utils</url>
