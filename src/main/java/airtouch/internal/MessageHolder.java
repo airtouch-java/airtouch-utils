@@ -39,9 +39,10 @@ public class MessageHolder {
      * Call {@link MessageHolder#isFinished()} to determine if the number of bytes received
      * matched the expected message size (including header and checksum).
      *
+     * @param headerByteCount - Size of the header bytes. eg 8 for AirTouch4 or 10 for Airtouch5
      * @param bytes - The bytes received so far.
      * @param dataLength - The size of the data component of the message. Determined from bytes 7 &amp; 8 of the Airtouch4 message
-     * @return
+     * @return A new {@link MessageHolder} of the correct size with the <code>bytes</code> copied in.
      */
     public static MessageHolder initialiseWithData(int headerByteCount, Stack<Byte> bytes, int dataLength) {
         MessageHolder messageHolder = new MessageHolder(headerByteCount, headerByteCount, dataLength, headerByteCount + dataLength + CHECKSUM_BYTES_LENGTH);
@@ -54,9 +55,10 @@ public class MessageHolder {
     /**
      * Initialise the MessageHolder with a buffer large enough to start receiving a message.
      * This is typically called to create a new MessageHolder when starting to receive a new
-     * message. Once bytes 7 &amp; 8 have been received, call {@link MessageHolder#initialiseWithData(Stack, int)}
+     * message. Once bytes 7 &amp; 8 have been received, call {@link MessageHolder#initialiseWithData(int, Stack, int)}
      * to create a new MessageHolder with the expected dataLength.
      *
+     * @param headerByteCount - Size of the header bytes. eg 8 for AirTouch4 or 10 for Airtouch5
      * @return A new MesssageHolder instance with a default size buffer.
      */
     public static MessageHolder initialiseEmpty(int headerByteCount) {
@@ -74,29 +76,6 @@ public class MessageHolder {
      */
     public boolean isFinished() {
         return this.byteCount == this.headerByteCount + dataLength + CHECKSUM_BYTES_LENGTH;
-    }
-
-    public void incrementByteCount() {
-        this.byteCount++;
-    }
-
-    public int getByteCount() {
-        return byteCount;
-    }
-    public void setByteCount(int byteCount) {
-        this.byteCount = byteCount;
-    }
-
-    /**
-     * Get the expected data length of the message.
-     * The dataLength is determined from bytes 7 and 8 of the message to/from Airtouch4.
-     * @return the expected data length.
-     */
-    public int getDataLength() {
-        return dataLength;
-    }
-    public void setDataLength(int dataLength) {
-        this.dataLength = dataLength;
     }
 
     /**

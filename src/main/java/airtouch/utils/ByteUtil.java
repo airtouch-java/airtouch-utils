@@ -1,9 +1,13 @@
 package airtouch.utils;
 
-/** byte[] <==> scalar */
+/** Utils for converting byte[] to and from scalar */
 public class ByteUtil {
     private ByteUtil() {}
 
+        public static final long toLong(byte[] b) {
+            return toLong(b,0,b.length);
+        }
+        
         /**
          * The <code>to{Long|Int|Short|Byte}</code> family of methods
          * convert a byte array to a scalar
@@ -14,9 +18,6 @@ public class ByteUtil {
          * @return		{a long|an int|a short|a byte}
          *
          */
-        public static final long toLong(byte[] b) {
-            return toLong(b,0,b.length);
-        }
         public static final long toLong(byte[] b,int offset,int size) {
             long l = 0;
             for(int i=0;i<size;++i) l |= ((long)b[offset+i]&0xff)<<((size-i-1)<<3);

@@ -43,7 +43,8 @@ public class AirConditionerErrorHandler extends AbstractHandler {
      * Parse the AC Error data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
      *
-     * @param airTouchDataBlock
+     * @param messageId - ID for this message
+     * @param airTouchDataBlock - byte array of data without header
      * @return a List containing one AC Error object.
      */
     public static ResponseList<AirConditionerErrorResponse> handle(int messageId, byte[] airTouchDataBlock) {

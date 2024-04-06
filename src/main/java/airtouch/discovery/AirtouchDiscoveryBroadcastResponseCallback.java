@@ -51,15 +51,37 @@ public interface AirtouchDiscoveryBroadcastResponseCallback {
      * </ul>
      */
     public interface AirtouchDiscoveryBroadcastResponse {
-        /** Only for AirTouch4 */
+        /** Only for AirTouch4 
+         * @return the MAC address from the broadcast response
+         */
         String getMacAddress();
-        /** Only for AirTouch5 */
+        /** Only for AirTouch5 
+         * @return Unique ConsoleId for this Airtouch Hardware
+         */
         String getConsoleId();
+        /**
+         * @return IP address of the Airtouch Hardware on the network
+         */
         String getHostAddress();
+        /**
+         * Listening port of Airtouch.
+         * @return Port number that the Airtouch is listening on for TCP connections
+         */
         Integer getPortNumber();
+        /**
+         * Airtouch version as reported by Airtouch, eg "Airtouch5"
+         * @return Airtouch Version 
+         */
         AirtouchVersion getAirtouchVersion();
+        /**
+         * Get the AirTouchId. Not sure of the difference from ConsoleId (Airtouch5).
+         * @return ID to identify Airtouch
+         */
         String getAirtouchId();
-        /** Only for AirTouch5 */
+        /** Only for AirTouch5 
+         * Device name as defined in Airtouch5 system
+         * @return Device Name.
+         * */
         String getDeviceName();
     }
 

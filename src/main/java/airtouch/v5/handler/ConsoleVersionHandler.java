@@ -45,7 +45,8 @@ public class ConsoleVersionHandler extends AbstractHandler {
      * Parse the AC Status data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
      *
-     * @param airTouchDataBlock
+     * @param messageId - Integer of the messageId returned in the response
+     * @param airTouchDataBlock - byte array of just the data part of the response from the Airtouch
      * @return a List of AC Status objects. One for each AC message found.
      */
     public static ResponseList<ConsoleVersionResponse> handle(int messageId, byte[] airTouchDataBlock) {

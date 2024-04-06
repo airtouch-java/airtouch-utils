@@ -76,7 +76,8 @@ public class AirConditionerStatusHandler extends AbstractHandler {
      * Parse the AC Status data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
      *
-     * @param airTouchDataBlock
+     * @param messageId - ID for this message
+     * @param airTouchDataBlock - byte array of data without header
      * @return a List of AC Status objects. One for each AC message found.
      */
     public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {

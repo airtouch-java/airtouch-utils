@@ -57,7 +57,7 @@ public class GroupControlRequestBuilder {
      * <li>PERCENTAGE_CONTROL - Set to use percentage open control for this group
      * <li>TEMPERATURE_CONTROL - Set to use temperature control for this group
      * </ul>
-     * @param zoneControl
+     * @param zoneControl - {@link ZoneControl} enum value
      * @return {@link GroupControlRequestBuilder} to support fluent builder pattern.
      */
     public GroupControlRequestBuilder control(ZoneControl zoneControl) {
@@ -75,7 +75,7 @@ public class GroupControlRequestBuilder {
      * <li>POWER_ON - Turn on group
      * <li>TURBO_POWER - Turn group to Turbo
      * </ul>
-     * @param zonePower
+     * @param zonePower - {@link ZonePower} enum value
      * @return {@link GroupControlRequestBuilder} to support fluent builder pattern.
      */
     public GroupControlRequestBuilder power(ZonePower zonePower) {
@@ -129,7 +129,11 @@ public class GroupControlRequestBuilder {
 
         return request;
     }
-
+    /**
+     * Build a Request with the specified messageId
+     * @param messageId - ID for this message
+     * @return Request ready to send to AirTouch
+     */
     public Request<MessageConstants.Address> build(int messageId) {
         return GroupControlHandler.generateRequest(messageId, build());
     }

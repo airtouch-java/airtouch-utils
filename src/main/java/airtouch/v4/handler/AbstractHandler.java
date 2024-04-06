@@ -17,8 +17,8 @@ public abstract class AbstractHandler {
      * The byte array passed to a handler should only contain the data bytes.
      * Header, address, messageId, messageType, dataLength and CRC should have been removed.
      *
-     * @param airTouchDataBlock
-     * @throws IllegalArgumentException
+     * @param airTouchDataBlock to check for headers
+     * @throws IllegalArgumentException if header is found in message data
      */
     protected static void checkHeaderIsRemoved(byte[] airTouchDataBlock) {
         if (isHeaderPresent(airTouchDataBlock)) {
@@ -32,8 +32,8 @@ public abstract class AbstractHandler {
      * <p>
      * The byte array passed should contain all the data bytes.
      *
-     * @param airTouchDataBlock
-     * @throws IllegalArgumentException
+     * @param airTouchDataBlock to check for headers
+     * @throws IllegalArgumentException if header is NOT found in message data
      */
     protected static void checkHeaderIsPresent(byte[] airTouchDataBlock) {
         if (! isHeaderPresent(airTouchDataBlock)) {
@@ -46,8 +46,8 @@ public abstract class AbstractHandler {
      * <p>
      * Return true if the byte array passed contains all the data bytes.
      *
+     * @param airTouchDataBlock to check for headers
      * @return true if the byte array passed contains all the data bytes, otherwise false.
-     * @param airTouchDataBlock
      */
     protected static boolean isHeaderPresent(byte[] airTouchDataBlock) {
         long firstTwoBytes = ByteUtil.toLong(airTouchDataBlock, 0, 2);

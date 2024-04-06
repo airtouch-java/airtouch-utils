@@ -22,6 +22,7 @@ public class AirConditionerControlRequestBuilder {
          * {@link AirConditionerControlRequestBuilder} to create an {@link AirConditionerControlRequest}.
          *
          * @param acNumber - AC number for this control message. Zero based.
+         * @return {@link AirConditionerControlRequestBuilder} to support fluent builder pattern.
          */
         public AirConditionerControlRequestBuilder acNumber(int acNumber) {
             this.acNumber = acNumber;
@@ -57,7 +58,7 @@ public class AirConditionerControlRequestBuilder {
          * <li>COOL - AC set to Cooling mode.
          * <li>NO_CHANGE - No change made to AC mode
          * </ul>
-         * @param acMode
+         * @param acMode - {@link Mode} enum value
          * @return {@link AirConditionerControlRequestBuilder} to support fluent builder pattern.
          */
         public AirConditionerControlRequestBuilder acMode(Mode acMode) {
@@ -77,7 +78,7 @@ public class AirConditionerControlRequestBuilder {
          * <li>POWERFUL - Set Fan to Powerful speed
          * <li>TURBO - Set Fan to Turbo speed
          * </ul>
-         * @param fanSpeed
+         * @param fanSpeed - {@link FanSpeed} enum value
          * @return {@link AirConditionerControlRequestBuilder} to support fluent builder pattern.
          */
         public AirConditionerControlRequestBuilder fanSpeed(FanSpeed fanSpeed) {
@@ -94,7 +95,7 @@ public class AirConditionerControlRequestBuilder {
          * <li>VALUE_DECREASE - Change set-point by -1°C
          * <li>VALUE_INCREASE - Change set-point by +1°C
          * </ul>
-         * @param setpointControl
+         * @param setpointControl - {@link SetpointControl} enum value
          * @return {@link AirConditionerControlRequestBuilder} to support fluent builder pattern.
          */
         public AirConditionerControlRequestBuilder setpointControl(SetpointControl setpointControl) {
@@ -106,13 +107,14 @@ public class AirConditionerControlRequestBuilder {
          * Method to set the setpoint value.
          * Has no effect unless <code>AirConditionerControlRequestBuilder#setpointControl(SetpointControl.SET_TO_VALUE)</code> is
          * also called.
-         * @param setPointValue
+         * @param setPointValue - Temperature for setpoint value
          * @return {@link AirConditionerControlRequestBuilder} to support fluent builder pattern.
          */
         public AirConditionerControlRequestBuilder setpointValue(int setPointValue) {
             this.setPointValue = setPointValue;
             return this;
         }
+
 
         public AirConditionerControlRequest build() {
             AirConditionerControlRequest request = new AirConditionerControlRequest();
@@ -158,6 +160,11 @@ public class AirConditionerControlRequestBuilder {
             return request;
         }
 
+        /**
+         * Build a Request with the specified messageId
+         * @param messageId - ID for this message
+         * @return Request ready to send to AirTouch
+         */
         public Request<MessageConstants.Address> build(int messageId) {
             return AirConditionerControlHandler.generateRequest(messageId, build());
         }

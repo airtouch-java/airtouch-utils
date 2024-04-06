@@ -54,7 +54,7 @@ public class ZoneControlRequestBuilder {
      * <li>PERCENTAGE_CONTROL - Set to use percentage open control for this zone
      * <li>TEMPERATURE_CONTROL - Set to use temperature control for this zone
      * </ul>
-     * @param zoneControl
+     * @param zoneControl - set the control method to change to.
      * @return {@link ZoneControlRequestBuilder} to support fluent builder pattern.
      */
     public ZoneControlRequestBuilder control(ZoneControl zoneControl) {
@@ -72,7 +72,7 @@ public class ZoneControlRequestBuilder {
      * <li>POWER_ON - Turn on zone
      * <li>TURBO_POWER - Turn zone to Turbo
      * </ul>
-     * @param zonePower
+     * @param zonePower - set the ZonePower state to change to
      * @return {@link ZoneControlRequestBuilder} to support fluent builder pattern.
      */
     public ZoneControlRequestBuilder power(ZonePower zonePower) {
@@ -93,6 +93,10 @@ public class ZoneControlRequestBuilder {
         return this;
     }
 
+    /**
+     * Build a Request with the specified messageId
+     * @return Request ready to send to AirTouch
+     */
     public ZoneControlRequest build() {
         ZoneControlRequest request = new ZoneControlRequest();
         request.setZoneNumber(this.zoneNumber);

@@ -47,9 +47,9 @@ public class ZoneStatusHandler extends AbstractHandler {
     /**
      * Parse the Zone Status data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
-     * @param subMessageMetaData
-     *
-     * @param airTouchDataBlock
+     * @param subMessageMetaData - extra information about the SubMessage to aid processing
+     * @param messageId - Integer of the messageId returned in the response
+     * @param airTouchDataBlock - byte array of just the data part of the response from the Airtouch
      * @return a List of ZoneStatus objects. One for each zone message found.
      */
     public static ResponseList<ZoneStatusResponse> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {

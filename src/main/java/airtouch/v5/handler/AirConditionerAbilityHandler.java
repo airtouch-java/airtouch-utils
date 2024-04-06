@@ -96,7 +96,8 @@ public class AirConditionerAbilityHandler extends AbstractHandler {
      * Parse the AC Ability data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
      *
-     * @param airTouchDataBlock
+     * @param messageId - Integer of the messageId returned in the response
+     * @param airTouchDataBlock - byte array of just the data part of the response from the Airtouch
      * @return a List of AC Ability objects. One for each AC message found.
      */
     public static ResponseList<AirConditionerAbilityResponse> handle(int messageId, byte[] airTouchDataBlock) {

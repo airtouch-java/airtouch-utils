@@ -47,7 +47,8 @@ public class GroupStatusHandler extends AbstractHandler {
      * Parse the Group Status data block. The data should already have been
      * checked to determine the message type and the CRC information removed.
      *
-     * @param airTouchDataBlock
+     * @param messageId - ID for this message
+     * @param airTouchDataBlock - byte array of data without header
      * @return a List of GroupStatus objects. One for each group message found.
      */
     public static ResponseList<ZoneStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {

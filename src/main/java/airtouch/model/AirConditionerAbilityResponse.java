@@ -65,7 +65,7 @@ public class AirConditionerAbilityResponse {
 
     /**
      * For Airtouch4
-     * @return value
+     * @return minSetPoint
      */
     public int getMinSetPoint() {
         return minSetPoint;
@@ -73,6 +73,7 @@ public class AirConditionerAbilityResponse {
     
     /**
      * For Airtouch4
+     * @param minSetPoint - sets the minSetPoint value 
      */
     public void setMinSetPoint(int minSetPoint) {
         this.minSetPoint = minSetPoint;
@@ -80,7 +81,7 @@ public class AirConditionerAbilityResponse {
     
     /**
      * For Airtouch4
-     * @return value
+     * @return maxSetPoint
      */
     public int getMaxSetPoint() {
         return maxSetPoint;
@@ -88,12 +89,14 @@ public class AirConditionerAbilityResponse {
     
     /**
      * For Airtouch4
+     * @param maxSetPoint - sets the maximum setpoint value
      */
     public void setMaxSetPoint(int maxSetPoint) {
         this.maxSetPoint = maxSetPoint;
     }
     /**
      * For Airtouch5
+     * @param minCoolSetPoint - sets the minimum setpoint value
      */
     public void setMinCoolSetPoint(int minCoolSetPoint) {
         this.minCoolSetPoint = minCoolSetPoint;
@@ -110,33 +113,35 @@ public class AirConditionerAbilityResponse {
     }
     /**
      * For Airtouch5
-     * @return value
+     * @return maxCoolSetPoint
      */
     public int getMaxCoolSetPoint() {
         return maxCoolSetPoint;
     }
     /**
      * For Airtouch5
-     * @return value
+     * @return minHeatSetPoint
      */
     public int getMinHeatSetPoint() {
         return minHeatSetPoint;
     }
     /**
      * For Airtouch5
+     * @param minHeatSetPoint - sets the minHeatSetPoint value
      */
     public void setMinHeatSetPoint(int minHeatSetPoint) {
         this.minHeatSetPoint = minHeatSetPoint;
     }
     /**
      * For Airtouch5
-     * @return value
+     * @return maxHeatSetPoint
      */
     public int getMaxHeatSetPoint() {
         return maxHeatSetPoint;
     }
     /**
      * For Airtouch5
+     * @param maxHeatSetPoint - sets the maxHeatSetPoint value
      */
     public void setMaxHeatSetPoint(int maxHeatSetPoint) {
         this.maxHeatSetPoint = maxHeatSetPoint;

@@ -38,6 +38,7 @@ public enum AirtouchVersion {
 
     /**
      * version string, as returned by the Airtouch Broadcast Response.
+     * @return Airtouch version eg, "AirTouch4"
      */
     public String getVersionIdentifier() {
         return versionIdentifier;
@@ -46,6 +47,7 @@ public enum AirtouchVersion {
     /**
      * TCP Port number the Airtouch console listens on.
      * Used to connect to the airtouch when interacting with it under normal operation.
+     * @return Airtouch listening port. eg 9004 for AirTouch4
      */
     public int getListeningPort() {
         return listeningPort;
@@ -53,12 +55,14 @@ public enum AirtouchVersion {
 
     /**
      * UDP Port number on which to send and listen for discovery broadcasts.
+     * @return Airtouch UDP discovery port. eg 49004 for AirTouch4
      */
     public int getDiscoveryPort() {
         return discoveryPort;
     }
     /**
      * The message to UDP broadcast on the discoveryPort so that Airtouch responds with its information.
+     * @return The message to send to an Airtouch on the discovery broadcast port to ask it to respond.
      */
     public String getDiscoveryMessage() {
         return discoveryMessage;

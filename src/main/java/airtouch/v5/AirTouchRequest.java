@@ -37,10 +37,10 @@ public class AirTouchRequest implements Request<MessageConstants.Address> {
     /**
      * Creates an AirTouch request for {@link ControlOrStatusMessageSubType}.<br>
      * These types have extra padded values of 0x00 in the message.
-     * @param address
-     * @param messageId
-     * @param messageType
-     * @param subType 
+     * @param address - message category for this request
+     * @param messageId - messageId to use with this request
+     * @param messageType - type for this request
+     * @param subType - sub-type for this request
      */
     public AirTouchRequest(Address address, int messageId, MessageType messageType, ControlOrStatusMessageSubType subType) {
         this.address = address;
