@@ -55,7 +55,7 @@ public class ZoneStatusHandler extends AbstractHandler {
     public static ResponseList<ZoneStatusResponse> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneStatusResponse> zoneStatuses = new ArrayList<>();
-        for (int i = 0; i <= subMessageMetaData.getRepeatDataCount(); i++) {
+        for (int i = 0; i < subMessageMetaData.getRepeatDataCount(); i++) {
             int zoneOffset = i * 8;
             ZoneStatusResponse zoneStatus = new ZoneStatusResponse();
             zoneStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[zoneOffset + 0]).getGeneric());

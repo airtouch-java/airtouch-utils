@@ -9,6 +9,8 @@ import airtouch.Response;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.model.AirConditionerAbilityResponse;
 import airtouch.utils.HexString;
+import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.model.SubMessageMetaData;
 
 public class MessageHandlerTest {
 
@@ -49,5 +51,26 @@ public class MessageHandlerTest {
         byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
         MessageHandler messageHandler = new MessageHandler();
         messageHandler.handle(messsageBytes);
+    }
+    
+    @Test
+    public void testZoneStatus() {
+    	String dataBlockHexString = "555555AAB08001C0005021000000000800094080788002CF00000180788002CB000002946E8002DB000003806E8002C7000004806E8002BF0000058A5A8002C1000006806E8002C900004780828002D200000880788002DA0000D207".toUpperCase();
+        byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
+        MessageHandler messageHandler = new MessageHandler();
+        Response response = messageHandler.handle(messsageBytes);
+        assertEquals(MessageType.ZONE_STATUS, response.getMessageType());
+    }
+    
+    @Test
+    public void testSubMessageAssembly() {
+    	byte b0 = 0x20;
+    	
+    	byte[] airTouchMessage = { b0, 0x00, 0x00, 0x01, 0x00, 0x0a, 0x00, 0x08 };
+		SubMessageMetaData subTypeMetaData = MessageHandler.determineSubMessageMetaData(airTouchMessage);
+		assertEquals(MessageConstants.ControlOrStatusMessageSubType.ZONE_CONTROL, subTypeMetaData.getSubMessageType());
+		assertEquals(1, subTypeMetaData.getNormalDataLength());
+		assertEquals(10, subTypeMetaData.getEachRepeatDataLength());
+		assertEquals(8, subTypeMetaData.getRepeatDataCount());
     }
 }

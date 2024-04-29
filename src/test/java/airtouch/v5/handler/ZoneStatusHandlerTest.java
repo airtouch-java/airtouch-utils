@@ -24,13 +24,13 @@ public class ZoneStatusHandlerTest {
 
     @Test
     public void testHandleZoneStatusResponse() {
-        // This data is copied from AirTouch5 protocol doc page 9 (labeled 6).
+        // This data is copied from AirTouch5 protocol doc page 9 (labelled 6).
         // 555555AA B080 01 C0 0018 2100000000080001 4080968002E700000164FF0007FF0000
         //                                           ^-----      data block    -----^
         // Just pass in the data block. The rest should have been
         // validated and removed earlier.
         String dataBlockHexString = "4080968002E700000164FF0007FF0000";
-        byte[] subTypeMetaData = HexString.toByteArray("2100000000080001");
+        byte[] subTypeMetaData = HexString.toByteArray("2100000000080002"); // Note: Bug in docs. Last char is '2', because we have two Zones
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
 
         SubMessageMetaData subMessageMetaData = MessageHandler.determineSubMessageMetaData(subTypeMetaData);
