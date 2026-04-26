@@ -48,12 +48,7 @@ public class AirtouchDiscoveryBroadcastResponseParser {
 
                 @Override
                 public AirtouchVersion getAirtouchVersion() {
-                    switch (responseArray[2]) {
-                        case AIRTOUCH4_VERSION:
-                            return AirtouchVersion.AIRTOUCH4;
-                        default:
-                            return null;
-                    }
+                    return AirtouchVersion.AIRTOUCH4;
                 }
 
                 @Override
@@ -63,12 +58,7 @@ public class AirtouchDiscoveryBroadcastResponseParser {
 
                 @Override
                 public Integer getPortNumber() {
-                    switch (responseArray[2]) {
-                        case AIRTOUCH4_VERSION:
-                            return AirtouchVersion.AIRTOUCH4.getListeningPort();
-                        default:
-                            return null;
-                    }
+                    return AirtouchVersion.AIRTOUCH4.getListeningPort();
                 }
 
                 @Override
@@ -105,12 +95,7 @@ public class AirtouchDiscoveryBroadcastResponseParser {
 
                 @Override
                 public AirtouchVersion getAirtouchVersion() {
-                    switch (responseArray[2]) {
-                        case AIRTOUCH5_VERSION:
-                            return AirtouchVersion.AIRTOUCH5;
-                        default:
-                            return null;
-                    }
+                    return AirtouchVersion.AIRTOUCH5;
                 }
 
                 @Override
@@ -120,12 +105,7 @@ public class AirtouchDiscoveryBroadcastResponseParser {
 
                 @Override
                 public Integer getPortNumber() {
-                    switch (responseArray[2]) {
-                        case AIRTOUCH5_VERSION:
-                            return AirtouchVersion.AIRTOUCH5.getListeningPort();
-                        default:
-                            return null;
-                    }
+                    return AirtouchVersion.AIRTOUCH5.getListeningPort();
                 }
 
                 @Override

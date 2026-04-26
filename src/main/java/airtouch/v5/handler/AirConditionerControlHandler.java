@@ -39,7 +39,7 @@ public class AirConditionerControlHandler extends AbstractControlHandler {
         return new AirConditionerControlRequestBuilder();
     }
 
-    public static AirConditionerControlRequestBuilder acNumber(int acNumber) {
+    public static AirConditionerControlRequestBuilder requestBuilder(int acNumber) {
         return new AirConditionerControlRequestBuilder().acNumber(acNumber);
     }
 

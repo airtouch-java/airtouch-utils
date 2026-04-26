@@ -32,7 +32,7 @@ public interface AirtouchDiscoveryBroadcastResponseCallback {
     void handleResponse(AirtouchDiscoveryBroadcastResponse response);
 
     /**
-     * {@link AirtouchDiscoveryBroadcastResponse} object containing details extraced from a UDP broadcast searching for an AirTouch.<p>
+     * {@link AirtouchDiscoveryBroadcastResponse} object containing details extracted from a UDP broadcast searching for an AirTouch.<p>
      * Contains the following:
      * <ul>
      * <li> Mac Address

@@ -1,6 +1,7 @@
 package airtouch.discovery;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -56,6 +57,8 @@ public class AirtouchDiscoveryBroadcastListenerThread extends Thread implements 
                     this.responseCallback.handleResponse(broadcastResponse);
                 }
             }
+        } catch (BindException e) {
+            log.warn("Failed to start discovery listener. Failed to bind to port {}. Wait a few seconds and try again. Reason: {}", this.airtouchVersion.getDiscoveryPort(), e.getMessage(), e);
         } catch (IOException e) {
             log.warn("Failed to start discovery listener. It will not be possible to auto-discover the Airtouch on the network. Reason: {}", e.getMessage(), e);
         }
