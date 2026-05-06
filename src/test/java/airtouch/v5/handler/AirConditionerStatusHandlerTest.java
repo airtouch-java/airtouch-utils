@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import airtouch.MessageType;
 import airtouch.Request;
+import airtouch.Response;
 import airtouch.ResponseList;
 import airtouch.model.AirConditionerStatusResponse;
 import airtouch.utils.HexString;
@@ -12,6 +14,7 @@ import airtouch.constant.AirConditionerStatusConstants.FanSpeed;
 import airtouch.constant.AirConditionerStatusConstants.Mode;
 import airtouch.constant.AirConditionerStatusConstants.PowerState;
 import airtouch.v5.constant.MessageConstants;
+import airtouch.v5.model.SubMessageMetaData;
 
 public class AirConditionerStatusHandlerTest {
 
@@ -25,13 +28,15 @@ public class AirConditionerStatusHandlerTest {
     public void testHandleAcStatusResponse() {
         // This data is copied from AirTouch5 protocol doc page 13 (labelled 10).
         //  555555AA B080 01 C0 001C 23000000000A0002 101278C002DA00008000014264C002E400008000 1234
-        //                           ^-- su-btype --^ ^------------  data block  ------------^
+        //                           ^-- sub-type --^ ^------------  data block  ------------^
         // 
         // Just pass in the data block. The rest should have been validated and removed earlier.
         String dataBlockHexString = "101278C002DA00008000014264C002E400008000";
         byte[] dataBlockBytes = HexString.toByteArray(dataBlockHexString);
+        byte[] subTypeMetaData = HexString.toByteArray("23000000000A0002");
 
-        ResponseList<AirConditionerStatusResponse> responses = AirConditionerStatusHandler.handle(0, dataBlockBytes);
+        SubMessageMetaData subMessageMetaData = MessageHandler.determineSubMessageMetaData(subTypeMetaData);
+        ResponseList<AirConditionerStatusResponse> responses = AirConditionerStatusHandler.handle(subMessageMetaData,0, dataBlockBytes);
         System.out.println(responses);
 
         assertEquals(2, responses.size());
@@ -55,7 +60,17 @@ public class AirConditionerStatusHandlerTest {
         assertEquals("Unexpected error code.", 0, acStatus02.getErrorCode());
 
     }
-
+    
+    @Test
+    public void testHandleAcStatusResponseFromRealData() {
+    	// Message data: 23000000000E0001101064C93AB40000D00082C60000
+    	// Note: 000E is 14 bytes per message. This has changed since version 1.1 of the spec.
+        String dataBlockHexString = "555555AAB08012C0001623000000000E0001101064C93AB40000D00082C600001C26".toUpperCase();
+        byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
+        MessageHandler messageHandler = new MessageHandler();
+        Response response = messageHandler.handle(messsageBytes);
+        assertEquals(MessageType.AC_STATUS, response.getMessageType());
+    }
     @Test
     public void testBitShift() {
         Integer mode = 64 >> 4;

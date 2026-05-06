@@ -56,7 +56,7 @@ public class ZoneStatusHandler extends AbstractHandler {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<ZoneStatusResponse> zoneStatuses = new ArrayList<>();
         for (int i = 0; i < subMessageMetaData.getRepeatDataCount(); i++) {
-            int zoneOffset = i * 8;
+            int zoneOffset = i * subMessageMetaData.getEachRepeatDataLength();
             ZoneStatusResponse zoneStatus = new ZoneStatusResponse();
             zoneStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[zoneOffset + 0]).getGeneric());
             zoneStatus.setZoneNumber(resolveZoneNumber(airTouchDataBlock[zoneOffset + 0]));
@@ -129,16 +129,6 @@ public class ZoneStatusHandler extends AbstractHandler {
             return zoneNumber;
         }
         throw new IllegalArgumentException(String.format("Zone number outside allowable range. Must be from 0 to 15. Found zoneNumber was '%s'", zoneNumber));
-    }
-
-    private static int getZoneCount(byte[] airTouchDataBlock) {
-        // Our data payload is 8 bytes per zone.
-        // Check that our payload is a multiple of 8 bytes.
-        if (airTouchDataBlock.length % 8 == 0) {
-            return airTouchDataBlock.length / 8;
-        }
-        throw new IllegalArgumentException("ZoneStatus messageBlock is not a multiple of 8 bytes. Length is:" + airTouchDataBlock.length);
-
     }
 
 }

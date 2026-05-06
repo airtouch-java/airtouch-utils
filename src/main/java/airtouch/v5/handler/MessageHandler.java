@@ -100,13 +100,13 @@ public class MessageHandler extends AbstractHandler {
         verifySubTypeData(subMessageMetaData, data);
 
         switch (subMessageMetaData.getSubMessageType()) {
-        // Group control actions, and Group status requests will return a GROUP_STATUS response.
+        // Zone control actions, and Zone status requests will return a ZONE_STATUS response.
         case ZONE_STATUS:
             return ZoneStatusHandler.handle(subMessageMetaData, messageId, data);
 
         // AC control actions, and AC status requests will return an AC_STATUS response.
         case AC_STATUS:
-            return AirConditionerStatusHandler.handle(messageId, data);
+            return AirConditionerStatusHandler.handle(subMessageMetaData, messageId, data);
         // If we don't know how to handle the message, throw UnsupportedOperationException.
         default:
             throw new UnsupportedOperationException(String.format("No Handler available for type '%s'", subMessageMetaData.getSubMessageType().toString()));

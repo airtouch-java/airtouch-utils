@@ -15,6 +15,7 @@ import airtouch.v5.constant.MessageConstants;
 import airtouch.v5.constant.MessageConstants.Address;
 import airtouch.v5.constant.MessageConstants.ControlOrStatusMessageSubType;
 import airtouch.v5.constant.MessageConstants.MessageType;
+import airtouch.v5.model.SubMessageMetaData;
 
 /**
  * Handler for AirConditioner Status responses<p>
@@ -83,11 +84,11 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
      * @param airTouchDataBlock - byte array of just the data part of the response from the Airtouch
      * @return a List of AC Status objects. One for each AC message found.
      */
-    public static ResponseList<AirConditionerStatusResponse> handle(int messageId, byte[] airTouchDataBlock) {
+    public static ResponseList<AirConditionerStatusResponse> handle(SubMessageMetaData subMessageMetaData, int messageId, byte[] airTouchDataBlock) {
         checkHeaderIsRemoved(airTouchDataBlock);
         List<AirConditionerStatusResponse> acStatuses = new ArrayList<>();
-        for (int i = 0; i < getAcCount(airTouchDataBlock); i++) {
-            int acOffset = i * 10;
+        for (int i = 0; i < subMessageMetaData.getRepeatDataCount(); i++) {
+            int acOffset = i * subMessageMetaData.getEachRepeatDataLength();;
             AirConditionerStatusResponse acStatus = new AirConditionerStatusResponse();
             acStatus.setPowerstate(PowerState.getFromByte(airTouchDataBlock[acOffset + 0]).getGeneric());
             acStatus.setAcNumber(resolveAcNumber(airTouchDataBlock[acOffset + 0]));
@@ -154,16 +155,5 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         }
         throw new IllegalArgumentException(String.format("AC number outside allowable range. Must be from 0 to 7. Found acNumber was '%s'", acNumber));
     }
-
-    private static int getAcCount(byte[] airTouchDataBlock) {
-        // Our data payload is 10 bytes per unit.
-        // Check that our payload is a multiple of 10 bytes.
-        if (airTouchDataBlock.length % 10 == 0) {
-            return airTouchDataBlock.length / 10;
-        }
-        throw new IllegalArgumentException("AcStatus messageBlock is not a multiple of 10 bytes");
-
-    }
-
 
 }
