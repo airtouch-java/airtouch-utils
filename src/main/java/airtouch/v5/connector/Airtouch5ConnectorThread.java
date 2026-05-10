@@ -129,17 +129,14 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
             }
             responseCallback.handleResponse(response);
         } catch (UnknownAirtouchResponseException ex) {
-            log.info(IGNORING_UNKNOWN_MESSAGE, ex.getMessage());
             if (log.isDebugEnabled()) {
                 log.debug(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
             }
         } catch (IllegalAirtouchResponseException ex) {
-            log.info(IGNORING_ILLEGAL_MESSAGE, ex.getMessage());
-            if (log.isDebugEnabled()) {
-                log.debug(IGNORING_ILLEGAL_MESSAGE, ex.getMessage(), ex);
+            if (log.isTraceEnabled()) {
+                log.trace(IGNORING_ILLEGAL_MESSAGE, ex.getMessage(), ex);
             }
         } catch (AirtouchResponseCrcException ex) {
-            log.info(AIRTOUCH_MESSAGE_HAS_BAD_CRC, ex.getMessage());
             if (log.isDebugEnabled()) {
                 log.debug(AIRTOUCH_MESSAGE_HAS_BAD_CRC, ex.getMessage(), ex);
             }
