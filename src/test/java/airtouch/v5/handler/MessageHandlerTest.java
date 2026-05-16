@@ -7,6 +7,7 @@ import org.junit.Test;
 import airtouch.MessageType;
 import airtouch.Response;
 import airtouch.exception.IllegalAirtouchResponseException;
+import airtouch.exception.UnknownAirtouchSubTypeException;
 import airtouch.model.AirConditionerAbilityResponse;
 import airtouch.utils.HexString;
 import airtouch.v5.constant.MessageConstants;
@@ -60,6 +61,13 @@ public class MessageHandlerTest {
         MessageHandler messageHandler = new MessageHandler();
         Response response = messageHandler.handle(messsageBytes);
         assertEquals(MessageType.ZONE_STATUS, response.getMessageType());
+    }
+    
+    @Test(expected = UnknownAirtouchSubTypeException.class)
+    public void testUnknownStatusResponse() {
+        String dataBlockHexString = "555555AAC08004C0003C4500003400000000485641432066697368657220000000001C000000230A1B1200000000000000004174636856354D0034082572230E201600000000DDCE";
+        byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
+        new MessageHandler().handle(messsageBytes);
     }
     
     @Test

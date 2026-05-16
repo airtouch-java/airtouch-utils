@@ -2,6 +2,7 @@ package airtouch.v5.constant;
 
 import airtouch.LoggableSubType;
 import airtouch.ResponseMessageType;
+import airtouch.exception.UnknownAirtouchSubTypeException;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.HexString;
 
@@ -146,19 +147,19 @@ public class MessageConstants {
             return bytes & 0xFF;
         }
 
-        public static ControlOrStatusMessageSubType getFromBytes(int byte8) {
-            if (ZONE_CONTROL.getBytes() == byte8) {
+        public static ControlOrStatusMessageSubType getFromBytes(int byte0) {
+            if (ZONE_CONTROL.getBytes() == byte0) {
                 return ZONE_CONTROL;
-            } else if (ZONE_STATUS.getBytes() == byte8) {
+            } else if (ZONE_STATUS.getBytes() == byte0) {
                 return ZONE_STATUS;
-            } else if (AC_CONTROL.getBytes() == byte8) {
+            } else if (AC_CONTROL.getBytes() == byte0) {
                 return AC_CONTROL;
-            } else if (AC_STATUS.getBytes() == byte8) {
+            } else if (AC_STATUS.getBytes() == byte0) {
                 return AC_STATUS;
             } else {
-                throw new IllegalArgumentException(
+                throw new UnknownAirtouchSubTypeException(
                         String.format("Unable to resolve ControlOrStatusMessageSubType from supplied byte. Supplied byte is: '%s'",
-                                Integer.toHexString(byte8)));
+                                Integer.toHexString(byte0)));
             }
         }
     }

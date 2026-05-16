@@ -14,6 +14,7 @@ import airtouch.exception.AirtouchMessagingException;
 import airtouch.exception.AirtouchResponseCrcException;
 import airtouch.exception.IllegalAirtouchResponseException;
 import airtouch.exception.UnknownAirtouchResponseException;
+import airtouch.exception.UnknownAirtouchSubTypeException;
 import airtouch.internal.MessageHolder;
 import airtouch.utils.ByteUtil;
 import airtouch.utils.SizedStack;
@@ -26,6 +27,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
     private static final String AIRTOUCH_MESSAGE_HAS_BAD_CRC = "Airtouch message has bad CRC: '{}'";
     private static final String IGNORING_ILLEGAL_MESSAGE = "Ignoring illegal message: '{}'";
     private static final String IGNORING_UNKNOWN_MESSAGE = "Ignoring unknown message: '{}'";
+    private static final String IGNORING_UNKNOWN_MESSAGE_SUBTYPE = "Ignoring unknown message subtype: '{}'";
     private static final String DEFAULT_THREAD_NAME = Airtouch5ConnectorThread.class.getSimpleName();
 
     private final Logger log = LoggerFactory.getLogger(Airtouch5ConnectorThread.class);
@@ -106,7 +108,7 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
                         log.warn("Could not handle finished message ", ex);
                     }
                     if (log.isTraceEnabled()) {
-                        log.trace("Initalising MessageHolder to empty");
+                        log.trace("Initialising MessageHolder to empty");
                     }
                     messageHolder = MessageHolder.initialiseEmpty(MessageConstants.MESSAGE_HEADER_BYTES_LENGTH);
                 }
@@ -124,21 +126,25 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
     private void handleFinishedMessage(MessageHandler messageHandler, MessageHolder messageHolder) {
         try {
             Response response = messageHandler.handle(messageHolder.getBytes());
-            if (log.isDebugEnabled()) {
-                log.debug("Received response: '{}'.", response);
+            if (log.isTraceEnabled()) {
+                log.trace("Received response: '{}'.", response);
             }
             responseCallback.handleResponse(response);
         } catch (UnknownAirtouchResponseException ex) {
-            if (log.isDebugEnabled()) {
-                log.debug(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
+            if (log.isTraceEnabled()) {
+                log.trace(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
+            }
+        } catch (UnknownAirtouchSubTypeException ex) {
+            if (log.isTraceEnabled()) {
+                log.trace(IGNORING_UNKNOWN_MESSAGE_SUBTYPE, ex.getMessage(), ex);
             }
         } catch (IllegalAirtouchResponseException ex) {
             if (log.isTraceEnabled()) {
                 log.trace(IGNORING_ILLEGAL_MESSAGE, ex.getMessage(), ex);
             }
         } catch (AirtouchResponseCrcException ex) {
-            if (log.isDebugEnabled()) {
-                log.debug(AIRTOUCH_MESSAGE_HAS_BAD_CRC, ex.getMessage(), ex);
+            if (log.isTraceEnabled()) {
+                log.trace(AIRTOUCH_MESSAGE_HAS_BAD_CRC, ex.getMessage(), ex);
             }
         }
     }
@@ -151,9 +157,8 @@ public class Airtouch5ConnectorThread extends Thread implements Runnable, Airtou
             return ByteUtil.toInt(bytes.get(0), bytes.get(1), bytes.get(2), bytes.get(3)) == MessageConstants.HEADER
                     && (address.equals(Address.STANDARD_RECEIVE) || address.equals(Address.EXTENDED_RECEIVE));
         } catch (UnknownAirtouchResponseException ex) {
-            log.info(IGNORING_UNKNOWN_MESSAGE, ex.getMessage());
-            if (log.isDebugEnabled()) {
-                log.debug(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
+            if (log.isTraceEnabled()) {
+                log.trace(IGNORING_UNKNOWN_MESSAGE, ex.getMessage(), ex);
             }
             return false;
         }
