@@ -87,8 +87,8 @@ public class ZoneStatusHandler extends AbstractHandler {
         if (0xFF == byte5) {  // TODO: Need to confirm that 0xFF == -1
             return null; // Current Temp is not available.
         }
-        // Combine byte5, and byte6
-        int temperature = ByteUtil.toInt(byte5, byte6);
+        // Combine bottom 3 bits of byte5, and all of byte6
+        int temperature = ByteUtil.toInt((byte) (byte5 & 0b00000111), byte6);
         // Get value from byte, subtract 500 and then divide by 10.
         return (temperature-500d)/10;
     }

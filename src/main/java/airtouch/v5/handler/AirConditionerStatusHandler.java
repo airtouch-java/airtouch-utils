@@ -129,10 +129,8 @@ public class AirConditionerStatusHandler extends AbstractControlHandler {
         if (-1 == byte5) {
             return null; // Current Temp is not available.
         }
-        // Combine byte5, and byte6
-        int temperatureUpper8bits = byte5 << 8;   // Move up 8 bits
-        int temperatureLower8bits = byte6 & 0xFF; // convert to int
-        int temperature = temperatureUpper8bits | temperatureLower8bits;   // OR together, so we have a 16bit value
+        // Combine bottom 3 bits of byte5, and all of byte6
+        int temperature = ByteUtil.toInt((byte) (byte5 & 0b00000111), byte6);
         // Get value from bytes, subtract 500 and then divide by 10.
         return (temperature-500d)/10;
     }

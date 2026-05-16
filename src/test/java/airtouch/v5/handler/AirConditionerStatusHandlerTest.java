@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import airtouch.MessageType;
 import airtouch.Request;
-import airtouch.Response;
 import airtouch.ResponseList;
 import airtouch.model.AirConditionerStatusResponse;
 import airtouch.utils.HexString;
@@ -62,14 +61,16 @@ public class AirConditionerStatusHandlerTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testHandleAcStatusResponseFromRealData() {
     	// Message data: 23000000000E0001101064C93AB40000D00082C60000
     	// Note: 000E is 14 bytes per message. This has changed since version 1.1 of the spec.
         String dataBlockHexString = "555555AAB08012C0001623000000000E0001101064C93AB40000D00082C600001C26".toUpperCase();
         byte[] messsageBytes = HexString.toByteArray(dataBlockHexString);
         MessageHandler messageHandler = new MessageHandler();
-        Response response = messageHandler.handle(messsageBytes);
+        ResponseList<AirConditionerStatusResponse> response = (ResponseList<AirConditionerStatusResponse>) messageHandler.handle(messsageBytes);
         assertEquals(MessageType.AC_STATUS, response.getMessageType());
+        assertEquals("Unexpected temperature. ", new Double(19.2), response.get(0).getCurrentTemperature());
     }
     @Test
     public void testBitShift() {
