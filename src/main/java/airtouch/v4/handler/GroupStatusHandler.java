@@ -126,7 +126,7 @@ public class GroupStatusHandler extends AbstractHandler {
     }
 
     private static int determineOpenPercentage(byte byte2) {
-        // bitmask the first bit, since we used them for the ControlMethod
+        // bitmask the first bit, since we used it for the ControlMethod
         int openPercentage = byte2 & 0b01111111;
         // Return the rest of the bits if they're within our expected range.
         if (openPercentage >= 0 && openPercentage <= 100) {

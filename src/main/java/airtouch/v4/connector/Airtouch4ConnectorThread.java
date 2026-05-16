@@ -102,7 +102,7 @@ public class Airtouch4ConnectorThread extends Thread implements Runnable, Airtou
                 if (messageHolder.isFinished()) {
                     handleFinishedMessage(messageHandler, messageHolder);
                     if (log.isTraceEnabled()) {
-                        log.trace("Initalising MessageHolder to empty");
+                        log.trace("Initialising MessageHolder to empty");
                     }
                     messageHolder = MessageHolder.initialiseEmpty(MessageConstants.MESSAGE_HEADER_BYTES_LENGTH);
                 }

@@ -75,13 +75,13 @@ public class MessageHandler extends AbstractHandler {
         switch (messageType) {
 
         case CONTROL_OR_STATUS:
-            log.debug("CONTROL_OR_STATUS");
+            log.debug("Handling CONTROL_OR_STATUS message from AirTouch5");
             return handleControlOrStatus(determineSubMessageMetaData(data), messageId, Arrays.copyOfRange(data, 8, dataLength));
 
         // Extended messages (since console version 1.0.5) have the actual message type as the first
         // byte of the data, so handle those with their own Handler.
         case EXTENDED:
-            log.debug("EXTENDED");
+            log.debug("Handling EXTENDED message from AirTouch5");
             return ExtendedMessageHandler.handle(messageId, data);
 
         // If we don't know how to handle the message, throw UnsupportedOperationException.

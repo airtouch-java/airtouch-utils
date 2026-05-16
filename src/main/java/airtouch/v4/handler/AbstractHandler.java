@@ -12,13 +12,13 @@ public abstract class AbstractHandler {
 
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
-     * Throws {@link IllegalArgumentException} if it does.
+     * Throws {@link IllegalAirtouchResponseException} if it does.
      * <p>
      * The byte array passed to a handler should only contain the data bytes.
      * Header, address, messageId, messageType, dataLength and CRC should have been removed.
      *
      * @param airTouchDataBlock to check for headers
-     * @throws IllegalArgumentException if header is found in message data
+     * @throws IllegalAirtouchResponseException if header is found in message data
      */
     protected static void checkHeaderIsRemoved(byte[] airTouchDataBlock) {
         if (isHeaderPresent(airTouchDataBlock)) {
@@ -28,12 +28,12 @@ public abstract class AbstractHandler {
 
     /**
      * Determines if the dataBlock still contains the first two HEADER bytes.
-     * Throws {@link IllegalArgumentException} if it does not.
+     * Throws {@link IllegalAirtouchResponseException} if it does not.
      * <p>
      * The byte array passed should contain all the data bytes.
      *
      * @param airTouchDataBlock to check for headers
-     * @throws IllegalArgumentException if header is NOT found in message data
+     * @throws IllegalAirtouchResponseException if header is NOT found in message data
      */
     protected static void checkHeaderIsPresent(byte[] airTouchDataBlock) {
         if (! isHeaderPresent(airTouchDataBlock)) {
